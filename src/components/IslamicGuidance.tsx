@@ -285,13 +285,7 @@ const IslamicGuidance = () => {
 
   return (
     <div className="space-y-6">
-      {/* <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Ask the Deen</h1>
-        <p className="text-gray-600">Search Islamic guidance, ask our AI assistant, or browse by topic</p>
-        <p className="text-sm text-purple-600 mt-2 font-medium">
-          Complete content from "Natural Blood of Women" with authentic references
-        </p>
-      </div> */}
+
 
       <div className="text-center">
   <h1 className={`text-3xl font-bold mb-2 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
