@@ -131,7 +131,7 @@ const Index = () => {
     localStorage.setItem('nurcycle-onboarding-completed', 'true');
   };
 // !userMetadata && showOnboarding
-  if (true) {
+  if (!userMetadata && showOnboarding) {
     return (
       <OnboardingFlow
         onComplete={handleOnboardingComplete}
