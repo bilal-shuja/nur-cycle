@@ -130,8 +130,8 @@ const Index = () => {
     setShowOnboarding(false);
     localStorage.setItem('nurcycle-onboarding-completed', 'true');
   };
-// !userMetadata && showOnboarding
-  if (true) {
+
+  if (!userMetadata && showOnboarding) {
     return (
       <OnboardingFlow
         onComplete={handleOnboardingComplete}
@@ -337,7 +337,7 @@ const Dashboard = ({ setActiveSection, userPreferences, userMetadata }: {
 
       {/* Copyright Footer */}
       <div className={`text-center py-4 ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'} text-xs`}>
-        © 2025 NurCycle Ltd. All rights reserved
+        © 2025 {getLocalizedText('footer.copyright')}
       </div>
 
     </div>
