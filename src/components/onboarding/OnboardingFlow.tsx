@@ -8,6 +8,7 @@ import MadhabSelection from './MadhabSelection';
 import UIPreferences from './UIPreferences';
 import NotificationSettings from './NotificationSettings';
 import WelcomeStep from './WelcomeStep';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export interface OnboardingData {
   trackingType: string[];
@@ -29,6 +30,8 @@ interface OnboardingFlowProps {
 
 const OnboardingFlow = ({ onComplete, onSkip }: OnboardingFlowProps) => {
   const [currentStep, setCurrentStep] = useState(0);
+    const { getLocalizedText } = useLanguage();
+  
   const [data, setData] = useState<OnboardingData>({
     trackingType: [],
     madhhab: '',
@@ -95,32 +98,22 @@ const OnboardingFlow = ({ onComplete, onSkip }: OnboardingFlowProps) => {
         } else {
           document.documentElement.classList.remove('dark');
         }  
-          console.log('Settings loaded:', parsedSettings);
         } catch (error) {
           console.error('Error loading settings:', error);
         }
       }
       else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-  
-      // Apply dark mode immediately if enabled:
-  
-      // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-      // if (isDarkMode) {
-      //   document.documentElement.classList.add('dark');
-      // }
-  
   
     }, []);
 
   const steps = [
-    { component: WelcomeStep, title: 'Welcome to NurCycle' },
-    { component: TrackingPreferences, title: 'What would you like to track?' },
-    { component: MadhabSelection, title: 'Select your madhhab' },
+    { component: WelcomeStep, title: getLocalizedText('welcome.to.nurcycle')  },
+    { component: TrackingPreferences, title: getLocalizedText('what.would.you.like.to.track')  },
+    { component: MadhabSelection, title: getLocalizedText('select.your.madhhab')  },
     // { component: UIPreferences, title: 'Personalize your experience' },
-    { component: NotificationSettings, title: 'Notification preferences' },
+    { component: NotificationSettings, title: getLocalizedText('notification.preferences')  },
   ];
 
   const CurrentStepComponent = steps[currentStep].component;

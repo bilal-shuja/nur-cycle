@@ -190,7 +190,7 @@ const PeriodTracker = () => {
       case 'fertile-start': return 'Fertile Window - Start';
       case 'fertile-peak': return 'Fertile Window - Peak';
       case 'fertile-end': return 'Fertile Window - End';
-      default: return 'Select entry type';
+      default: return getLocalizedText('select.entry.type');
     }
   };
 
@@ -624,7 +624,6 @@ const PeriodTracker = () => {
         </CardContent>
       </Card>
 
-      {/* <div className='flex justify-between'> */}
 
         <Button className="flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500"
           ref={triggerRef}

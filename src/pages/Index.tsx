@@ -1,8 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
-import { Calendar, Heart, Baby, BookOpen, Lightbulb, Moon } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from 'react';
+import { Card, CardContent} from "@/components/ui/card";
 import { useLanguage } from '@/contexts/LanguageContext';
 import Navigation from '@/components/Navigation';
 import Tracker from '@/components/Tracker';
@@ -131,6 +129,8 @@ const Index = () => {
     localStorage.setItem('nurcycle-onboarding-completed', 'true');
   };
 
+
+  // !userMetadata && showOnboarding
   if (!userMetadata && showOnboarding) {
     return (
       <OnboardingFlow
