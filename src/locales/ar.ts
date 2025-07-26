@@ -540,15 +540,12 @@
     
    'choose.notifications': 'اختر الإشعارات التي ترغب في تلقيها',
     'adjust.preferences': 'يمكنك تعديل هذه التفضيلات للإشعارات في أي وقت من إعدادات ملفك الشخصي.',
-    'previous': 'السابق',
     'complete.setup': 'إتمام الإعداد',
     'worship.alerts': 'تنبيهات العبادة',
     'worship.alerts.description': 'تذكيرات حول الصلاة وإعفاءات الصيام خلال الحيض',
-    'ghusl.reminders': 'تذكيرات الغسل',
     'ghusl.reminders.description': 'تذكيرات لطيفة عندما تحتاج إلى أداء الغسل',
     'fertility.window': 'النافذة الخصبة',
     'fertility.window.description': 'إشعارات حول أيامك الخصبة والإباضة',
-    'daily.duas': 'الدعاء اليومي',
     'daily.duas.description': 'دعوات جميلة وتذكيرات إسلامية طوال دورتك الشهرية',
    
     'community.guidelines.title': 'إرشادات المجتمع',

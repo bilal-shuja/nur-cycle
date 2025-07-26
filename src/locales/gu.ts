@@ -537,17 +537,14 @@
 
       'choose.notifications': 'તમારી પસંદગીની સૂચનાઓ પસંદ કરો',
     'adjust.preferences': 'તમે તમારી સૂચના પસંદગીઓ કોઈપણ સમયે તમારા પ્રોફાઈલ સેટિંગ્સમાં એડજસ્ટ કરી શકો છો.',
-    'previous': 'પૂર્વવત્તા',
     'complete.setup': 'સેટઅપ પૂર્ણ કરો',
     'worship.alerts': 'ઇબાદત એલર્ટ',
     'worship.alerts.description': 'માસિક ધર્મ દરમ્યાન નમાઝ અને ઉપવાસથી છૂટછાટ માટે યાદ અપાવતો એલર્ટ',
-    'ghusl.reminders': 'ઘુસલ યાદ અપાવણાં',
     'ghusl.reminders.description': 'જ્યારે તમારે ઘુસલ કરવા જરૂરી હોય ત્યારે નમ્ર યાદ અપાવણા',
     'fertility.window': 'ઉપજાઉ વિન્ડો',
     'fertility.window.description': 'તમારા ઉપજાઉ દિવસો અને ઓવ્યુલેશન વિશે સૂચનાઓ',
-    'daily.duas': 'દૈનિક દૂઆ',
     'daily.duas.description': 'તમારા ચક્ર દરમિયાન સુંદર દૂઆ અને આઇસ્લામી યાદ અપાવણાં',
-    
+
   
   
     'community.guidelines.title': 'સમુદાય માર્ગદર્શિકા',

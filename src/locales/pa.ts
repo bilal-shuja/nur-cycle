@@ -539,17 +539,14 @@
 
     'choose.notifications': 'ਕਿਹੜੀਆਂ ਸੁਚਨਾਵਾਂ ਤੁਸੀਂ ਪ੍ਰਾਪਤ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?',
     'adjust.preferences': 'ਤੁਸੀਂ ਆਪਣੇ ਪ੍ਰੋਫਾਈਲ ਸੈਟਿੰਗਜ਼ ਵਿੱਚ ਕਦੇ ਵੀ ਇਹ ਸੁਚਨਾ ਪਸੰਦਾਂ ਨੂੰ ਸਮਾਰਥਿਤ ਕਰ ਸਕਦੇ ਹੋ।',
-    'previous': 'ਪਿਛਲਾ',
     'complete.setup': 'ਸੈਟਅਪ ਪੂਰਾ ਕਰੋ',
     'worship.alerts': 'ਇਬਾਦਤ ਅਲਰਟਸ',
     'worship.alerts.description': 'ਮਹੀਨਾਵਾਰੀ ਧਰਮ ਅਤੇ ਰੋਜ਼ੇ ਦੀ ਛੂਟ ਬਾਰੇ ਯਾਦ ਦਿਲਾਉਣ ਵਾਲੇ ਸੁਨੇਹੇ',
-    'ghusl.reminders': 'ਘੁਸਲ ਦੀ ਯਾਦ ਦਿਲਾਵਾਂ',
     'ghusl.reminders.description': 'ਜਦੋਂ ਤੁਹਾਨੂੰ ਘੁਸਲ ਕਰਨ ਦੀ ਲੋੜ ਹੋਵੇ, ਤਾਂ ਹੌਲੀ ਯਾਦ ਦਿਲਾਵਾਂ',
     'fertility.window': 'ਉਪਜਾਉ ਖਿੜਕੀ',
     'fertility.window.description': 'ਤੁਹਾਡੇ ਉਪਜਾਉ ਦਿਨ ਅਤੇ ਅੰਡੋਤਸਰਗ ਬਾਰੇ ਸੁਚਨਾਵਾਂ',
-    'daily.duas': 'ਦੈਨੀਕ ਦੁਆ',
     'daily.duas.description': 'ਤੁਹਾਡੇ ਚੱਕਰ ਦੌਰਾਨ ਸੁੰਦਰ ਦੁਆ ਅਤੇ ਇਸਲਾਮੀ ਯਾਦ ਦਿਲਾਵਾਂ',
-    
+
 
 
 

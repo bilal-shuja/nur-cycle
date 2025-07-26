@@ -537,17 +537,14 @@
 
     'choose.notifications': 'Choisissez les notifications que vous souhaitez recevoir',
     'adjust.preferences': 'Vous pouvez ajuster ces préférences de notification à tout moment dans les paramètres de votre profil.',
-    'previous': 'Précédent',
     'complete.setup': 'Configurer complètement',
     'worship.alerts': 'Alertes de culte',
     'worship.alerts.description': 'Rappels sur les exemptions de prière et de jeûne pendant les menstruations',
-    'ghusl.reminders': 'Rappels de ghusl',
     'ghusl.reminders.description': 'Rappels doux lorsque vous devez faire le ghusl',
     'fertility.window': 'Fenêtre fertile',
     'fertility.window.description': 'Notifications sur vos jours fertiles et l\'ovulation',
-    'daily.duas': 'Duas quotidiennes',
     'daily.duas.description': 'De belles duas et rappels islamiques tout au long de votre cycle',
-    
+
 
 
        'community.guidelines.title': 'Règles de la communauté',

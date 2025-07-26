@@ -541,16 +541,13 @@ const en = {
 
     'choose.notifications': 'Choose which notifications you\'d like to receive',
     'adjust.preferences': 'You can adjust these notification preferences anytime in your profile settings.',
-    'previous': 'Previous',
     'complete.setup': 'Complete Setup',
-    
+
     'worship.alerts': 'Worship Alerts',
     'worship.alerts.description': 'Reminders about salah and fasting exemptions during menstruation',
-    'ghusl.reminders': 'Ghusl Reminders',
     'ghusl.reminders.description': 'Gentle reminders when you need to perform ghusl',
     'fertility.window': 'Fertility Window',
     'fertility.window.description': 'Notifications about your fertile days and ovulation',
-    'daily.duas': 'Daily Duas',
     'daily.duas.description': 'Beautiful duas and Islamic reminders throughout your cycle',
 
 
