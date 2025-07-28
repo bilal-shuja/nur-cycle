@@ -1,5 +1,5 @@
 
-import React, { useState , useEffect } from 'react';
+import  { useState , useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Bell, Moon, Droplets, Heart, Book } from 'lucide-react';
 import { OnboardingData } from './OnboardingFlow';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface NotificationSettingsProps {
   data: OnboardingData;
@@ -18,38 +19,38 @@ interface NotificationSettingsProps {
 const NotificationSettings = ({ data, onNext, onPrevious }: NotificationSettingsProps) => {
   const [notifications, setNotifications] = useState(data.notifications);
     const navigate = useNavigate();
+    const { getLocalizedText } = useLanguage();
 
-
-  const notificationOptions = [
-    {
-      id: 'worshipAlerts',
-      title: 'Worship Alerts',
-      description: 'Reminders about salah and fasting exemptions during menstruation',
-      icon: Moon,
-      color: 'text-purple-600'
-    },
-    {
-      id: 'ghusalReminders',
-      title: 'Ghusl Reminders',
-      description: 'Gentle reminders when you need to perform ghusl',
-      icon: Droplets,
-      color: 'text-blue-600'
-    },
-    {
-      id: 'fertilityWindow',
-      title: 'Fertility Window',
-      description: 'Notifications about your fertile days and ovulation',
-      icon: Heart,
-      color: 'text-red-600'
-    },
-    {
-      id: 'duaPrompts',
-      title: 'Daily Duas',
-      description: 'Beautiful duas and Islamic reminders throughout your cycle',
-      icon: Book,
-      color: 'text-teal-600'
-    }
-  ];
+const notificationOptions = [
+  {
+    id: 'worshipAlerts',
+    title: getLocalizedText('worship.alerts'),
+    description: getLocalizedText('worship.alerts.description'),
+    icon: Moon,
+    color: 'text-purple-600'
+  },
+  {
+    id: 'ghusalReminders',
+    title: getLocalizedText('ghusl.reminders'),
+    description: getLocalizedText('ghusl.reminders.description'),
+    icon: Droplets,
+    color: 'text-blue-600'
+  },
+  {
+    id: 'fertilityWindow',
+    title: getLocalizedText('fertility.window'),
+    description: getLocalizedText('fertility.window.description'),
+    icon: Heart,
+    color: 'text-red-600'
+  },
+  {
+    id: 'duaPrompts',
+    title: getLocalizedText('daily.duas'),
+    description: getLocalizedText('daily.duas.description'),
+    icon: Book,
+    color: 'text-teal-600'
+  }
+];
 
   
     const [settings, setSettings] = useState({
@@ -104,23 +105,14 @@ const NotificationSettings = ({ data, onNext, onPrevious }: NotificationSettings
         } else {
           document.documentElement.classList.remove('dark');
         }  
-          console.log('Settings loaded:', parsedSettings);
         } catch (error) {
           console.error('Error loading settings:', error);
         }
       }
       else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-  
-      // Apply dark mode immediately if enabled:
-  
-      // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-      // if (isDarkMode) {
-      //   document.documentElement.classList.add('dark');
-      // }
-  
+
   
     }, []);
 
@@ -140,47 +132,16 @@ const NotificationSettings = ({ data, onNext, onPrevious }: NotificationSettings
     <div className="space-y-6">
       <div className="text-center space-y-2">
         <div className="flex items-center justify-center space-x-2">
-          {/* <Bell className="w-5 h-5 text-purple-600" />
-          <p className="text-gray-600">
-            Choose which notifications you'd like to receive
-          </p> */}
+        
            <Bell className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-purple-600'}`} />
 
     {/* Text with conditional color */}
     <p className={`text-sm ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-      Choose which notifications you'd like to receive
+      {getLocalizedText('choose.notifications')}
     </p>
         </div>
       </div>
 
-      {/* <Card>
-        <CardContent className="p-6 space-y-4">
-          {notificationOptions.map((option) => {
-            const Icon = option.icon;
-            return (
-              <div key={option.id} className="flex items-center justify-between py-2">
-                <div className="flex items-start space-x-3 flex-1">
-                  <Icon className={`w-5 h-5 mt-0.5 ${option.color}`} />
-                  <div className="space-y-1">
-                    <Label htmlFor={option.id} className="text-base font-medium cursor-pointer">
-                      {option.title}
-                    </Label>
-                    <p className="text-sm text-gray-600">
-                      {option.description}
-                    </p>
-                  </div>
-                </div>
-                <Switch
-                  id={option.id}
-                  checked={notifications[option.id as keyof typeof notifications]}
-                  onCheckedChange={(checked) => updateNotification(option.id, checked)}
-                   className="text-purple-600"
-                />
-              </div>
-            );
-          })}
-        </CardContent>
-      </Card> */}
 
       <Card className="relative overflow-hidden card-3d">
   {/* Overlay layer for dark mode */}
@@ -223,21 +184,21 @@ const NotificationSettings = ({ data, onNext, onPrevious }: NotificationSettings
 
       <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
         <p className="text-amber-800 text-sm">
-          💡 You can adjust these notification preferences anytime in your profile settings.
+          💡 {getLocalizedText('adjust.preferences')}
         </p>
       </div>
 
       <div className="flex gap-3 justify-between">
         {onPrevious && (
           <Button variant="outline" onClick={onPrevious}>
-            Previous
+            {getLocalizedText('previous')}
           </Button>
         )}
         <Button 
           onClick={handleNext}
           className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 ml-auto"
         >
-          Complete Setup
+          {getLocalizedText('complete.setup')}
         </Button>
       </div>
     </div>

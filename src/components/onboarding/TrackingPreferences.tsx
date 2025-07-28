@@ -6,6 +6,9 @@ import { Calendar, Heart, Baby, Activity } from "lucide-react";
 import { OnboardingData } from "./OnboardingFlow";
 import { PredictionCalendar } from "../PredictionCalendar";
 
+import { useLanguage } from '@/contexts/LanguageContext';
+
+
 interface TrackingPreferencesProps {
   data: OnboardingData;
   onNext: (data: Partial<OnboardingData>) => void;
@@ -21,49 +24,58 @@ const TrackingPreferences = ({
     data.trackingType || []
   );
 
-  const trackingOptions = [
-    {
-      id: "period",
-      title: "Period Tracking",
-      description: "Track menstruation, purity periods, and ghusl",
-      icon: Calendar,
-      color: "bg-red-100 text-red-600",
-      benefits: ["Worship exemptions", "Ghusl reminders", "Cycle predictions"],
-    },
-    {
-      id: "fertility",
-      title: "Fertility Tracking",
-      description: "Monitor fertile windows and ovulation",
-      icon: Heart,
-      color: "bg-green-100 text-green-600",
-      benefits: [
-        "Conception planning",
-        "Natural family planning",
-        "Cycle awareness",
-      ],
-    },
-    {
-      id: "pregnancy",
-      title: "Pregnancy Journey",
-      description: "Track pregnancy and postpartum (nifas)",
-      icon: Baby,
-      color: "bg-blue-100 text-blue-600",
-      benefits: ["Trimester tracking", "Nifas calculations", "Daily duas"],
-    },
-    {
-      id: "all",
-      title: "Complete Wellness",
-      description: "All features for comprehensive tracking",
-      icon: Activity,
-      color: "bg-purple-100 text-purple-600",
-      benefits: [
-        "Full cycle management",
-        "Islamic guidance",
-        "Holistic health",
-      ],
-    },
-  ];
+    const { getLocalizedText } = useLanguage();
 
+const trackingOptions = [
+  {
+    id: "period",
+    title: getLocalizedText('period.tracking'),
+    description: getLocalizedText('track.menstruation.purity.periods.and.ghus'),
+    icon: Calendar,
+    color: "bg-red-100 text-red-600",
+    benefits: [
+      getLocalizedText('worship.exemptions'),
+      getLocalizedText('ghusl.reminders'),
+      getLocalizedText('cycle.predictions'),
+    ],
+  },
+  {
+    id: "fertility",
+    title: getLocalizedText('fertility.tracking'),
+    description: getLocalizedText('monitor.fertile.windows.and.ovulation'),
+    icon: Heart,
+    color: "bg-green-100 text-green-600",
+    benefits: [
+      getLocalizedText('conception.planning'),
+      getLocalizedText('natural.family.planning'),
+      getLocalizedText('cycle.awareness'),
+    ],
+  },
+  {
+    id: "pregnancy",
+    title: getLocalizedText('pregnancy.journey'),
+    description: getLocalizedText('track.pregnancy.and.postpartum'),
+    icon: Baby,
+    color: "bg-blue-100 text-blue-600",
+    benefits: [
+      getLocalizedText('trimester.tracking'),
+      getLocalizedText('nifas.calculations'),
+      getLocalizedText('daily.duas'),
+    ],
+  },
+  {
+    id: "all",
+    title: getLocalizedText('complete.wellness'),
+    description: getLocalizedText('all.features.for.comprehensive.tracking'),
+    icon: Activity,
+    color: "bg-purple-100 text-purple-600",
+    benefits: [
+      getLocalizedText('full.cycle.management'),
+      getLocalizedText('islamic.guidance'),
+      getLocalizedText('holistic.health'),
+    ],
+  },
+];
   const [settings, setSettings] = useState({
     // Notifications
     periodReminders: true,
@@ -162,7 +174,7 @@ const TrackingPreferences = ({
             settings.darkMode ? "text-gray-300" : "text-gray-600"
           }`}
         >
-          Choose what you'd like to track. You can always change this later.
+         {getLocalizedText('choose.what.youd.like.to.track')} 
         </p>
       </div>
 
@@ -181,7 +193,6 @@ const TrackingPreferences = ({
               } `}
               onClick={() => toggleSelection(option.id)}
             >
-              {/* Dark Mode Overlay Layer */}
               <div
                 className={`absolute inset-0 rounded-2xl  ${
                   settings.darkMode ? "bg-slate-900 " : ""
@@ -190,7 +201,6 @@ const TrackingPreferences = ({
 
               <CardContent className="p-4 relative z-10">
                 <div className="flex items-start space-x-4">
-                  {/* Icon circle with dynamic color */}
 
                   <div
                     className={`w-12 h-12 rounded-full ${
@@ -214,7 +224,7 @@ const TrackingPreferences = ({
                       {/* Badge for selected state */}
                       {selected && (
                         <Badge className="bg-purple-100 text-purple-700">
-                          Selected
+                          {getLocalizedText('selected')}
                         </Badge>
                       )}
                     </div>
@@ -258,7 +268,7 @@ const TrackingPreferences = ({
       <div className="flex gap-3 justify-between">
         {onPrevious && (
           <Button variant="outline" onClick={onPrevious}>
-            Previous
+           {getLocalizedText('previous')}
           </Button>
         )}
         <Button
@@ -266,7 +276,7 @@ const TrackingPreferences = ({
           disabled={selectedTypes.length === 0}
           className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 ml-auto"
         >
-          Continue
+          {getLocalizedText('continue')}
         </Button>
       </div>
     </div>

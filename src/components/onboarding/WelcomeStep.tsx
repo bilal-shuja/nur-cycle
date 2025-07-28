@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OnboardingData } from "./OnboardingFlow";
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface WelcomeStepProps {
   data: OnboardingData;
@@ -12,6 +13,7 @@ interface WelcomeStepProps {
 
 const WelcomeStep = ({ data, onNext, onSkip }: WelcomeStepProps) => {
   const [name, setName] = useState(data.name || "");
+  const { getLocalizedText } = useLanguage();
 
   const handleNext = () => {
     onNext({ name });
@@ -110,16 +112,14 @@ const WelcomeStep = ({ data, onNext, onSkip }: WelcomeStepProps) => {
             settings.darkMode ? "text-white" : "text-lavender-700"
           } mb-4`}
         >
-          Assalamu Alaikum, Sister! 🌸
+         {getLocalizedText('assalamu.alaikum.sister')} 🌸
         </h2>
         <p
           className={` leading-relaxed ${
             settings.darkMode ? "text-gray-300" : "text-gray-600"
           }`}
         >
-          Welcome to NurCycle - your trusted companion for tracking your cycle
-          with Islamic guidance. We're here to help you understand your body
-          while staying connected to Allah's wisdom.
+         {getLocalizedText('welcome.to.nurcycle')}
         </p>
         <div
           className={`bg-teal-50 border border-teal-200 rounded-lg p-4 ${
@@ -131,9 +131,7 @@ const WelcomeStep = ({ data, onNext, onSkip }: WelcomeStepProps) => {
               settings.darkMode ? "text-teal-200" : "text-teal-800"
             }`}
           >
-            "And Allah has brought you out from the wombs of your mothers while
-            you know nothing. And He gave you hearing, sight, and hearts that
-            you might give thanks."
+           {getLocalizedText('ayah')}
           </p>
           <p
             className={`text-teal-600 text-xs mt-2 ${
@@ -153,12 +151,12 @@ const WelcomeStep = ({ data, onNext, onSkip }: WelcomeStepProps) => {
               settings.darkMode ? "text-gray-300" : "text-gray-700"
             }`}
           >
-            What should we call you? (Optional)
+          {getLocalizedText('what.should.we.call.you')}
           </Label>
           <Input
             id="name"
             type="text"
-            placeholder="Enter your name"
+            placeholder= {getLocalizedText('enter.your.name')}
             value={name}
             onChange={(e) => setName(e.target.value)}
             className={`mt-1 ${
@@ -170,13 +168,13 @@ const WelcomeStep = ({ data, onNext, onSkip }: WelcomeStepProps) => {
 
       <div className="flex gap-3 justify-center">
         <Button variant="outline" onClick={onSkip}>
-          Skip Setup
+        {getLocalizedText('skip.setup')}
         </Button>
         <Button
           onClick={handleNext}
           className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
         >
-          Let's Begin
+          {getLocalizedText('lets.begin')}
         </Button>
       </div>
     </div>
