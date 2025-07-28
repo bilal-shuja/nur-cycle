@@ -4,13 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { ChevronDown } from "lucide-react";
+import { useLanguage } from '@/contexts/LanguageContext';
 
-// interface TemperatureModalProps {
-//   children: React.ReactNode;
-// }
 
 
 interface TemperatureModalProps {
@@ -29,6 +26,9 @@ export const TemperatureModal = ({ children , setSavedTemperature }: Temperature
   const [unit, setUnit] = useState('fahrenheit');
   const [isOpen, setIsOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+
+    const { getLocalizedText } = useLanguage();
+
 
   
     const [settings, setSettings] = useState({
@@ -83,23 +83,14 @@ export const TemperatureModal = ({ children , setSavedTemperature }: Temperature
         } else {
           document.documentElement.classList.remove('dark');
         }  
-          console.log('Settings loaded:', parsedSettings);
         } catch (error) {
           console.error('Error loading settings:', error);
         }
       }
       else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-  
-      // Apply dark mode immediately if enabled:
-  
-      // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-      // if (isDarkMode) {
-      //   document.documentElement.classList.add('dark');
-      // }
-  
+
   
     }, []);
 
@@ -112,13 +103,13 @@ export const TemperatureModal = ({ children , setSavedTemperature }: Temperature
 
   const handleSave = () => {
     if (!temperature) {
-      toast.error("Please enter a temperature");
+      toast.error(getLocalizedText('please.enter.temperature') );
       return;
     }
 
     const tempValue = parseFloat(temperature);
     if (isNaN(tempValue)) {
-      toast.error("Please enter a valid temperature");
+      toast.error( getLocalizedText('please.enter.valid.temperature') );
       return;
     }
 
@@ -131,7 +122,7 @@ export const TemperatureModal = ({ children , setSavedTemperature }: Temperature
 
     localStorage.setItem('fertility-temperature', JSON.stringify(savedData));
     setSavedTemperature(savedData)
-    toast.success(`Temperature logged: ${temperature}°${unit === 'fahrenheit' ? 'F' : 'C'}`);
+    toast.success(`${getLocalizedText('temperature.logged')} ${temperature}°${unit === 'fahrenheit' ? 'F' : 'C'}`);
     setIsOpen(false);
     setTemperature('');
   };
@@ -140,82 +131,6 @@ export const TemperatureModal = ({ children , setSavedTemperature }: Temperature
 
 
   return (
-  //   <Dialog open={isOpen} onOpenChange={setIsOpen}> 
-  
-  //      <DialogTrigger asChild>
-  //      {isValidElement(children)
-  // ? cloneElement(children as React.ReactElement, {
-  //     onClick: handleOpen,
-  //     ref: triggerRef, 
-  //   })
-  // : children}
-  //     </DialogTrigger>
-      
-  //     <DialogContent className="sm:max-w-md bg-white rounded-xl sm:rounded-xl md:rounded-xl" >
-  //       <DialogHeader>
-  //         <DialogTitle>Log Basal Body Temperature</DialogTitle>
-  //       </DialogHeader>
-  //       <div className="space-y-4 pt-4">
-  //         <div className="space-y-2">
-  //           <Label htmlFor="temperature">Temperature</Label>
-  //           <Input
-  //             id="temperature"
-  //             type="number"
-  //             step="0.1"
-  //             placeholder="98.6"
-  //             value={temperature}
-  //             onChange={(e) => setTemperature(e.target.value)}
-  //           />
-  //         </div>
-
-  //         <div className="space-y-2">
-  //           <Label htmlFor="unit">Unit</Label>
-  //           <div className="relative">
-  //             <Button
-  //               type="button"
-  //               variant="outline"
-  //               className="w-full justify-between text-left"
-  //               onClick={() => setShowDropdown(!showDropdown)}
-  //             >
-  //               {unit === 'fahrenheit' ? 'Fahrenheit (°F)' : 'Celsius (°C)'}
-  //               <ChevronDown className="w-4 h-4" />
-  //             </Button>
-  //             {showDropdown && (
-  //               <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-md shadow-lg z-50">
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setUnit('fahrenheit');
-  //                     setShowDropdown(false);
-  //                   }}
-  //                 >
-  //                   Fahrenheit (°F)
-  //                 </div>
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setUnit('celsius');
-  //                     setShowDropdown(false);
-  //                   }}
-  //                 >
-  //                   Celsius (°C)
-  //                 </div>
-  //               </div>
-  //             )}
-  //           </div>
-  //         </div>
-
-  //         <div className="flex space-x-2 pt-4">
-  //           <Button onClick={handleSave} className="flex-1">
-  //             Save Temperature
-  //           </Button>
-  //           <Button variant="outline" onClick={() => setIsOpen(false)} className="flex-1">
-  //             Cancel
-  //           </Button>
-  //         </div>
-  //       </div>
-  //     </DialogContent>
-  //   </Dialog>
 
   <Dialog open={isOpen} onOpenChange={setIsOpen}>
   <DialogTrigger asChild>
@@ -229,12 +144,12 @@ export const TemperatureModal = ({ children , setSavedTemperature }: Temperature
 
   <DialogContent className={`sm:max-w-md ${settings.darkMode ? 'bg-slate-900' : 'bg-white'} rounded-xl sm:rounded-xl md:rounded-xl`}>
     <DialogHeader>
-      <DialogTitle className={settings.darkMode ? 'text-white' : 'text-gray-900'}>Log Basal Body Temperature</DialogTitle>
+      <DialogTitle className={settings.darkMode ? 'text-white' : 'text-gray-900'}>{getLocalizedText('log.basal.body.temperature')}</DialogTitle>
     </DialogHeader>
     <div className="space-y-4 pt-4">
       {/* Temperature Field */}
       <div className="space-y-2">
-        <Label htmlFor="temperature" className={settings.darkMode ? 'text-white' : 'text-gray-900'}>Temperature</Label>
+        <Label htmlFor="temperature" className={settings.darkMode ? 'text-white' : 'text-gray-900'}>{getLocalizedText('temperature')}</Label>
         <Input
           id="temperature"
           type="number"
@@ -256,7 +171,7 @@ export const TemperatureModal = ({ children , setSavedTemperature }: Temperature
             className={`w-full justify-between text-left ${settings.darkMode ? 'bg-slate-800' : 'bg-purple-100'} hover:bg-purple-200`}
             onClick={() => setShowDropdown(!showDropdown)}
           >
-            {unit === 'fahrenheit' ? 'Fahrenheit (°F)' : 'Celsius (°C)'}
+            {unit === 'fahrenheit' ? getLocalizedText('fahrenheit'): getLocalizedText('celsius')}
             <ChevronDown className="w-4 h-4" />
           </Button>
           {showDropdown && (
@@ -268,7 +183,7 @@ export const TemperatureModal = ({ children , setSavedTemperature }: Temperature
                   setShowDropdown(false);
                 }}
               >
-                Fahrenheit (°F)
+                {getLocalizedText('fahrenheit')} (°F)
               </div>
               <div
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -277,7 +192,7 @@ export const TemperatureModal = ({ children , setSavedTemperature }: Temperature
                   setShowDropdown(false);
                 }}
               >
-                Celsius (°C)
+                {getLocalizedText('celsius')} (°C)
               </div>
             </div>
           )}
@@ -290,14 +205,14 @@ export const TemperatureModal = ({ children , setSavedTemperature }: Temperature
           onClick={handleSave}
           className={`flex-1 ${settings.darkMode ? 'bg-purple-500 hover:bg-purple-600' : 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800'}`}
         >
-          Save Temperature
+          {getLocalizedText('save.temperature')}
         </Button>
         <Button
           variant="outline"
           onClick={() => setIsOpen(false)}
           className={`flex-1 ${settings.darkMode ? 'text-white' : 'text-gray-500'}`}
         >
-          Cancel
+         {getLocalizedText('cancel')}
         </Button>
       </div>
     </div>
@@ -320,6 +235,9 @@ interface CervicalMucusModal {
 export const CervicalMucusModal = ({ children, setSavedMucus }:  CervicalMucusModal ) => {
   const [mucusType, setMucusType] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+
+      const { getLocalizedText } = useLanguage();
+
 
   const [showMucusDropdown, setShowMucusDropdown] = useState(false);
 
@@ -378,23 +296,14 @@ export const CervicalMucusModal = ({ children, setSavedMucus }:  CervicalMucusMo
         } else {
           document.documentElement.classList.remove('dark');
         }  
-          console.log('Settings loaded:', parsedSettings);
         } catch (error) {
           console.error('Error loading settings:', error);
         }
       }
       else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-  
-      // Apply dark mode immediately if enabled:
-  
-      // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-      // if (isDarkMode) {
-      //   document.documentElement.classList.add('dark');
-      // }
-  
+
   
     }, []);
 
@@ -412,13 +321,13 @@ export const CervicalMucusModal = ({ children, setSavedMucus }:  CervicalMucusMo
       case 'Creamy': return 'Creamy';
       case 'Watery': return 'Watery';
       case 'Egg-white': return 'Egg White (Fertile)';
-      default: return 'Select mucus type';
+      default: return getLocalizedText('select.mucus.type');
     }
   };
 
   const handleSave = () => {
     if (!mucusType) {
-      toast.error("Please select mucus type");
+      toast.error(getLocalizedText('please.select.mucus.type') );
       return;
     }
     const savedData = {
@@ -428,104 +337,12 @@ export const CervicalMucusModal = ({ children, setSavedMucus }:  CervicalMucusMo
 
     localStorage.setItem('fertility-mucus', JSON.stringify(savedData));
     setSavedMucus(savedData)
-    toast.success(`Cervical mucus updated: ${mucusType}`);
+    toast.success(`${getLocalizedText('cervical.mucus.updated')} Cervical mucus updated: ${mucusType}`);
     setIsOpen(false);
     setMucusType('');
   };
 
   return (
-
-  //   <Dialog open={isOpen} onOpenChange={setIsOpen}>
-  //     <DialogTrigger asChild>
-  //              {isValidElement(children)
-  // ? cloneElement(children as React.ReactElement, {
-  //     onClick: handleOpen,
-  //     ref: triggerRef, 
-  //   })
-  // : children}
-  //     </DialogTrigger>
-  //     <DialogContent className="sm:max-w-md  bg-white rounded-xl sm:rounded-xl md:rounded-xl mt-60">
-  //       <DialogHeader>
-  //         <DialogTitle>Update Cervical Mucus</DialogTitle>
-  //       </DialogHeader>
-
-  //       <div className="space-y-4 pt-4">
-
-  //         <div className="space-y-2">
-  //           <Label htmlFor="mucus">Mucus Type</Label>
-  //           <div className="relative">
-  //             <Button
-  //               type="button"
-  //               variant="outline"
-  //               className="w-full justify-between text-left"
-  //               onClick={() => setShowMucusDropdown(!showMucusDropdown)}
-  //             >
-  //               {getMucusTypeDisplay(mucusType)}
-  //               <ChevronDown className="w-4 h-4" />
-  //             </Button>
-  //             {showMucusDropdown && (
-  //               <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-md shadow-lg z-50">
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setMucusType('Dry');
-  //                     setShowMucusDropdown(false);
-  //                   }}
-  //                 >
-  //                   Dry
-  //                 </div>
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setMucusType('Sticky');
-  //                     setShowMucusDropdown(false);
-  //                   }}
-  //                 >
-  //                   Sticky
-  //                 </div>
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setMucusType('Creamy');
-  //                     setShowMucusDropdown(false);
-  //                   }}
-  //                 >
-  //                   Creamy
-  //                 </div>
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setMucusType('Watery');
-  //                     setShowMucusDropdown(false);
-  //                   }}
-  //                 >
-  //                   Watery
-  //                 </div>
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setMucusType('Egg-white');
-  //                     setShowMucusDropdown(false);
-  //                   }}
-  //                 >
-  //                   Egg White (Fertile)
-  //                 </div>
-  //               </div>
-  //             )}
-  //           </div>
-  //         </div>
-
-  //         <div className="flex space-x-2 pt-4">
-  //           <Button onClick={handleSave} className="flex-1">
-  //             Update Status
-  //           </Button>
-  //           <Button variant="outline" onClick={() => setIsOpen(false)} className="flex-1">
-  //             Cancel
-  //           </Button>
-  //         </div>
-  //       </div>
-  //     </DialogContent>
-  //   </Dialog>
 
   <Dialog open={isOpen} onOpenChange={setIsOpen}>
   <DialogTrigger asChild>
@@ -542,14 +359,14 @@ export const CervicalMucusModal = ({ children, setSavedMucus }:  CervicalMucusMo
   >
     <DialogHeader>
       <DialogTitle className={settings.darkMode ? 'text-white' : 'text-gray-900'}>
-        Update Cervical Mucus
+       {getLocalizedText('update.cervical.mucus')}
       </DialogTitle>
     </DialogHeader>
 
     <div className="space-y-4 pt-4">
       {/* Mucus Type Dropdown */}
       <div className="space-y-2">
-        <Label htmlFor="mucus" className={settings.darkMode ? 'text-white' : 'text-gray-900'}>Mucus Type</Label>
+        <Label htmlFor="mucus" className={settings.darkMode ? 'text-white' : 'text-gray-900'}>{getLocalizedText('mucus.type')}</Label>
         <div className="relative">
           <Button
             type="button"
@@ -566,31 +383,31 @@ export const CervicalMucusModal = ({ children, setSavedMucus }:  CervicalMucusMo
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 onClick={() => { setMucusType('Dry'); setShowMucusDropdown(false); }}
               >
-                Dry
+                {getLocalizedText('dry')}
               </div>
               <div
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 onClick={() => { setMucusType('Sticky'); setShowMucusDropdown(false); }}
               >
-                Sticky
+                {getLocalizedText('sticky')}
               </div>
               <div
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 onClick={() => { setMucusType('Creamy'); setShowMucusDropdown(false); }}
               >
-                Creamy
+                {getLocalizedText('creamy')}
               </div>
               <div
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 onClick={() => { setMucusType('Watery'); setShowMucusDropdown(false); }}
               >
-                Watery
+               {getLocalizedText('watery')}
               </div>
               <div
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 onClick={() => { setMucusType('Egg-white'); setShowMucusDropdown(false); }}
               >
-                Egg White (Fertile)
+                {getLocalizedText('egg.white.fertile')}
               </div>
             </div>
           )}
@@ -603,14 +420,14 @@ export const CervicalMucusModal = ({ children, setSavedMucus }:  CervicalMucusMo
           onClick={handleSave} 
           className={`flex-1 ${settings.darkMode ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800'}`}
         >
-          Update Status
+          {getLocalizedText('update.status')}
         </Button>
         <Button 
           variant="outline" 
           onClick={() => setIsOpen(false)} 
           className={`flex-1 ${settings.darkMode ? 'text-white' : 'text-gray-500'}`}
         >
-          Cancel
+           {getLocalizedText('cancel')}
         </Button>
       </div>
     </div>
@@ -638,6 +455,9 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
 
   const [showPositionDropdown, setShowPositionDropdown] = useState(false);
   const [showFirmnessDropdown, setShowFirmnessDropdown] = useState(false);
+
+      const { getLocalizedText } = useLanguage();
+
 
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
@@ -694,23 +514,14 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
         } else {
           document.documentElement.classList.remove('dark');
         }  
-          console.log('Settings loaded:', parsedSettings);
         } catch (error) {
           console.error('Error loading settings:', error);
         }
       }
       else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-  
-      // Apply dark mode immediately if enabled:
-  
-      // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-      // if (isDarkMode) {
-      //   document.documentElement.classList.add('dark');
-      // }
-  
+
   
     }, []);
 
@@ -725,7 +536,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
       case 'Low': return 'Low';
       case 'Medium': return 'Medium';
       case 'High (Fertile)': return 'High (Fertile)';
-      default: return 'Select position';
+      default: return getLocalizedText('select.position');
     }
   };
 
@@ -734,14 +545,14 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
       case 'firm': return 'Firm';
       case 'medium': return 'Medium';
       case 'soft': return 'Soft (Fertile)';
-      default: return 'Select firmness';
+      default: return getLocalizedText('select.firmness');
     }
   };
 
 
   const handleSave = () => {
     if (!position || !firmness) {
-      toast.error("Please select both position and firmness");
+      toast.error( getLocalizedText('please.select.both.position.and.firmness') );
       return;
     }
 
@@ -752,7 +563,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
     };
 
     localStorage.setItem('fertility-cervix', JSON.stringify(savedData));
-    toast.success(`Cervix data recorded: ${position}, ${firmness}`);
+    toast.success(`${getLocalizedText('cervix.data.recorded')} ${position}, ${firmness}`);
     setSavedCervix(savedData)
     setIsOpen(false);
     setPosition('');
@@ -761,150 +572,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
 
   return (
 
-  //   <Dialog open={isOpen} onOpenChange={setIsOpen}>
-  //     <DialogTrigger asChild>
-  //                {isValidElement(children)
-  // ? cloneElement(children as React.ReactElement, {
-  //     onClick: handleOpen,
-  //     ref: triggerRef, 
-  //   })
-  // : children}
-  //     </DialogTrigger>
-  //     <DialogContent className="sm:max-w-md  bg-white rounded-xl sm:rounded-xl md:rounded-xl mt-56 xs:mt-96"
 
-  //     >
-  //       <DialogHeader>
-  //         <DialogTitle>Record Cervix Position</DialogTitle>
-  //       </DialogHeader>
-  //       <div className="space-y-4 pt-4">
-    
-
-  //         <div className="space-y-2">
-  //           <Label htmlFor="position">Position</Label>
-  //           <div className="relative">
-  //             <Button
-  //               type="button"
-  //               variant="outline"
-  //               className="w-full justify-between text-left"
-  //               onClick={() => setShowPositionDropdown(!showPositionDropdown)}
-  //             >
-  //               {getPositionDisplay(position)}
-  //               <ChevronDown className="w-4 h-4" />
-  //             </Button>
-  //             {showPositionDropdown && (
-  //               <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-md shadow-lg z-50">
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setPosition('Low');
-  //                     setShowPositionDropdown(false);
-  //                   }}
-  //                 >
-  //                   Low
-  //                 </div>
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setPosition('Medium');
-  //                     setShowPositionDropdown(false);
-  //                   }}
-  //                 >
-  //                   Medium
-  //                 </div>
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setPosition('High (Fertile)');
-  //                     setShowPositionDropdown(false);
-  //                   }}
-  //                 >
-  //                   High (Fertile)
-  //                 </div>
-  //               </div>
-  //             )}
-  //           </div>
-  //         </div>
-
-  //         {/* <div className="space-y-2">
-  //           <Label htmlFor="firmness">Firmness</Label>
-  //           <Select value={firmness} onValueChange={setFirmness}>
-  //             <SelectTrigger>
-  //               <SelectValue placeholder="Select firmness" />
-  //             </SelectTrigger>
-  //             <SelectContent>
-  //               <SelectItem value="firm">Firm</SelectItem>
-  //               <SelectItem value="medium">Medium</SelectItem>
-  //               <SelectItem value="soft">Soft (Fertile)</SelectItem>
-  //             </SelectContent>
-  //           </Select>
-  //         </div> */}
-
-  //         <div className="space-y-2">
-  //           <Label htmlFor="firmness">Firmness</Label>
-  //           <div className="relative ">
-  //             <Button
-  //               type="button"
-  //               variant="outline"
-  //               className="w-full justify-between text-left !bg-pink-100 hover:!bg-pink-200"
-  //               onClick={() => setShowFirmnessDropdown(!showFirmnessDropdown)}
-  //             >
-  //               {getFirmnessDisplay(firmness)}
-  //               <ChevronDown className="w-4 h-4" />
-  //             </Button>
-
-  //             {/* <button
-  //               type="button"
-  //               className="w-full px-4 py-2 rounded-2xl justify-between text-left bg-pink-100  flex items-center"
-  //               onClick={() => setShowFirmnessDropdown(!showFirmnessDropdown)}
-  //             >
-  //               {getFirmnessDisplay(firmness)}
-  //               <ChevronDown className="w-4 h-4" />
-  //             </button> */}
-  //             {showFirmnessDropdown && (
-  //               <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-md shadow-lg z-50">
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setFirmness('firm');
-  //                     setShowFirmnessDropdown(false);
-  //                   }}
-  //                 >
-  //                   Firm
-  //                 </div>
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setFirmness('medium');
-  //                     setShowFirmnessDropdown(false);
-  //                   }}
-  //                 >
-  //                   Medium
-  //                 </div>
-  //                 <div
-  //                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-  //                   onClick={() => {
-  //                     setFirmness('soft');
-  //                     setShowFirmnessDropdown(false);
-  //                   }}
-  //                 >
-  //                   Soft (Fertile)
-  //                 </div>
-  //               </div>
-  //             )}
-  //           </div>
-  //         </div>
-
-  //         <div className="flex space-x-2 pt-4">
-  //           <Button onClick={handleSave} className="flex-1">
-  //             Record Data
-  //           </Button>
-  //           <Button variant="outline" onClick={() => setIsOpen(false)} className="flex-1">
-  //             Cancel
-  //           </Button>
-  //         </div>
-  //       </div>
-  //     </DialogContent>
-  //   </Dialog>
 
   <Dialog open={isOpen} onOpenChange={setIsOpen}>
   <DialogTrigger asChild>
@@ -921,7 +589,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
   >
     <DialogHeader>
       <DialogTitle className={settings.darkMode ? 'text-white' : 'text-gray-900'}>
-        Record Cervix Position
+         {getLocalizedText('record.cervix.position')}
       </DialogTitle>
     </DialogHeader>
 
@@ -929,7 +597,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
       {/* Position Dropdown */}
       <div className="space-y-2">
         <Label htmlFor="position" className={settings.darkMode ? 'text-white' : 'text-gray-900'}>
-          Position
+          {getLocalizedText('position')}
         </Label>
         <div className="relative">
           <Button
@@ -950,7 +618,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
                   setShowPositionDropdown(false);
                 }}
               >
-                Low
+                {getLocalizedText('low')}
               </div>
               <div
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -959,7 +627,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
                   setShowPositionDropdown(false);
                 }}
               >
-                Medium
+                 {getLocalizedText('medium')}
               </div>
               <div
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -968,7 +636,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
                   setShowPositionDropdown(false);
                 }}
               >
-                High (Fertile)
+                {getLocalizedText('high.fertile')}
               </div>
             </div>
           )}
@@ -978,7 +646,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
       {/* Firmness Dropdown */}
       <div className="space-y-2">
         <Label htmlFor="firmness" className={settings.darkMode ? 'text-white' : 'text-gray-900'}>
-          Firmness
+           {getLocalizedText('firmness')}
         </Label>
         <div className="relative">
           <Button
@@ -999,7 +667,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
                   setShowFirmnessDropdown(false);
                 }}
               >
-                Firm
+                {getLocalizedText('firm')}
               </div>
               <div
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -1008,7 +676,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
                   setShowFirmnessDropdown(false);
                 }}
               >
-                Medium
+                 {getLocalizedText('medium')}
               </div>
               <div
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -1017,7 +685,7 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
                   setShowFirmnessDropdown(false);
                 }}
               >
-                Soft (Fertile)
+                {getLocalizedText('soft.fertile')}
               </div>
             </div>
           )}
@@ -1030,14 +698,14 @@ export const CervixPositionModal = ({ children , setSavedCervix }: CervixPositio
           onClick={handleSave} 
           className={`flex-1 ${settings.darkMode ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800'}`}
         >
-          Record Data
+        {getLocalizedText('record.data')}
         </Button>
         <Button 
           variant="outline" 
           onClick={() => setIsOpen(false)} 
           className={`flex-1 ${settings.darkMode ? 'text-white' : 'text-gray-500'}`}
         >
-          Cancel
+           {getLocalizedText('cancel')}
         </Button>
       </div>
     </div>

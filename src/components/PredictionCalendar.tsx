@@ -4,11 +4,13 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { format, addDays, parseISO, endOfMonth, subMonths } from "date-fns"
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export function PredictionCalendar() {
     const [selectedDate, setSelectedDate] = useState<Date | undefined>()
     const [highlightDates, setHighlightDates] = useState<Date[]>([])
     const [open, setOpen] = useState(false)
+  const { getLocalizedText } = useLanguage();
 
     const buttonRef = useRef<HTMLButtonElement | null>(null)
 
@@ -68,7 +70,7 @@ export function PredictionCalendar() {
                 >
                     <CalendarIcon className="w-4 h-4 text-xs  text-slate-800 dark:text-white" />
                     {/* selectedDate ? format(selectedDate, "PPP") :  */}
-                    <span className="text-xs text-slate-800 dark:text-white">{"Period Prediction Cycle"}</span>
+                    <span className="text-xs text-slate-800 dark:text-white">{getLocalizedText('period.prediction.cycle')}</span>
                 </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -81,7 +83,7 @@ export function PredictionCalendar() {
                 className="z-50 ml-28  w-auto p-2 rounded-xl shadow-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                 <div className="space-y-2">
                     <h3 className="text-lg font-bold text-center text-lavender-600">
-                         Provide six month's cycle data
+                        {getLocalizedText('provide.six.months.cycle.data')}
                     </h3>
                     <Calendar
                         mode="single"
@@ -106,7 +108,9 @@ export function PredictionCalendar() {
                 
                     <Button   className="flex items-center text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white"
                     onClick={()=>setOpen(false)}
-                    >Close</Button>
+                    >
+                        {getLocalizedText('close')}
+                    </Button>
                 </div>
             </PopoverContent>
         </Popover>

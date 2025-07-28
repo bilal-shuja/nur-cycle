@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { ChevronDown } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 
 interface WeightTrackingModalProps {
@@ -30,6 +30,7 @@ export const WeightTrackingModal =({
   const [showDropdown, setShowDropdown] = useState(false);
 
   const triggerRef = useRef<HTMLButtonElement | null>(null);
+    const { getLocalizedText } = useLanguage();
 
   
     const [settings, setSettings] = useState({
@@ -84,22 +85,13 @@ export const WeightTrackingModal =({
         } else {
           document.documentElement.classList.remove('dark');
         }  
-          console.log('Settings loaded:', parsedSettings);
         } catch (error) {
           console.error('Error loading settings:', error);
         }
       }
       else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-  
-      // Apply dark mode immediately if enabled:
-  
-      // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-      // if (isDarkMode) {
-      //   document.documentElement.classList.add('dark');
-      // }
   
   
     }, []);
@@ -112,13 +104,13 @@ export const WeightTrackingModal =({
 
   const handleSave = () => {
     if (!weight) {
-      toast.error("Please enter your weight");
+      toast.error(getLocalizedText('please.enter.your.weight') );
       return;
     }
 
     const weightValue = parseFloat(weight);
     if (isNaN(weightValue)) {
-      toast.error("Please enter a valid weight");
+      toast.error( getLocalizedText('please.enter.valid.weight'));
       return;
     }
 
@@ -130,85 +122,13 @@ export const WeightTrackingModal =({
 
     localStorage.setItem('pregnancy-weight', JSON.stringify(savedData));
     setSavedWeight(savedData)
-    toast.success(`Weight updated: ${weight} ${unit}`);
+    toast.success(getLocalizedText('weight.updated')+` ${weight} ${unit}`);
     setIsOpen(false);
     setWeight('');
   };
 
   return (
-    // <Dialog open={isOpen} onOpenChange={setIsOpen}>
-    //   <DialogTrigger asChild>
-    //     {isValidElement(children)
-    //       ? cloneElement(children as React.ReactElement, {
-    //         onClick: handleOpen,
-    //         ref: triggerRef, 
-    //       })
-    //       : children}
-    //   </DialogTrigger>
-    //   <DialogContent className="sm:max-w-md bg-white p-6 rounded-xl sm:rounded-xl md:rounded-xl" style={{ marginTop: "40em" }}>
-    //     <DialogHeader>
-    //       <DialogTitle>Update Weight</DialogTitle>
-    //     </DialogHeader>
-    //     <div className="space-y-4 pt-4">
-    //       <div className="space-y-2">
-    //         <Label htmlFor="weight">Current Weight</Label>
-    //         <Input
-    //           id="weight"
-    //           type="number"
-    //           step="0.1"
-    //           placeholder="150"
-    //           value={weight}
-    //           onChange={(e) => setWeight(e.target.value)}
-    //         />
-    //       </div>
-
-    //       <div className="space-y-2">
-    //         <Label htmlFor="unit">Unit</Label>
-    //         <div className="relative">
-    //           <Button
-    //             type="button"
-    //             variant="outline"
-    //             className="w-full justify-between text-left"
-    //             onClick={() => setShowDropdown(!showDropdown)}
-    //           >
-    //             {unit === 'lbs' ? 'Pounds (lbs)' : 'Kilograms (kg)'}
-    //             <ChevronDown className="w-4 h-4" />
-    //           </Button>
-    //           {showDropdown && (
-    //             <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-md shadow-lg z-50">
-    //               <div
-    //                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-    //                 onClick={() => {
-    //                   setUnit('lbs');
-    //                   setShowDropdown(false);
-    //                 }}
-    //               >
-    //                 Pounds (lbs)
-    //               </div>
-    //               <div
-    //                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-    //                 onClick={() => {
-    //                   setUnit('kg');
-    //                   setShowDropdown(false);
-    //                 }}
-    //               >
-    //                 Kilograms (kg)
-    //               </div>
-    //             </div>
-    //           )}
-    //         </div>
-    //       </div>
-    //       <div className="flex space-x-2 pt-4">
-    //         <Button onClick={handleSave} className="flex-1">
-    //           Update Weight
-    //         </Button>
-    //         <Button variant="outline" onClick={() => setIsOpen(false)} className="flex-1">
-    //           Cancel
-    //         </Button>
-    //       </div>
-    //     </div>
-    //   </DialogContent>
-    // </Dialog>
+  
 
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
   <DialogTrigger asChild>
@@ -230,7 +150,7 @@ export const WeightTrackingModal =({
       <DialogTitle
         className={settings.darkMode ? 'text-white' : 'text-gray-900'}
       >
-        Update Weight
+      {getLocalizedText('update.weight')}
       </DialogTitle>
     </DialogHeader>
 
@@ -240,7 +160,7 @@ export const WeightTrackingModal =({
           htmlFor="weight"
           className={settings.darkMode ? 'text-white' : 'text-gray-900'}
         >
-          Current Weight
+        {getLocalizedText('current.weight')}
         </Label>
         <Input
           id="weight"
@@ -260,7 +180,7 @@ export const WeightTrackingModal =({
           htmlFor="unit"
           className={settings.darkMode ? 'text-white' : 'text-gray-900'}
         >
-          Unit
+         {getLocalizedText('unit')}
         </Label>
         <div className="relative">
           <Button
@@ -283,7 +203,7 @@ export const WeightTrackingModal =({
                   setShowDropdown(false);
                 }}
               >
-                Pounds (lbs)
+                {getLocalizedText('pounds')}
               </div>
               <div
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -292,7 +212,7 @@ export const WeightTrackingModal =({
                   setShowDropdown(false);
                 }}
               >
-                Kilograms (kg)
+              {getLocalizedText('kilograms')}
               </div>
             </div>
           )}
@@ -304,14 +224,14 @@ export const WeightTrackingModal =({
           onClick={handleSave}
           className={`flex-1 ${settings.darkMode ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800'}`}
         >
-          Update Weight
+         {getLocalizedText('update.weight')}
         </Button>
         <Button
           variant="outline"
           onClick={() => setIsOpen(false)}
           className="flex-1"
         >
-          Cancel
+          {getLocalizedText('cancel')}
         </Button>
       </div>
     </div>
@@ -337,6 +257,7 @@ export const HeartbeatModal = ({
 }: HeartbeatModalProps) => {
   const [heartRate, setHeartRate] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+    const { getLocalizedText } = useLanguage();
 
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   
@@ -392,23 +313,14 @@ export const HeartbeatModal = ({
         } else {
           document.documentElement.classList.remove('dark');
         }  
-          console.log('Settings loaded:', parsedSettings);
         } catch (error) {
           console.error('Error loading settings:', error);
         }
       }
       else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-  
-      // Apply dark mode immediately if enabled:
-  
-      // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-      // if (isDarkMode) {
-      //   document.documentElement.classList.add('dark');
-      // }
-  
+
   
     }, []);
 
@@ -420,13 +332,13 @@ export const HeartbeatModal = ({
 
   const handleSave = () => {
     if (!heartRate) {
-      toast.error("Please enter baby's heart rate");
+      toast.error( getLocalizedText('please.enter.babys.heart.rate'));
       return;
     }
 
     const rate = parseInt(heartRate);
     if (isNaN(rate) || rate < 100 || rate > 200) {
-      toast.error("Please enter a valid heart rate (100-200 bpm)");
+      toast.error(getLocalizedText('please.enter.valid.heart.rate'));
       return;
     }
 
@@ -437,50 +349,14 @@ export const HeartbeatModal = ({
 
     localStorage.setItem('pregnancy-heartbeat', JSON.stringify(savedData));
     setSavedHeartBeat(savedData)
-    toast.success(`Baby's heartbeat recorded: ${heartRate} bpm`);
+    toast.success(  `${ getLocalizedText('babys.heartbeat.recorded')} ${heartRate} bpm`);
     setIsOpen(false);
     setHeartRate('');
   };
 
   return (
 
-    // <Dialog open={isOpen} onOpenChange={setIsOpen}>
-    //   <DialogTrigger asChild>
-    //     {isValidElement(children)
-    //       ? cloneElement(children as React.ReactElement, {
-    //         onClick: handleOpen,
-    //         ref: triggerRef, 
-    //       })
-    //       : children}
-    //   </DialogTrigger>
-    //   <DialogContent className="sm:max-w-md bg-white p-6 rounded-xl sm:rounded-xl md:rounded-xl" style={{ marginTop: "55em" }}>
-    //     <DialogHeader>
-    //       <DialogTitle>Record Baby's Heartbeat</DialogTitle>
-    //     </DialogHeader>
-    //     <div className="space-y-4 pt-4">
-    //       <div className="space-y-2">
-    //         <Label htmlFor="heartrate">Heart Rate (BPM)</Label>
-    //         <Input
-    //           id="heartrate"
-    //           type="number"
-    //           placeholder="150"
-    //           value={heartRate}
-    //           onChange={(e) => setHeartRate(e.target.value)}
-    //         />
-    //       </div>
 
-    //       <div className="flex space-x-2 pt-4">
-    //         <Button onClick={handleSave} className="flex-1">
-    //           Record Rate
-    //         </Button>
-    //         <Button variant="outline" onClick={() => setIsOpen(false)} className="flex-1">
-    //           Cancel
-    //         </Button>
-    //       </div>
-    //     </div>
-    //   </DialogContent>
-
-    // </Dialog>
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
   <DialogTrigger asChild>
     {isValidElement(children)
@@ -499,7 +375,7 @@ export const HeartbeatModal = ({
   >
     <DialogHeader>
       <DialogTitle className={settings.darkMode ? 'text-white' : 'text-gray-900'}>
-        Record Baby's Heartbeat
+         {getLocalizedText('record.babys.heartbeat')}
       </DialogTitle>
     </DialogHeader>
     <div className="space-y-4 pt-4">
@@ -508,7 +384,7 @@ export const HeartbeatModal = ({
           htmlFor="heartrate"
           className={settings.darkMode ? 'text-white' : 'text-gray-900'}
         >
-          Heart Rate (BPM)
+          {getLocalizedText('heart.rate.bpm')}
         </Label>
         <Input
           id="heartrate"
@@ -529,14 +405,14 @@ export const HeartbeatModal = ({
             settings.darkMode ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800'
           }`}
         >
-          Record Rate
+           {getLocalizedText('record.rate')}
         </Button>
         <Button
           variant="outline"
           onClick={() => setIsOpen(false)}
           className="flex-1"
         >
-          Cancel
+          {getLocalizedText('cancel')}
         </Button>
       </div>
     </div>
@@ -559,6 +435,7 @@ interface KickCounterModal {
 export const KickCounterModal = ({ children, setSavedKicks }: KickCounterModal) => {
   const [kickCount, setKickCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+    const { getLocalizedText } = useLanguage();
 
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
@@ -620,23 +497,14 @@ export const KickCounterModal = ({ children, setSavedKicks }: KickCounterModal) 
         } else {
           document.documentElement.classList.remove('dark');
         }  
-          console.log('Settings loaded:', parsedSettings);
         } catch (error) {
           console.error('Error loading settings:', error);
         }
       }
       else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-  
-      // Apply dark mode immediately if enabled:
-  
-      // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-      // if (isDarkMode) {
-      //   document.documentElement.classList.add('dark');
-      // }
-  
+
   
     }, []);
 
@@ -653,7 +521,7 @@ export const KickCounterModal = ({ children, setSavedKicks }: KickCounterModal) 
 
     localStorage.setItem('pregnancy-kicks', JSON.stringify(savedData));
     setSavedKicks(savedData)
-    toast.success(`Kick count saved: ${kickCount} kicks today`);
+    toast.success(` ${getLocalizedText('kick.count.saved')}${kickCount} ${getLocalizedText('kicks.today')}`);
     setIsOpen(false);
     setKickCount(0);
   };
@@ -663,47 +531,6 @@ export const KickCounterModal = ({ children, setSavedKicks }: KickCounterModal) 
   };
 
   return (
-    // <Dialog open={isOpen} onOpenChange={setIsOpen}>
-    //   <DialogTrigger asChild>
-    //     {isValidElement(children)
-    //       ? cloneElement(children as React.ReactElement, {
-    //         onClick: handleOpen,
-    //         ref: triggerRef, // ✅ But only if children supports forwardRef!
-    //       })
-    //       : children}
-    //   </DialogTrigger>
-    //   <DialogContent className="sm:max-w-md bg-white p-6 rounded-xl sm:rounded-xl md:rounded-xl" style={{ marginTop: "55em" }}>
-    //     <DialogHeader>
-    //       <DialogTitle>Count Baby's Kicks</DialogTitle>
-    //     </DialogHeader>
-    //     <div className="space-y-6 pt-4">
-    //       <div className="text-center">
-    //         <div className="text-6xl font-bold text-purple-600 mb-2">
-    //           {kickCount}
-    //         </div>
-    //         <p className="text-gray-600">Kicks counted today</p>
-    //       </div>
-
-    //       <div className="flex space-x-2">
-    //         <Button onClick={handleAddKick} className="flex-1 bg-purple-500 hover:bg-purple-600">
-    //           + Count Kick
-    //         </Button>
-    //         <Button variant="outline" onClick={handleReset} className="flex-1">
-    //           Reset
-    //         </Button>
-    //       </div>
-
-    //       <div className="flex space-x-2 pt-4">
-    //         <Button onClick={handleSave} className="flex-1">
-    //           Save Count
-    //         </Button>
-    //         <Button variant="outline" onClick={() => setIsOpen(false)} className="flex-1">
-    //           Cancel
-    //         </Button>
-    //       </div>
-    //     </div>
-    //   </DialogContent>
-    // </Dialog>
 
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
   <DialogTrigger asChild>
@@ -725,7 +552,7 @@ export const KickCounterModal = ({ children, setSavedKicks }: KickCounterModal) 
       <DialogTitle
         className={settings.darkMode ? 'text-white' : 'text-gray-900'}
       >
-        Count Baby's Kicks
+       {getLocalizedText('count.babys.kicks')}
       </DialogTitle>
     </DialogHeader>
     <div className="space-y-6 pt-4">
@@ -738,7 +565,7 @@ export const KickCounterModal = ({ children, setSavedKicks }: KickCounterModal) 
           {kickCount}
         </div>
         <p className={`text-gray-600 ${settings.darkMode ? 'text-gray-300' : ''}`}>
-          Kicks counted today
+          {getLocalizedText('kicks.counted.today')}
         </p>
       </div>
 
@@ -747,27 +574,26 @@ export const KickCounterModal = ({ children, setSavedKicks }: KickCounterModal) 
           onClick={handleAddKick}
           className={`flex-1 ${settings.darkMode ? 'bg-purple-600 hover:bg-purple-700' : 'bg-purple-500 hover:bg-purple-600'}`}
         >
-          + Count Kick
+          + {getLocalizedText('count.kick')}
         </Button>
         <Button
           variant="outline"
           onClick={handleReset}
           className="flex-1"
-        >
-          Reset
+        >{getLocalizedText('reset')}
         </Button>
       </div>
 
       <div className="flex space-x-2 pt-4">
         <Button onClick={handleSave} className="flex-1">
-          Save Count
+        {getLocalizedText('save.count')}
         </Button>
         <Button
           variant="outline"
           onClick={() => setIsOpen(false)}
           className="flex-1"
         >
-          Cancel
+        {getLocalizedText('cancel')}
         </Button>
       </div>
     </div>

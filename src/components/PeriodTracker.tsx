@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
 import { Input } from './ui/input';
 import { ChevronDown } from "lucide-react";
+import { useLanguage } from '@/contexts/LanguageContext';
+
 
 type PeriodMap = Record<string, string[]>;
 
@@ -85,6 +87,9 @@ const PeriodTracker = () => {
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   const [highlightDates, setHighlightDates] = useState<Set<string>>(new Set());
+
+    const { getLocalizedText } = useLanguage();
+
 
   useEffect(() => {
     const stored = localStorage.getItem('savedDatesByMonth');
@@ -185,7 +190,7 @@ const PeriodTracker = () => {
       case 'fertile-start': return 'Fertile Window - Start';
       case 'fertile-peak': return 'Fertile Window - Peak';
       case 'fertile-end': return 'Fertile Window - End';
-      default: return 'Select entry type';
+      default: return getLocalizedText('select.entry.type');
     }
   };
 
@@ -392,11 +397,11 @@ const PeriodTracker = () => {
     const config = dayTypes[dayType];
     switch (config.worship) {
       case 'exempt':
-        return 'Prayer and fasting are not required. This is Allah\'s mercy upon women.';
+        return getLocalizedText('prayer.fasting.not.required');
       case 'required':
-        return 'All acts of worship are required as normal.';
+        return getLocalizedText('all.acts.of.worship.required');
       case 'pending':
-        return 'Perform Ghusl before resuming prayer and worship.';
+        return getLocalizedText('perform.ghusl.before.worship');
       default:
         return '';
     }
@@ -410,10 +415,10 @@ const PeriodTracker = () => {
 
       <div className={`text-center ${settings.darkMode ? 'text-white' : ''}`}>
         <h1 className={`text-3xl font-bold mb-2 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
-          Islamic Period & Fertility Tracking
+         {getLocalizedText('islamic.period.fertility.tracking')}
         </h1>
         <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-          Track your cycle with comprehensive Islamic guidance
+         {getLocalizedText('islamic.period.fertility.tracking.desc')}
         </p>
       </div>
 
@@ -424,25 +429,25 @@ const PeriodTracker = () => {
         {[
           {
             gradient: "from-red-500 to-red-600",
-            title: "Period Status",
-            value: "Day 6 - Ended",
-            note: "Ghusl required",
+            title: getLocalizedText('period.status') ,
+            value: `${getLocalizedText('day')}6 - ${getLocalizedText('ended')}`,
+            note: getLocalizedText("ghusl.required"),
             icon: <Droplets className="w-6 h-6 text-red-400" />,
             color: "text-red-500",
           },
           {
             gradient: "from-teal-500 to-teal-600",
-            title: "Worship Status",
-            value: "Pending Ghusl",
-            note: "Required for prayer",
+            title: getLocalizedText('worship.status') ,
+            value: getLocalizedText('pending.ghusl'),
+            note: getLocalizedText('required.for.prayer'),
             icon: <Heart className="w-6 h-6 text-teal-400" />,
             color: "text-teal-500",
           },
           {
             gradient: "from-green-500 to-green-600",
-            title: "Fertility",
+            title: getLocalizedText('fertility'),
             value: "Low",
-            note: "Post-menstrual",
+            note: getLocalizedText('post.menstrual'),
             icon: (
               <div className="w-6 h-6 rounded-full bg-green-200 flex items-center justify-center">
                 <span className="text-green-800 text-xs">🌱</span>
@@ -452,9 +457,9 @@ const PeriodTracker = () => {
           },
           {
             gradient: "from-purple-500 to-purple-600",
-            title: "Cycle Day",
-            value: "Day 6",
-            note: "of 28 days",
+            title: `${getLocalizedText('cycle.day')} ${getLocalizedText('day')}}`,
+            value: `$${getLocalizedText('day')} 6}`,
+            note:  `${getLocalizedText('of')} 28 ${getLocalizedText('day')}}`,
             icon: <Calendar className="w-6 h-6 text-purple-400" />,
             color: "text-purple-500",
           },
@@ -487,7 +492,7 @@ const PeriodTracker = () => {
           <div className="flex flex-col items-center justify-between">
             <CardTitle className={`flex items-center space-x-2 ${settings.darkMode ? 'text-white' : ''}`}>
               <Calendar className="w-5 h-5" />
-              <span>Color-Coded Cycle Calendar</span>
+              <span>{getLocalizedText('color.coded.cycle.calendar')}</span>
             </CardTitle>
             <div className="flex items-center gap-2 mt-4">
               <Button
@@ -496,7 +501,7 @@ const PeriodTracker = () => {
                 onClick={() => setCalendarView('day')}
                 className='dark:text-white'
               >
-                Day
+                {getLocalizedText('day')}
               </Button>
               <Button
                 variant={calendarView === 'week' ? 'default' : 'outline'}
@@ -504,7 +509,7 @@ const PeriodTracker = () => {
                 onClick={() => setCalendarView('week')}
                    className='dark:text-white'
               >
-                Week
+               {getLocalizedText('week')}
               </Button>
               <Button
                 variant={calendarView === 'month' ? 'default' : 'outline'}
@@ -512,7 +517,7 @@ const PeriodTracker = () => {
                 onClick={() => setCalendarView('month')}
                    className='dark:text-white'
               >
-                Month
+              {getLocalizedText('month')}
               </Button>
             </div>
           </div>
@@ -548,18 +553,12 @@ const PeriodTracker = () => {
                     const isPredicted = highlightDates.has(date.toISOString().split('T')[0]);
                     return (
                       <div key={index} className="flex justify-center">
-                        {/* <div
-                          className={getDayClassName(date, date.getMonth() === currentDate.getMonth())}
-                          title={`${date.getDate()} - ${config.label || 'Normal Day'}`}
-                        >
-                          {date.getDate()}
-                        </div> */}
                         <div
                           className={`
                             ${getDayClassName(date, date.getMonth() === currentDate.getMonth())}
                             ${isPredicted ? 'border-2 border-red-600 border-dashed rounded-full' : ''}
                           `}
-                          title={`${date.getDate()} - ${config.label || 'Normal Day'}${isPredicted ? ' (Predicted Period)' : ''}`}
+                          title={`${date.getDate()} - ${config.label || getLocalizedText('normal.day')}${isPredicted ? getLocalizedText('predicted.period')  : ''}`}
                         >
                           {date.getDate()}
                         </div>
@@ -573,39 +572,39 @@ const PeriodTracker = () => {
             {/* Tracking Legend */}
 
             <div className={`p-4 rounded-lg ${settings.darkMode ? 'bg-slate-800 border border-slate-600' : 'bg-gray-50'}`}>
-              <h4 className={`font-semibold mb-3 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>Tracking Legend</h4>
+              <h4 className={`font-semibold mb-3 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}> {getLocalizedText('tracking.legend')} </h4>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 text-xs">
                 {[
                   {
-                    title: "Menstruation (Hayd)",
+                    title: getLocalizedText('menstruation.hayd') ,
                     colorClasses: [
-                      { color: "bg-red-200", label: "Light" },
-                      { color: "bg-red-400", label: "Medium" },
-                      { color: "bg-red-600", label: "Heavy" },
+                      { color: "bg-red-200", label: getLocalizedText('light')  },
+                      { color: "bg-red-400", label: getLocalizedText('medium')  },
+                      { color: "bg-red-600", label: getLocalizedText('heavy') },
                     ],
                   },
                   {
-                    title: "Purity (Tuhr)",
+                    title: getLocalizedText('purity.tuhr'),
                     colorClasses: [
-                      { color: "bg-green-200", label: "Pure" },
-                      { color: "bg-teal-300", label: "Ghusl Due" },
-                      { color: "bg-teal-500", label: "Ghusl Done" },
+                      { color: "bg-green-200", label: getLocalizedText('pure')  },
+                      { color: "bg-teal-300", label: getLocalizedText('ghusl.due') },
+                      { color: "bg-teal-500", label: getLocalizedText('ghusl.done') },
                     ],
                   },
                   {
-                    title: "Fertility",
+                    title: getLocalizedText('fertility.key'),
                     colorClasses: [
-                      { color: "bg-green-300", label: "Fertile Start" },
-                      { color: "bg-yellow-400", label: "Ovulation" },
-                      { color: "bg-green-500", label: "Peak Fertile" },
+                      { color: "bg-green-300", label: getLocalizedText('fertile.start')  },
+                      { color: "bg-yellow-400", label: getLocalizedText('ovulation') },
+                      { color: "bg-green-500", label: getLocalizedText('peak.fertile') },
                     ],
                   },
                   {
-                    title: "Other",
+                    title: getLocalizedText('other'),
                     colorClasses: [
-                      { color: "bg-orange-300", label: "Istihada" },
-                      { color: "bg-purple-400", label: "Nifas" },
-                      { color: "bg-gray-100", label: "Normal" },
+                      { color: "bg-orange-300", label: getLocalizedText('istihada')  },
+                      { color: "bg-purple-400", label: getLocalizedText('nifas')  },
+                      { color: "bg-gray-100", label: getLocalizedText('normal')},
                     ],
                   },
                 ].map((section, idx) => (
@@ -625,18 +624,14 @@ const PeriodTracker = () => {
         </CardContent>
       </Card>
 
-      {/* <div className='flex justify-between'> */}
 
         <Button className="flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500"
           ref={triggerRef}
           onClick={handleOpenLogModal}
         >
           <Plus className="w-4 h-4 dark:text-white" />
-          <span className='dark:text-white'>Log Entry</span>
+          <span className='dark:text-white'>{getLocalizedText('log.entry')}</span>
         </Button>
-
-        {/* <PredictionCalendar /> */}
-      {/* </div> */}
 
 
 
@@ -645,12 +640,12 @@ const PeriodTracker = () => {
 
         <DialogContent className={`sm:max-w-md ${settings.darkMode ? 'bg-slate-900 text-white' : 'bg-white'} rounded-xl sm:rounded-xl md:rounded-xl xs:mt-52`}>
           <DialogHeader>
-            <DialogTitle className={settings.darkMode ? 'text-white' : 'text-gray-900'}>Log Cycle Entry</DialogTitle>
+            <DialogTitle className={settings.darkMode ? 'text-white' : 'text-gray-900'}>{getLocalizedText('log.cycle.entry')}</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label className={settings.darkMode ? 'text-white' : 'text-gray-900'}>Start Date</Label>
+              <Label className={settings.darkMode ? 'text-white' : 'text-gray-900'}>{getLocalizedText('start.date')}</Label>
               <div className="relative">
                 {!showDateInput ? (
                   <Button
@@ -660,7 +655,7 @@ const PeriodTracker = () => {
                     onClick={() => setShowDateInput(true)}
                   >
                     <Calendar className={`mr-2 h-4 w-4 ${settings.darkMode ? 'text-white' : 'text-gray-500'}`} />
-                    {logDate ? format(logDate, "PPP") : <span>Pick start date</span>}
+                    {logDate ? format(logDate, "PPP") : <span>{getLocalizedText('pick.start.date')}</span>}
                   </Button>
                 ) : (
                   <div className="flex gap-2">
@@ -688,7 +683,7 @@ const PeriodTracker = () => {
             </div>
 
             <div className="space-y-2">
-              <Label className={settings.darkMode ? 'text-white' : 'text-gray-900'}>End Date</Label>
+              <Label className={settings.darkMode ? 'text-white' : 'text-gray-900'}>{getLocalizedText('end.date')}</Label>
               <div className="relative">
                 {!showEndDateInput ? (
                   <Button
@@ -698,7 +693,7 @@ const PeriodTracker = () => {
                     onClick={() => setShowEndDateInput(true)}
                   >
                     <Calendar className={`mr-2 h-4 w-4 ${settings.darkMode ? 'text-white' : 'text-gray-500'}`} />
-                    {endDate ? format(endDate, "PPP") : <span>Pick end date</span>}
+                    {endDate ? format(endDate, "PPP") : <span>{getLocalizedText('pick.end.date')}</span>}
                   </Button>
                 ) : (
                   <div className="flex gap-2">
@@ -726,7 +721,7 @@ const PeriodTracker = () => {
             </div>
 
             <div className="space-y-2">
-              <Label className={settings.darkMode ? 'text-white' : 'text-gray-900'}>Type</Label>
+              <Label className={settings.darkMode ? 'text-white' : 'text-gray-900'}>{getLocalizedText('type')}</Label>
               <div className="relative">
                 <Button
                   type="button"
@@ -746,7 +741,7 @@ const PeriodTracker = () => {
                         setShowTypeDropdown(false);
                       }}
                     >
-                      Menstruation (Hayd)
+                    {getLocalizedText('menstruation.hayd')}
                     </div>
                     <div
                       className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -755,7 +750,7 @@ const PeriodTracker = () => {
                         setShowTypeDropdown(false);
                       }}
                     >
-                      Ghusl Completed
+                     {getLocalizedText('ghusl.completed')}
                     </div>
                     <div
                       className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -766,7 +761,7 @@ const PeriodTracker = () => {
                         setShowTypeDropdown(false);
                       }}
                     >
-                      Purity (Tuhr)
+                     {getLocalizedText('purity.tuhr')}
                     </div>
                     <div
                       className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -775,7 +770,7 @@ const PeriodTracker = () => {
                         setShowTypeDropdown(false);
                       }}
                     >
-                      Irregular Bleeding (istihada-light)
+                     {getLocalizedText('irregular.bleeding.istihada-light')}
                     </div>
                     <div
                       className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -784,7 +779,7 @@ const PeriodTracker = () => {
                         setShowTypeDropdown(false);
                       }}
                     >
-                      Irregular Bleeding (istihada-medium)
+                      {getLocalizedText('irregular.bleeding.istihada-medium')}
                     </div>
                     <div
                       className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -793,7 +788,7 @@ const PeriodTracker = () => {
                         setShowTypeDropdown(false);
                       }}
                     >
-                      Ovulation
+                     {getLocalizedText('ovulation')}
                     </div>
                     <div
                       className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -802,7 +797,7 @@ const PeriodTracker = () => {
                         setShowTypeDropdown(false);
                       }}
                     >
-                      Fertile Window - Start
+                     {getLocalizedText('fertile.window.start')}
                     </div>
                     <div
                       className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -811,7 +806,7 @@ const PeriodTracker = () => {
                         setShowTypeDropdown(false);
                       }}
                     >
-                      Fertile Window - Peak
+                      {getLocalizedText('fertile.window.peak')}
                     </div>
                     <div
                       className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -820,7 +815,7 @@ const PeriodTracker = () => {
                         setShowTypeDropdown(false);
                       }}
                     >
-                      Fertile Window - End
+                     {getLocalizedText('fertile.window.end')}
                     </div>
                   </div>
                 )}
@@ -829,7 +824,7 @@ const PeriodTracker = () => {
 
             {logType === 'period' && (
               <div className="space-y-2">
-                <Label className={settings.darkMode ? 'text-white' : 'text-gray-900'}>Flow Intensity</Label>
+                <Label className={settings.darkMode ? 'text-white' : 'text-gray-900'}> {getLocalizedText('flow.intensity')} </Label>
                 <div className="relative">
                   <Button
                     type="button"
@@ -849,7 +844,7 @@ const PeriodTracker = () => {
                           setShowIntensityDropdown(false);
                         }}
                       >
-                        Light
+                       {getLocalizedText('light')}
                       </div>
                       <div
                         className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -858,7 +853,7 @@ const PeriodTracker = () => {
                           setShowIntensityDropdown(false);
                         }}
                       >
-                        Medium
+                        {getLocalizedText('medium')}
                       </div>
                       <div
                         className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -867,7 +862,7 @@ const PeriodTracker = () => {
                           setShowIntensityDropdown(false);
                         }}
                       >
-                        Heavy
+                        {getLocalizedText('heavy')}
                       </div>
                     </div>
                   )}
@@ -877,10 +872,10 @@ const PeriodTracker = () => {
 
             <div className="flex space-x-2">
               <Button onClick={handleLogEntry} disabled={!logDate || !logType} className={`flex-1 ${settings.darkMode ? 'bg-slate-800' : 'bg-purple-500'}`}>
-                Save Entry
+              {getLocalizedText('save.entry')}
               </Button>
               <Button variant="outline" onClick={() => setIsLogModalOpen(false)} className={`flex-1 ${settings.darkMode ? 'text-white' : 'text-gray-500'}`}>
-                Cancel
+                {getLocalizedText('cancel')}
               </Button>
             </div>
           </div>
@@ -897,7 +892,7 @@ const PeriodTracker = () => {
         <CardHeader className="relative z-10">
           <CardTitle className={`flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-purple-800'}`}>
             <AlertCircle className="w-5 h-5" />
-            Today's Islamic Guidance
+           {getLocalizedText('todays.islamic.guidance')}
           </CardTitle>
         </CardHeader>
 
@@ -905,7 +900,7 @@ const PeriodTracker = () => {
           <div className="space-y-3">
             <div className={`p-3 rounded-lg border ${settings.darkMode ? 'bg-slate-800 border-slate-600' : 'bg-white border-purple-100'}`}>
               <p className={`${settings.darkMode ? 'text-white' : 'text-purple-700'} font-medium mb-1`}>
-                Current Status: Post-Menstrual
+                {getLocalizedText('current.status')}
               </p>
               <p className={`${settings.darkMode ? 'text-gray-300' : 'text-purple-600'} text-sm`}>
                 {getIslamicGuidanceForDay('ghusl-required')}
@@ -914,7 +909,7 @@ const PeriodTracker = () => {
 
             <div className={`text-xs ${settings.darkMode ? 'text-gray-400' : 'text-purple-600'}`}>
               <p className="italic">
-                "When one of you is menstruating, she should not pray until she becomes pure." - Sahih Bukhari
+              {getLocalizedText('islamic.reminder.verse-t')}
               </p>
             </div>
           </div>
