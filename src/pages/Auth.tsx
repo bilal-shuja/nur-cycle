@@ -12,31 +12,31 @@ import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 import { Heart, User, Mail, Lock, Camera, CameraOff } from "lucide-react"
 import * as faceapi from "face-api.js"
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Auth = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [fullName, setFullName] = useState("")
   const [loading, setLoading] = useState(false)
-  const [modelsLoading, setModelsLoading] = useState(true) // Separate state for model loading
-  const [cameraLoading, setCameraLoading] = useState(false) // Separate state for camera loading
+  const [modelsLoading, setModelsLoading] = useState(true)
+  const [cameraLoading, setCameraLoading] = useState(false)
   const [cameraError, setCameraError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState("signin")
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isFemale, setIsFemale] = useState<boolean | null>(null)
   const [modelsLoaded, setModelsLoaded] = useState(false)
   const streamRef = useRef<MediaStream | null>(null)
-
+  const { getLocalizedText } = useLanguage();
   const navigate = useNavigate()
   const { toast } = useToast()
 
-  // Intercept fetch requests to debug what face-api.js is requesting
+
   useEffect(() => {
     const originalFetch = window.fetch
     window.fetch = async (...args) => {
       const [resource, config] = args
 
-      // Properly handle different resource types
       let url: string
       if (typeof resource === "string") {
         url = resource
@@ -49,29 +49,17 @@ const Auth = () => {
       }
 
       if (url.includes("/models/")) {
-        // console.log("🌐 Face-API.js is requesting:", url)
-        // console.log("🌐 Request config:", config)
       }
 
       const response = await originalFetch(...args)
 
       if (url.includes("/models/")) {
-        // console.log("🌐 Response for", url, ":", {
-        //     status: response.status,
-        //     statusText: response.statusText,
-        //     contentType: response.headers.get("content-type"),
-        //     url: response.url,
-        // })
 
-        // Clone response to check content
         const clonedResponse = response.clone()
         const text = await clonedResponse.text()
 
         if (text.includes("<!DOCTYPE")) {
-          console.error("🚨 HTML DETECTED in model file response:", url)
-          console.error("🚨 Response content preview:", text.substring(0, 200))
         } else {
-          // console.log("✅ Binary/JSON content detected for:", url)
         }
       }
 
@@ -84,16 +72,11 @@ const Auth = () => {
   }, [])
 
 
-
-  // Load face-api models with comprehensive testing and CDN fallback
-
   useEffect(() => {
     const loadModels = async () => {
       try {
         setModelsLoading(true)
-        // console.log("🚀 Starting to load face-api.js models")
         const testDirectAccess = async () => {
-          // console.log("🔍 Testing direct file access...")
 
           const files = [
             "ssdMobilenetv1_model-weights_manifest.json",
@@ -112,17 +95,10 @@ const Auth = () => {
                 },
               })
 
-              // console.log(`📁 Direct test ${file}:`, {
-              //     status: response.status,
-              //     contentType: response.headers.get("content-type"),
-              //     contentLength: response.headers.get("content-length"),
-              // })
-
               if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`)
               }
 
-              // Check if we're getting HTML instead of the expected content
               const text = await response.text()
               if (text.includes("<!DOCTYPE") || text.includes("<html>")) {
                 throw new Error(`Received HTML instead of model file for ${file}`)
@@ -131,21 +107,17 @@ const Auth = () => {
               if (file.includes("manifest")) {
                 try {
                   JSON.parse(text)
-                  // console.log(`✅ ${file} - Valid JSON`)
                 } catch {
                   throw new Error(`${file} - Invalid JSON format`)
                 }
               } else {
-                // console.log(`✅ ${file} - Binary file (${text.length} bytes)`)
               }
             } catch (error) {
-              console.error(`❌ Error with ${file}:`, error)
               throw error
             }
           }
         }
 
-        // Try local files first, then fallback to CDN
         const loadWithFallback = async () => {
           try {
 
@@ -173,16 +145,16 @@ const Auth = () => {
               await faceapi.nets.ageGenderNet.loadFromUri(cdnBase)
 
               toast({
-                title: "Models Loaded from CDN",
-                description: "Local files failed, using CDN fallback",
+                title: getLocalizedText('modelsLoadedFromCDN'),
+                description: getLocalizedText('localFilesFailedUsingCDN'),
                 variant: "default",
               })
 
               return true
             } catch (cdnError) {
-              console.error("❌ CDN model loading also failed:", cdnError)
+
               throw new Error(
-                `Both local and CDN loading failed. Local: ${localError.message}, CDN: ${cdnError.message}`,
+                `${getLocalizedText('bothLocalAndCDNFailed')}: ${localError.message}, ${getLocalizedText('cdnFallback')}: ${cdnError.message}`,
               )
             }
           }
@@ -193,14 +165,14 @@ const Auth = () => {
         setModelsLoaded(true)
 
         toast({
-          title: "Detection Loaded Successfully",
-          description: "Face detection and age/gender are ready",
+          title: getLocalizedText('detectionLoadedSuccessfully'),
+          description: getLocalizedText('faceDetectionReady'),
         })
       } catch (error: any) {
 
         toast({
-          title: "Model Loading Error",
-          description: error instanceof Error ? error.message : "Failed to load face detection ",
+          title: getLocalizedText('modelLoadingError'),
+          description: error instanceof Error ? error.message : `${getLocalizedText('failedToLoadFaceDetection')}`,
           variant: "destructive",
         })
       } finally {
@@ -211,7 +183,6 @@ const Auth = () => {
     loadModels()
   }, [])
 
-  // Initialize camera when on signup tab and models are loaded
   useEffect(() => {
     if (activeTab === "signup" && modelsLoaded) {
       initializeCamera()
@@ -226,21 +197,17 @@ const Auth = () => {
 
   const initializeCamera = async () => {
     if (!videoRef.current) {
-      console.log("❌ Video ref not available")
       return
     }
 
     try {
       setCameraLoading(true)
       setCameraError(null)
-      console.log("🎥 Initializing camera...")
 
-      // Check if getUserMedia is available
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error("getUserMedia is not supported in this browser")
+        throw new Error(getLocalizedText('getUserMediaNotSupported'))
       }
 
-      // Request camera permission with more specific constraints
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: "user",
@@ -250,59 +217,48 @@ const Auth = () => {
         audio: false,
       })
 
-      console.log("📹 Stream obtained:", {
-        active: stream.active,
-        tracks: stream.getVideoTracks().length,
-        trackSettings: stream.getVideoTracks()[0]?.getSettings(),
-      })
 
       if (videoRef.current) {
         videoRef.current.srcObject = stream
         streamRef.current = stream
 
-        // Add event listeners for video events
         videoRef.current.onloadedmetadata = () => {
-          console.log("📹 Video metadata loaded")
+
           if (videoRef.current) {
             videoRef.current.play().catch((err) => {
-              console.error("❌ Error playing video:", err)
             })
           }
         }
 
         videoRef.current.oncanplay = () => {
-          console.log("📹 Video can play")
         }
 
         videoRef.current.onplay = () => {
-          console.log("📹 Video started playing")
         }
 
         videoRef.current.onerror = (err) => {
-          // console.error("❌ Video error:", err)
-          setCameraError("Video playback error")
+          setCameraError(getLocalizedText('videoPlaybackError'))
         }
 
       }
     } catch (err: any) {
-      console.error("❌ Error accessing camera:", err)
-      let errorMessage = "Unknown camera error"
+      let errorMessage = getLocalizedText('cameraError')
 
       if (err.name === "NotAllowedError") {
-        errorMessage = "Camera access denied. Please allow camera permissions."
+        errorMessage = getLocalizedText('cameraAccessDenied')
       } else if (err.name === "NotFoundError") {
-        errorMessage = "No camera found on this device."
+        errorMessage = getLocalizedText('noCameraFound')
       } else if (err.name === "NotReadableError") {
-        errorMessage = "Camera is already in use by another application."
+        errorMessage = getLocalizedText('cameraAlreadyInUse')
       } else if (err.name === "OverconstrainedError") {
-        errorMessage = "Camera constraints cannot be satisfied."
+        errorMessage = getLocalizedText('cameraConstraintsNotMet')
       } else {
-        errorMessage = err.message || "Camera access failed"
+        errorMessage = err.message || getLocalizedText('cameraAccessFailed')
       }
 
       setCameraError(errorMessage)
       toast({
-        title: "Camera Error",
+        title: getLocalizedText('cameraError'),
         description: errorMessage,
         variant: "destructive",
       })
@@ -322,7 +278,6 @@ const Auth = () => {
     }
   }
 
-  // Face detection logic
   useEffect(() => {
     if (!videoRef.current || !modelsLoaded || activeTab !== "signup") return
 
@@ -333,7 +288,6 @@ const Auth = () => {
     const detectFace = async () => {
       if (videoRef.current && videoRef.current.readyState === 4) {
         try {
-          console.log("🔍 Attempting face detection...")
 
           const displaySize = {
             width: videoRef.current.videoWidth,
@@ -341,20 +295,17 @@ const Auth = () => {
           }
 
           const detections = await faceapi.detectAllFaces(videoRef.current).withAgeAndGender()
-          console.log(`👤 Detected ${detections.length} faces`)
 
           if (detections.length > 0) {
             detectionAttempts = 0
             const { gender, genderProbability } = detections[0]
             const isFemaleDetected = gender === "female" && genderProbability > 0.6
-
-            console.log(`👩 Gender: ${gender}, Probability: ${genderProbability.toFixed(2)}`)
             setIsFemale(isFemaleDetected)
 
             if (isFemaleDetected) {
               toast({
-                title: "Verification Successful",
-                description: `Female user detected with ${(genderProbability * 100).toFixed(0)}% confidence`,
+                title: getLocalizedText('verificationSuccessful'),
+                description: `${getLocalizedText('femaleUserDetected')} ${(genderProbability * 100).toFixed(0)}% ${getLocalizedText('confidence')}`,
               })
 
               if (detectionInterval) {
@@ -368,16 +319,16 @@ const Auth = () => {
             if (detectionAttempts >= MAX_ATTEMPTS) {
               setIsFemale(false)
               toast({
-                title: "Detection Failed",
-                description: "No face detected after multiple attempts",
+                title: getLocalizedText('detectionFailed'),
+                description: getLocalizedText('noFaceDetectedAfterAttempts'),
                 variant: "destructive",
               })
             }
           }
         } catch (error) {
           toast({
-            title: "Detection Error",
-            description: `Error during face detection: ${error instanceof Error ? error.message : String(error)}`,
+            title: getLocalizedText('detectionError'),
+            description: `${getLocalizedText('errorDuringFaceDetection')}: ${error instanceof Error ? error.message : String(error)}`,
             variant: "destructive",
           })
         }
@@ -468,7 +419,6 @@ const Auth = () => {
           document.documentElement.classList.remove("dark")
         }
       } catch (error) {
-        console.error("Error loading settings:", error)
       }
     } else {
       document.documentElement.classList.remove("dark")
@@ -481,8 +431,8 @@ const Auth = () => {
 
     if (isFemale === null) {
       toast({
-        title: "Verification Required",
-        description: "Please allow camera access for gender verification.",
+        title: getLocalizedText('verificationRequired'),
+        description: getLocalizedText('allowCameraForGenderVerification'),
         variant: "destructive",
       })
       setLoading(false)
@@ -491,8 +441,8 @@ const Auth = () => {
 
     if (isFemale === false) {
       toast({
-        title: "Verification Failed",
-        description: "Female face not detected. Sign up is restricted to female users.",
+        title: getLocalizedText('verificationFailed'),
+        description: getLocalizedText('femaleFaceNotDetected'),
         variant: "destructive",
       })
       setLoading(false)
@@ -514,12 +464,12 @@ const Auth = () => {
       if (error) throw error
 
       toast({
-        title: "Success!",
-        description: "Please check your email to confirm your account.",
+        title: getLocalizedText('success'),
+        description: getLocalizedText('checkEmailToConfirm'),
       })
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: getLocalizedText('error'),
         description: error.message,
         variant: "destructive",
       })
@@ -548,7 +498,7 @@ const Auth = () => {
       navigate("/")
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: getLocalizedText('error'),
         description: error.message,
         variant: "destructive",
       })
@@ -571,48 +521,40 @@ const Auth = () => {
             </div>
           </div>
           <CardTitle className={`text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent ${settings.darkMode ? 'text-white' : 'text-lavender-900'}`}>
-            Welcome to NurCycle
+            {getLocalizedText('welcomeToNurCycle')}
           </CardTitle>
           <CardDescription className={settings.darkMode ? 'text-gray-300' : 'text-lavender-900'}>
-            Join our supportive community for women's health tracking
+            {getLocalizedText('joinOurCommunity')}
           </CardDescription>
         </CardHeader>
 
         <CardContent className="relative z-10">
           <Tabs defaultValue="signin" value={activeTab} onValueChange={setActiveTab} className="w-full">
-            {/* <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="signin" className={settings.darkMode ? 'text-white ' : 'text-lavender-900'}>Sign In</TabsTrigger>
-                            <TabsTrigger value="signup" className={settings.darkMode ? 'text-white' : 'text-lavender-900'}>Sign Up</TabsTrigger>
-                        </TabsList> */}
 
-                        <TabsList className="grid w-full grid-cols-2">
-  <TabsTrigger
-    value="signin"
-    className={`py-2 rounded-xl transition-all data-[state=active]:bg-purple-600 data-[state=active]:text-white rou ${
-      settings.darkMode ? 'text-white' : 'text-lavender-900'
-    }`}
-  >
-    Sign In
-  </TabsTrigger>
-  <TabsTrigger
-    value="signup"
-    className={`py-2 rounded-xl  transition-all data-[state=active]:bg-purple-600 data-[state=active]:text-white ${
-      settings.darkMode ? 'text-white' : 'text-lavender-900'
-    }`}
-  >
-    Sign Up
-  </TabsTrigger>
-</TabsList>
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger
+                value="signin"
+                className={`py-2 rounded-xl transition-all data-[state=active]:bg-purple-600 data-[state=active]:text-white rou ${settings.darkMode ? 'text-white' : 'text-lavender-900'
+                  }`}
+              >
+                {getLocalizedText('signIn')}
+              </TabsTrigger>
+              <TabsTrigger
+                value="signup"
+                className={`py-2 rounded-xl  transition-all data-[state=active]:bg-purple-600 data-[state=active]:text-white ${settings.darkMode ? 'text-white' : 'text-lavender-900'
+                  }`}
+              >
+                {getLocalizedText('signUp')}
+              </TabsTrigger>
+            </TabsList>
 
-        
 
-            
             <TabsContent value="signin">
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email" className={settings.darkMode ? 'text-white flex items-center space-x-2' : 'text-gray-900 flex items-center space-x-2'}>
                     <Mail className="w-4 h-4" />
-                    <span>Email</span>
+                    <span>{getLocalizedText('email')}</span>
                   </Label>
                   <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
                     className={settings.darkMode ? 'bg-slate-800 text-black' : 'bg-gray-50 text-gray-900'}
@@ -621,7 +563,7 @@ const Auth = () => {
                 <div className="space-y-2">
                   <Label htmlFor="password" className={settings.darkMode ? 'text-white flex items-center space-x-2' : 'text-gray-900 flex items-center space-x-2'}>
                     <Lock className="w-4 h-4" />
-                    <span>Password</span>
+                    <span>{getLocalizedText('password')}</span>
                   </Label>
                   <Input
                     id="password"
@@ -637,7 +579,7 @@ const Auth = () => {
                   className={`w-full bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}
                   disabled={loading}
                 >
-                  {loading ? "Signing in..." : "Sign In"}
+                  {loading ? `${getLocalizedText('signingIn')}` : `${getLocalizedText('signInButton')}`}
                 </Button>
               </form>
             </TabsContent>
@@ -647,7 +589,7 @@ const Auth = () => {
                 <div className="space-y-2">
                   <Label htmlFor="fullName" className={settings.darkMode ? 'text-white flex items-center space-x-2' : 'text-gray-900 flex items-center space-x-2'}>
                     <User className="w-4 h-4" />
-                    <span>Full Name</span>
+                    <span>{getLocalizedText('fullName')}</span>
                   </Label>
                   <Input
                     id="fullName"
@@ -661,7 +603,7 @@ const Auth = () => {
                 <div className="space-y-2">
                   <Label htmlFor="signup-email" className={settings.darkMode ? 'text-white flex items-center space-x-2' : 'text-gray-900 flex items-center space-x-2'}>
                     <Mail className="w-4 h-4" />
-                    <span>Email</span>
+                    <span>{getLocalizedText('email')}</span>
                   </Label>
                   <Input
                     id="signup-email"
@@ -675,7 +617,7 @@ const Auth = () => {
                 <div className="space-y-2">
                   <Label htmlFor="signup-password" className={settings.darkMode ? 'text-white flex items-center space-x-2' : 'text-gray-900 flex items-center space-x-2'}>
                     <Lock className="w-4 h-4" />
-                    <span>Password</span>
+                    <span>{getLocalizedText('password')}</span>
                   </Label>
                   <Input
                     id="signup-password"
@@ -692,7 +634,7 @@ const Auth = () => {
                 {modelsLoading && (
                   <div className="flex items-center justify-center p-4 text-center">
                     <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500 mr-3"></div>
-                    <span className="text-sm text-gray-600">Loading face detection models...</span>
+                    <span className="text-sm text-gray-600">{getLocalizedText('loadingFaceDetectionModels')}</span>
                   </div>
                 )}
 
@@ -701,7 +643,7 @@ const Auth = () => {
                   <div className="space-y-2">
                     <Label className="flex items-center space-x-2">
                       <Camera className="w-4 h-4" />
-                      <span>Gender Verification</span>
+                      <span>{getLocalizedText('genderVerification')}</span>
                     </Label>
 
                     <div className="relative border rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800">
@@ -722,7 +664,7 @@ const Auth = () => {
                             className="mt-2 bg-transparent"
                             onClick={initializeCamera}
                           >
-                            Retry Camera Access
+                            {getLocalizedText('retryCameraAccess')}
                           </Button>
                         </div>
                       )}
@@ -735,16 +677,8 @@ const Auth = () => {
                           muted
                           className="w-full h-[200px] object-cover bg-gray-200"
                           style={{ minHeight: "200px" }}
-                          onLoadedData={() => {
-                            console.log("📹 Video loaded, dimensions:", {
-                              width: videoRef.current?.videoWidth,
-                              height: videoRef.current?.videoHeight,
-                              readyState: videoRef.current?.readyState,
-                            })
-                          }}
                           onError={(e) => {
-                            console.error("📹 Video element error:", e)
-                            setCameraError("Video display error")
+                            setCameraError(getLocalizedText('videoDisplayError'))
                           }}
                         />
                       )}
@@ -758,19 +692,18 @@ const Auth = () => {
                             size="sm"
                             className="text-xs bg-black bg-opacity-50 text-white border-white hover:bg-opacity-70"
                             onClick={async () => {
-                              console.log("🔄 Manual camera restart requested")
                               await initializeCamera()
                             }}
                           >
-                            Restart Camera
+                            {getLocalizedText('restartCamera')}
                           </Button>
                         </div>
                       )}
 
                       {/* Debug info overlay */}
                       <div className="absolute top-2 left-2 bg-black bg-opacity-50 text-white text-xs p-1 rounded">
-                        {modelsLoaded ? "Models: ✓" : "Models: ✗"} |
-                        {videoRef.current?.readyState >= 3 ? "Video: ✓" : "Video: ✗"}
+                        {modelsLoaded ? `${getLocalizedText('modelsVerified')}` : `${getLocalizedText('modelsNotVerified')}`} |
+                        {videoRef.current?.readyState >= 3 ? `${getLocalizedText('videoVerified')}` : `${getLocalizedText('videoNotVerified')}`}
                       </div>
 
                       {isFemale !== null && (
@@ -778,12 +711,12 @@ const Auth = () => {
                           className={`absolute bottom-2 right-2 px-2 py-1 rounded-full text-xs font-medium ${isFemale ? "bg-green-500 text-white" : "bg-red-500 text-white"
                             }`}
                         >
-                          {isFemale ? "Verified ✓" : "Not Verified ✗"}
+                          {isFemale ? `${getLocalizedText('verified')}` : `${getLocalizedText('notVerified')}`}
                         </div>
                       )}
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                      For verification purposes, we need to confirm you're female. Please allow camera access.
+                      {getLocalizedText('verificationMessage')}
                     </p>
                   </div>
                 )}
@@ -798,14 +731,12 @@ const Auth = () => {
                       onClick={async () => {
                         if (videoRef.current && modelsLoaded) {
                           toast({
-                            title: "Manual Detection",
-                            description: "Attempting face detection...",
+                            title: getLocalizedText('manualDetection'),
+                            description: getLocalizedText('attemptingFaceDetection'),
                           })
 
                           try {
                             const detections = await faceapi.detectAllFaces(videoRef.current).withAgeAndGender()
-
-                            console.log("Manual detection results:", detections)
 
                             if (detections.length > 0) {
                               const { gender, genderProbability } = detections[0]
@@ -813,20 +744,19 @@ const Auth = () => {
 
                               setIsFemale(isFemaleDetected)
                               toast({
-                                title: "Face Detected",
-                                description: `Gender: ${gender} (${(genderProbability * 100).toFixed(0)}% confidence)`,
+                                title: getLocalizedText('faceDetected'),
+                                description: `${getLocalizedText('gender')}: ${gender} (${(genderProbability * 100).toFixed(0)}% ${getLocalizedText('confidence')})`,
                               })
                             } else {
                               toast({
-                                title: "No Face Detected",
-                                description: "Please ensure your face is clearly visible",
+                                title: getLocalizedText('noFaceDetected'),
+                                description: getLocalizedText('pleaseEnsureFaceVisible'),
                                 variant: "destructive",
                               })
                             }
                           } catch (error) {
-                            console.error("Manual detection error:", error)
                             toast({
-                              title: "Detection Error",
+                              title: getLocalizedText('detectionError'),
                               description: String(error),
                               variant: "destructive",
                             })
@@ -835,7 +765,7 @@ const Auth = () => {
                       }}
                       disabled={isFemale === true}
                     >
-                      Gender Detection
+                      {getLocalizedText('genderDetection')}
                     </Button>
                   </div>
                 )}
@@ -845,7 +775,7 @@ const Auth = () => {
                   className={`w-full bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}
                   disabled={loading || modelsLoading || isFemale === null || isFemale === false}
                 >
-                  {loading ? "Creating account..." : modelsLoading ? "Loading models..." : "Sign Up"}
+                  {loading ? `${getLocalizedText('creatingAccount')}` : modelsLoading ? `${getLocalizedText('loadingModels')}` : `${getLocalizedText('signUp')}`}
                 </Button>
               </form>
             </TabsContent>

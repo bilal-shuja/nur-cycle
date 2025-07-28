@@ -123,17 +123,6 @@ const AboutSection = ({ onBack }: AboutSectionProps) => {
 
       {/* Content */}
       <div className="px-4 py-6 space-y-6">
-        {/* Welcome Section */}
-        {/* <Card className="bg-gradient-to-r from-purple-600 to-purple-800 text-white border-0">
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-bold mb-4 text-center text-gray-700">
-              Welcome to NurCycle — Where Faith Meets Feminine Wellness.
-            </h2>
-            <p className="text-purple-400 leading-relaxed">
-              At NurCycle, we believe that understanding your body is a form of empowerment — and that true wellness embraces both the physical and the spiritual. Designed with Muslim women in mind (and open to all!), NurCycle is your go-to companion for navigating your menstrual cycle, fertility, pregnancy, and overall hormonal health — all in line with Islamic values and modern science.
-            </p>
-          </CardContent>
-        </Card> */}
 
         <Card className="relative overflow-hidden card-3d">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-purple-600 to-purple-800'}`}></div>
@@ -147,18 +136,6 @@ const AboutSection = ({ onBack }: AboutSectionProps) => {
   </CardContent>
 </Card>
 
-        {/* Why We Exist */}
-        {/* <Card className="bg-white border-0 shadow-sm">
-          <CardContent className="p-6">
-            <h3 className="text-xl font-bold text-purple-800 mb-4 flex items-center gap-2">
-              ✨ Why We Exist
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              Too many Muslim women have gone without a safe, respectful, and spiritually aligned space to manage their reproductive health. NurCycle was created to change that. Whether you're tracking your period, trying to conceive, pregnant, postpartum, or simply learning more about your body — NurCycle supports your journey with clarity, compassion, and tawakkul.
-            </p>
-          </CardContent>
-        </Card> */}
-
         <Card className="relative overflow-hidden card-3d">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-purple-600 to-purple-800'}`}></div>
   <CardContent className="relative z-10 p-6">
@@ -171,42 +148,6 @@ const AboutSection = ({ onBack }: AboutSectionProps) => {
   </CardContent>
 </Card>
 
-
-        {/* What Makes NurCycle Unique */}
-
-        {/* <Card className="bg-white border-0 shadow-sm">
-          <CardContent className="p-6">
-            <h3 className="text-xl font-bold text-purple-800 mb-4 flex items-center gap-2">
-              🌸 What Makes NurCycle Unique
-            </h3>
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-semibold text-purple-700 mb-2">🟪 Islamic Integration</h4>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  From rulings on purity, ghusl, and prayer during menstruation to fertility tips and postpartum guidance grounded in Qur'an and Sunnah — NurCycle provides support that is medically sound and spiritually authentic.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-purple-700 mb-2">🟪 Holistic Tracking</h4>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  Track your symptoms, mood changes, ovulation, bleeding patterns, and sexual health — all with privacy controls that respect modesty and trust.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-purple-700 mb-2">🟪 Pregnancy & Fertility Mode</h4>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  Switch into TTC or pregnancy mode and receive symptom tracking, dua reminders, faith-centered advice, and Sunnah-based self-care tips.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-purple-700 mb-2">🟪 Community Connection</h4>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  Join a built-in, protected space for Muslim women to uplift, share, and ask questions — anonymously or openly — with no shame, just support.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card> */}
 
         <Card className="relative overflow-hidden card-3d">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : 'bg-white'}`}></div>
