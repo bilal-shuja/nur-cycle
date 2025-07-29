@@ -62,7 +62,6 @@ const SettingsPage = ({ onClose }: SettingsPageProps) => {
 
   useEffect(() => {
 
-    // Load saved settings with comprehensive state management
     const savedSettings = localStorage.getItem('nurcycle-app-settings');
     if (savedSettings) {
       try {
@@ -74,23 +73,13 @@ const SettingsPage = ({ onClose }: SettingsPageProps) => {
         } else {
           document.documentElement.classList.remove('dark');
         }
-        console.log('Settings loaded:', parsedSettings);
       } catch (error) {
         console.error('Error loading settings:', error);
       }
     }
     else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-
-    // Apply dark mode immediately if enabled:
-
-    // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-    // if (isDarkMode) {
-    //   document.documentElement.classList.add('dark');
-    // }
-
 
   }, []);
 
@@ -200,22 +189,7 @@ const SettingsPage = ({ onClose }: SettingsPageProps) => {
   };
   return (
     <div className="min-h-screen dark:bg-slate-800">
-      {/* <div className="bg-white shadow-sm card-3d sticky top-0 z-10">
-        <div className="flex items-center justify-between p-4">
-          {onClose && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-              className="rounded-full button-3d"
-            >
-              <X className="w-5 h-5" />
-            </Button>
-          )}
-          <h1 className="text-lg font-semibold text-gray-900">{getLocalizedText('settings')}</h1>
-          <div className="w-10" /> 
-        </div>
-      </div> */}
+
 
       <div className={` overflow-hidden card-3d sticky top-0 z-10`}>
         <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border-b border-slate-700' : 'bg-white border-b border-gray-200'}`}></div>
@@ -243,24 +217,6 @@ const SettingsPage = ({ onClose }: SettingsPageProps) => {
 
       {/* Premium Banner - Updated to lavender ombre */}
       <div className="p-4">
-        {/* <Card className="bg-lavender-ombre text-white shadow-lg card-3d">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-semibold text-sm text-black">{getLocalizedText('premium.title')}</h3>
-                <p className="text-xs opacity-90 text-black mt-1">{getLocalizedText('premium.desc')}</p>
-              </div>
-              <Button
-                variant="secondary"
-                size="sm"
-                className="bg-white hover:bg-gray-100 text-xs px-3 py-1 rounded-full button-3d text-white"
-              onClick={UpgradeFeature}
-              >
-                {getLocalizedText('upgrade')}
-              </Button>
-            </div>
-          </CardContent>
-        </Card> */}
 
         <Card className="relative overflow-hidden card-3d">
           <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : ' from-lavender-400 to-purple-500 border-lavender-300'} `}></div>
@@ -297,26 +253,6 @@ const SettingsPage = ({ onClose }: SettingsPageProps) => {
         {settingsItems.map((item, index) => {
           const IconComponent = item.icon;
           return (
-            // <Card 
-            //   key={item.id} 
-            //   className="bg-white shadow-sm cursor-pointer hover:bg-gray-50 transition-colors card-3d"
-            //   onClick={() => handleSettingClick(item.id)}
-            // >
-            //   <CardContent className="p-4">
-            //     <div className="flex items-center justify-between">
-            //       <div className="flex items-center space-x-3">
-            //         <div className="w-8 h-8 rounded-full bg-lavender-ombre-light flex items-center justify-center circular-3d">
-            //           <IconComponent className="w-4 h-4 text-white" />
-            //         </div>
-            //         <div>
-            //           <h3 className="font-medium text-gray-900 text-sm">{item.title}</h3>
-            //         </div>
-            //       </div>
-            //       <ChevronRight className="w-4 h-4 text-gray-400" />
-            //     </div>
-            //   </CardContent>
-            // </Card>
-
             <Card
               key={item.id}
               onClick={() => handleSettingClick(item.id)}
@@ -350,7 +286,7 @@ const SettingsPage = ({ onClose }: SettingsPageProps) => {
 
       {/* Copyright Footer */}
       <div className={`text-center py-4 px-4 ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'} text-xs`}>
-        © 2025 NurCycle Ltd. All rights reserved
+        © 2025 {getLocalizedText('footer.copyright')}
       </div>
 
       {/* Bottom spacing */}
