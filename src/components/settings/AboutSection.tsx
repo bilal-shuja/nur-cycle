@@ -115,7 +115,6 @@ const AboutSection = ({ onBack }: AboutSectionProps) => {
   </CardContent>
 </Card>
 
-
         <Card className="relative overflow-hidden card-3d">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-purple-600 to-purple-800'}`}></div>
   <CardContent className="relative z-10 p-6">
