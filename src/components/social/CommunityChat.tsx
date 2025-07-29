@@ -3,11 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from '@supabase/supabase-js';
 import { Send, Users } from 'lucide-react';
 import { toast } from "sonner";
+import { useLanguage } from '@/contexts/LanguageContext';
+
 
 interface Message {
   id: string;
@@ -29,6 +31,9 @@ const CommunityChat = ({ user }: CommunityChatProps) => {
     darkMode: false
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const { getLocalizedText } = useLanguage();
+
 
   useEffect(() => {
     // Load saved settings
@@ -53,7 +58,7 @@ const CommunityChat = ({ user }: CommunityChatProps) => {
 
   useEffect(() => {
     fetchMessages();
-    
+
     // Subscribe to new messages
     const channel = supabase
       .channel('community-chat')
@@ -105,11 +110,11 @@ const CommunityChat = ({ user }: CommunityChatProps) => {
         });
 
       if (error) throw error;
-      
+
       setNewMessage('');
     } catch (error) {
       console.error('Error sending message:', error);
-      toast.error('Failed to send message. Please try again.');
+      toast.error(getLocalizedText('failed.to.send.message'));
     } finally {
       setIsLoading(false);
     }
@@ -123,9 +128,9 @@ const CommunityChat = ({ user }: CommunityChatProps) => {
   };
 
   const formatTime = (timestamp: string) => {
-    return new Date(timestamp).toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return new Date(timestamp).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
     });
   };
 
@@ -141,10 +146,10 @@ const CommunityChat = ({ user }: CommunityChatProps) => {
         <CardContent className="relative z-10 p-6">
           <CardHeader>
             <CardTitle className={`text-2xl text-center ${settings.darkMode ? 'text-white' : 'text-lavender-900'}`}>
-              💬 Community Chat 💬
+              💬 {getLocalizedText('community.chat')} 💬
             </CardTitle>
             <p className={`text-center opacity-90 ${settings.darkMode ? 'text-gray-300' : 'text-lavender-900'}`}>
-              Connect and chat with sisters in real-time
+              {getLocalizedText('community.chat.description')}
             </p>
           </CardHeader>
         </CardContent>
@@ -153,12 +158,12 @@ const CommunityChat = ({ user }: CommunityChatProps) => {
       {/* Chat Container */}
       <Card className={`relative overflow-hidden h-[600px] flex flex-col`}>
         <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : 'from-purple-50 to-white border-purple-200'}`}></div>
-        
+
         <CardHeader className="pb-2 relative z-10 border-b">
           <div className="flex items-center gap-2">
             <Users className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-purple-600'}`} />
             <CardTitle className={`${settings.darkMode ? 'text-white' : 'text-purple-800'} text-lg`}>
-              Live Community Chat
+              {getLocalizedText('live.community.chat')}
             </CardTitle>
           </div>
         </CardHeader>
@@ -169,15 +174,14 @@ const CommunityChat = ({ user }: CommunityChatProps) => {
               {messages.length === 0 ? (
                 <div className={`text-center py-8 ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                   <Users className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>No messages yet. Start the conversation!</p>
+                  <p>{getLocalizedText('no.messages.yet')}</p>
                 </div>
               ) : (
                 messages.map((message) => (
                   <div
                     key={message.id}
-                    className={`flex gap-3 ${
-                      message.user_id === user.id ? 'justify-end' : 'justify-start'
-                    }`}
+                    className={`flex gap-3 ${message.user_id === user.id ? 'justify-end' : 'justify-start'
+                      }`}
                   >
                     {message.user_id !== user.id && (
                       <Avatar className="w-8 h-8">
@@ -186,37 +190,34 @@ const CommunityChat = ({ user }: CommunityChatProps) => {
                         </AvatarFallback>
                       </Avatar>
                     )}
-                    
+
                     <div
-                      className={`max-w-[70%] rounded-lg px-3 py-2 ${
-                        message.user_id === user.id
-                          ? settings.darkMode 
-                            ? 'bg-purple-600 text-white' 
+                      className={`max-w-[70%] rounded-lg px-3 py-2 ${message.user_id === user.id
+                          ? settings.darkMode
+                            ? 'bg-purple-600 text-white'
                             : 'bg-purple-600 text-white'
-                          : settings.darkMode 
-                            ? 'bg-slate-700 text-white' 
+                          : settings.darkMode
+                            ? 'bg-slate-700 text-white'
                             : 'bg-gray-100 text-gray-900'
-                      }`}
+                        }`}
                     >
                       {message.user_id !== user.id && (
-                        <p className={`text-xs mb-1 ${
-                          settings.darkMode ? 'text-gray-300' : 'text-gray-600'
-                        }`}>
+                        <p className={`text-xs mb-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'
+                          }`}>
                           {message.user_email.split('@')[0]}
                         </p>
                       )}
                       <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                      <p className={`text-xs mt-1 ${
-                        message.user_id === user.id
+                      <p className={`text-xs mt-1 ${message.user_id === user.id
                           ? 'text-purple-100'
-                          : settings.darkMode 
-                            ? 'text-gray-400' 
+                          : settings.darkMode
+                            ? 'text-gray-400'
                             : 'text-gray-500'
-                      }`}>
+                        }`}>
                         {formatTime(message.created_at)}
                       </p>
                     </div>
-                    
+
                     {message.user_id === user.id && (
                       <Avatar className="w-8 h-8">
                         <AvatarFallback className="text-xs bg-purple-100 text-purple-700">
@@ -230,7 +231,7 @@ const CommunityChat = ({ user }: CommunityChatProps) => {
               <div ref={messagesEndRef} />
             </div>
           </ScrollArea>
-          
+
           {/* Message Input */}
           <div className={`p-4 border-t ${settings.darkMode ? 'border-slate-700' : 'border-gray-200'}`}>
             <div className="flex gap-2">
@@ -238,13 +239,12 @@ const CommunityChat = ({ user }: CommunityChatProps) => {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
+                placeholder={getLocalizedText('typeYourMessage')}
                 disabled={isLoading}
-                className={`flex-1 ${
-                  settings.darkMode 
-                    ? 'bg-slate-800 border-slate-600 text-white placeholder-gray-400' 
+                className={`flex-1 ${settings.darkMode
+                    ? 'bg-slate-800 border-slate-600 text-white placeholder-gray-400'
                     : 'bg-white border-gray-300'
-                }`}
+                  }`}
               />
               <Button
                 onClick={sendMessage}
@@ -264,15 +264,15 @@ const CommunityChat = ({ user }: CommunityChatProps) => {
         <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : 'from-purple-600 to-white'}`}></div>
         <CardContent className="relative z-10 p-4">
           <h3 className={`font-semibold ${settings.darkMode ? 'text-white' : 'text-purple-800'} mb-2`}>
-            Chat Guidelines
+            {getLocalizedText('chat.guidelines')}
           </h3>
           <div className={`grid grid-cols-1 md:grid-cols-2 gap-2 text-sm ${settings.darkMode ? 'text-gray-300' : 'text-lavender-800'}`}>
-            <div>• Be respectful and kind</div>
-            <div>• No inappropriate language</div>
-            <div>• Stay on topic</div>
-            <div>• Support each other</div>
-            <div>• Follow Islamic values</div>
-            <div>• No personal attacks</div>
+            <div>• {getLocalizedText('beRespectfulAndKind')}</div>
+            <div>• {getLocalizedText('noInappropriateLanguage')}</div>
+            <div>• {getLocalizedText('stayOnTopic')}</div>
+            <div>• {getLocalizedText('supportEachOther')}</div>
+            <div>• {getLocalizedText('followIslamicValues')}</div>
+            <div>• {getLocalizedText('noPersonalAttacks')}</div>
           </div>
         </CardContent>
       </Card>

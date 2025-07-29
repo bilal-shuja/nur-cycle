@@ -242,6 +242,15 @@ const dailyReminders = [
           }} size="icon" className="h-12 w-12">
             <UserIcon className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`} />
           </Button>
+
+            <Button 
+              variant="ghost" 
+              onClick={handleSignOut}
+              size="icon"
+              className="h-12 w-12"
+            >
+              <LogOut className="w-5 h-5" />
+            </Button>
         </div>
   </div>
     </div>

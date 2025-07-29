@@ -201,9 +201,9 @@ const PrePeriodPreparation = () => {
   <div className="absolute inset-0b g-gradient-to-br from-purple-100 to-pink-100 border-purple-300 "></div>
   <div className="absolute inset-0 hidden dark:block bg-slate-900"></div>
 
-  <CardHeader className="text-center relative z-10">
-    <CardTitle className="flex items-center justify-center gap-2 text-purple-900 dark:text-white">
-      <BookOpen className="w-6 h-6" />
+  <CardHeader className="text-center  relative z-10">
+    <CardTitle className="flex items-center justify-center text-purple-900 dark:text-white">
+      <BookOpen className="h-6 w-6 mb-6" />
       {getLocalizedText('have.read.before.bleed')}
     </CardTitle>
     <CardDescription className="text-purple-700 dark:text-gray-300">
@@ -296,7 +296,10 @@ const PrePeriodPreparation = () => {
                 : 'border-purple-400 text-purple-700 hover:bg-purple-200 hover:border-purple-500'
               }`}
             >
-              {showAllQuestions ? (
+              {
+              showAllQuestions 
+              
+              ? (
                 <>
                   <ChevronUp className="w-4 h-4 mr-2" />
                   Show Less
