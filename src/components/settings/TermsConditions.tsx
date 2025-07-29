@@ -71,22 +71,14 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
         } else {
           document.documentElement.classList.remove('dark');
         }
-        console.log('Settings loaded:', parsedSettings);
       } catch (error) {
         console.error('Error loading settings:', error);
       }
     }
     else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
 
-    // Apply dark mode immediately if enabled:
-
-    // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-    // if (isDarkMode) {
-    //   document.documentElement.classList.add('dark');
-    // }
 
 
   }, []);
@@ -96,7 +88,6 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
       title: "Download Started",
       description: "Terms and Conditions PDF is being prepared for download",
     });
-    // console.log('Downloading Terms and Conditions PDF...');
     toast({
       title: "Download Started",
       description: "Terms and Conditions PDF is being prepared for download",
@@ -145,87 +136,74 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
     effectiveDate: "January 1, 2024",
     lastUpdated: "December 27, 2024",
     version: "1.2",
-    sections: [
-      {
-        id: 'acceptance',
-        title: 'Acceptance of Terms',
-        icon: FileText,
-        content: 'By accessing or using NurCycle, you confirm that you are at least 13 years of age and that you agree to be bound by these Terms and our Privacy Policy. If you do not agree with any part, please do not use the app.'
-      },
-      {
-        id: 'services',
-        title: 'What NurCycle Offers',
-        icon: Heart,
-        content: 'NurCycle provides health and wellness tools including: Period, ovulation, and fertility tracking; Pregnancy support and body changes logging; Personalized reminders and Islamic guidance; Community interaction and content sharing. This app is built with Muslim women in mind but is open to all women who want to track their health with dignity and privacy.'
-      },
-      {
-        id: 'accounts',
-        title: 'User Accounts',
-        icon: Shield,
-        content: 'You may create a personal account to store your data securely. You are responsible for keeping your login information confidential and for all activity that occurs under your account. Please do not impersonate others or use false information.'
-      },
-      {
-        id: 'privacy',
-        title: 'User Data and Privacy',
-        icon: Shield,
-        content: 'Your personal data is stored securely and never sold or shared with third parties. See our full Privacy Policy for how we protect your information. You can export or delete your data at any time from the app settings.'
-      },
-      {
-        id: 'health',
-        title: 'Health Disclaimer',
-        icon: Heart,
-        content: 'NurCycle does not offer medical advice. All content and tools are for informational purposes only. Please consult a qualified healthcare provider for any medical concerns. Islamic rulings presented in the app are based on verified scholarly sources, but you are encouraged to consult your local scholars for personal rulings.'
-      },
-      {
-        id: 'conduct',
-        title: 'Community Conduct',
-        icon: Globe,
-        content: 'Users may engage with one another respectfully through community features. By participating, you agree not to: Post inappropriate, offensive, or harmful content; Share false health information; Harass or bully other users. We reserve the right to remove accounts that violate these standards.'
-      }
-      ,
-      {
-        id: 'Intellectual',
-        title: 'Intellectual Property',
-        icon: Globe,
-
-        content: 'All content, branding, and designs within NurCycle are the property of the company and protected by applicable intellectual property laws. You may not copy, reuse, or modify any part of the app without written permission.'
-      },
-      {
-        id: 'Changes',
-        title: 'Changes to the App or Terms',
-        icon: Globe,
-
-        content: 'We may occasionally update these Terms or make changes to the app. By continuing to use NurCycle, you accept the updated terms. You will be notified of any major changes within the app.'
-      },
-      {
-        id: 'Termination',
-        title: 'Termination',
-        icon: Globe,
-
-        content: 'You may delete your account at any time. We also reserve the right to terminate accounts that violate our terms, pose security risks, or disrupt other users\' experiences.'
-      },
-      {
-        id: 'Limitation',
-        title: 'Limitation of Liability',
-        icon: Globe,
-
-        content: 'NurCycle is provided "as is" without warranties of any kind. We are not liable for any indirect, incidental, or consequential damages arising from your use of the app.'
-      },
-      // {
-      //   id: 'Governing',
-      //   title: 'Governing Law',
-      //   icon: Globe,
-
-      //   content: 'These Terms are governed by and interpreted in accordance with the laws of [Insert Country or Region], without regard to conflict of law principles.'
-      // },
-      {
-        id: 'Contact',
-        title: 'Contact Us',
-        icon: Globe,
-
-        content: 'If you have questions or concerns about these Terms, you can reach us at support@nurcycle.app'
-      }
-    ]
+    sections : [
+  {
+    id: 'acceptance',
+    title: getLocalizedText('acceptance.of.terms'),
+    icon: FileText,
+    content: getLocalizedText('terms.content')
+  },
+  {
+    id: 'services',
+    title: getLocalizedText('what.nurcycle.offers'),
+    icon: Heart,
+    content: getLocalizedText('nurcycle.offers.content')
+  },
+  {
+    id: 'accounts',
+    title: getLocalizedText('user.accounts'),
+    icon: Shield,
+    content: getLocalizedText('user.accounts.content')
+  },
+  {
+    id: 'privacy',
+    title: getLocalizedText('user.data.and.privacy'),
+    icon: Shield,
+    content: getLocalizedText('user.data.and.privacy.content')
+  },
+  {
+    id: 'health',
+    title: getLocalizedText('health.disclaimer'),
+    icon: Heart,
+    content: getLocalizedText('health.disclaimer.content')
+  },
+  {
+    id: 'conduct',
+    title: getLocalizedText('community.conduct'),
+    icon: Globe,
+    content: getLocalizedText('community.conduct.content')
+  },
+  {
+    id: 'Intellectual',
+    title: getLocalizedText('intellectual.property'),
+    icon: Globe,
+    content: getLocalizedText('intellectual.property.content')
+  },
+  {
+    id: 'Changes',
+    title: getLocalizedText('changes.to.app.or.terms'),
+    icon: Globe,
+    content: getLocalizedText('changes.to.app.or.terms.content')
+  },
+  {
+    id: 'Termination',
+    title: getLocalizedText('termination'),
+    icon: Globe,
+    content: getLocalizedText('termination.content')
+  },
+  {
+    id: 'Limitation',
+    title: getLocalizedText('limitation.of.liability'),
+    icon: Globe,
+    content: getLocalizedText('limitation.of.liability.content')
+  },
+  {
+    id: 'Contact',
+    title: getLocalizedText('contact.us'),
+    icon: Globe,
+    content: getLocalizedText('contact.us.content')
+  }
+]
   };
 
   const handleSectionClick = (sectionId: string) => {
@@ -240,20 +218,7 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
     return (
       <div className={`min-h-screen ${settings.darkMode ? 'bg-slate-800' : 'bg-gradient-to-br from-lavender-50 to-lavender-100'}`}>
         {/* Header */}
-        {/* <div className="bg-white shadow-sm sticky top-0 z-10 card-3d">
-          <div className="flex items-center justify-between p-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setCurrentView('main')}
-              className="rounded-full button-3d"
-            >
-              <ChevronLeft className="w-5 h-5 text-white" />
-            </Button>
-            <h1 className="text-lg font-semibold text-gray-900">{section?.title}</h1>
-            <div className="w-10" />
-          </div>
-        </div> */}
+  
 
         <div className="bg-white shadow-sm sticky top-0 z-10 card-3d">
           <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'} `}></div>
@@ -276,21 +241,7 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
 
         {/* Section Content */}
         <div className="px-4 py-6">
-          {/* <Card className="bg-white shadow-lg card-3d">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-lavender-100 flex items-center justify-center circular-3d">
-                  <IconComponent className="w-5 h-5 text-white" />
-                </div>
-                {section?.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700 leading-relaxed text-base">
-                {section?.content}
-              </p>
-            </CardContent>
-          </Card> */}
+       
 
           <Card className="relative overflow-hidden card-3d">
             <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'} `}></div>
@@ -321,27 +272,7 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
       <div className={`min-h-screen ${settings.darkMode ? 'bg-slate-800' : ' from-lavender-50 to-lavender-100'}`}>
 
         {/* Header */}
-        {/* <div className="bg-white shadow-sm sticky top-0 z-10 card-3d">
-          <div className="flex items-center justify-between p-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setCurrentView('main')}
-              className="rounded-full button-3d"
-            >
-              <ChevronLeft className="w-5 h-5 text-white" />
-            </Button>
-            <h1 className="text-lg font-semibold text-gray-900">Full Terms & Conditions</h1>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleDownloadPDF}
-              className="rounded-full button-3d text-white"
-            >
-              <Download className="w-5 h-5" />
-            </Button>
-          </div>
-        </div> */}
+
 
         <div className="bg-white shadow-sm sticky top-0 z-10 card-3d">
           <div className={`flex items-center justify-between p-4 ${settings.darkMode ? 'bg-slate-900' : 'bg-white'}`}>
@@ -354,7 +285,7 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
               <ChevronLeft className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`} />
             </Button>
             <h1 className={`text-lg font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-              Full Terms & Conditions
+              {getLocalizedText('full.terms')}
             </h1>
             <Button
               variant="ghost"
@@ -372,38 +303,22 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
         <ScrollArea className="h-[calc(100vh-80px)]">
           <div className=" py-6 space-y-6">
 
-            {/* <div className="bg-lavender-600 text-black rounded-lg p-6 text-center shadow-lg card-3d">
-              <h2 className="text-xl font-bold mb-2">📜 Terms and Conditions of Use</h2>
-              <p className="text-sm opacity-90">Effective Date: {termsData.effectiveDate}</p>
-              <p className="text-sm opacity-90">Version: {termsData.version}</p>
-            </div> */}
 
             <div className={`relative overflow-hidden ${settings.darkMode ? 'bg-slate-900 text-white' : ' from-lavender-500 to-lavender-700'}`}>
               <div className="absolute inset-0 opacity-20"></div>
               <div className="relative z-10 p-6 text-center">
                 <h2 className={`text-xl font-bold mb-2 ${settings.darkMode ? 'text-white' : 'text-black'}`}>
-                  📜 Terms and Conditions of Use
+                  📜 {getLocalizedText('terms.of.use')}
                 </h2>
                 <p className={`text-sm opacity-90 ${settings.darkMode ? 'text-gray-300' : 'text-gray-800'}`}>
-                  Effective Date: {termsData.effectiveDate}
+                  {getLocalizedText('effective')}: {termsData.effectiveDate}
                 </p>
                 <p className={`text-sm opacity-90 ${settings.darkMode ? 'text-gray-300' : 'text-gray-800'}`}>
-                  Version: {termsData.version}
+                  {getLocalizedText('version')}: {termsData.version}
                 </p>
               </div>
             </div>
 
-
-
-
-            {/* <Card>
-              <CardContent className="p-6">
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Welcome to <strong>NurCycle</strong> — your faith-conscious companion for period, fertility, and wellness tracking.
-                  By using the NurCycle app, you agree to the following Terms and Conditions. Please read them carefully.
-                </p>
-              </CardContent>
-            </Card> */}
 
             <Card className="relative overflow-hidden card-3d">
               <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'}`}></div>
@@ -417,84 +332,124 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
 
 
             {/* Detailed Sections */}
-            {[
-              {
-                number: '1',
-                title: 'Acceptance of Terms',
-                content: 'By accessing or using NurCycle, you confirm that you are at least 13 years of age and that you agree to be bound by these Terms and our Privacy Policy. If you do not agree with any part, please do not use the app.'
-              },
-              {
-                number: '2',
-                title: 'What NurCycle Offers',
-                content: 'NurCycle provides health and wellness tools including:\n• Period, ovulation, and fertility tracking\n• Pregnancy support and body changes logging\n• Personalized reminders and Islamic guidance\n• Community interaction and content sharing\n\nThis app is built with Muslim women in mind but is open to all women who want to track their health with dignity and privacy.'
-              },
-              {
-                number: '3',
-                title: 'User Accounts',
-                content: 'You may create a personal account to store your data securely. You are responsible for keeping your login information confidential and for all activity that occurs under your account.\n\nPlease do not impersonate others or use false information.'
-              },
-              {
-                number: '4',
-                title: 'User Data and Privacy',
-                content: 'Your personal data is stored securely and never sold or shared with third parties. See our full Privacy Policy for how we protect your information.\n\nYou can export or delete your data at any time from the app settings.'
-              },
-              {
-                number: '5',
-                title: 'Health Disclaimer',
-                content: 'NurCycle does not offer medical advice. All content and tools are for informational purposes only. Please consult a qualified healthcare provider for any medical concerns.\n\nIslamic rulings presented in the app are based on verified scholarly sources, but you are encouraged to consult your local scholars for personal rulings.'
-              },
-              {
-                number: '6',
-                title: 'Community Conduct',
-                content: 'Users may engage with one another respectfully through community features (if enabled). By participating, you agree not to:\n• Post inappropriate, offensive, or harmful content\n• Share false health information\n• Harass or bully other users\n\nWe reserve the right to remove accounts that violate these standards.'
-              },
-              {
-                number: '7',
-                title: 'Intellectual Property',
-                content: 'All content, branding, and designs within NurCycle are the property of the company and protected by applicable intellectual property laws. You may not copy, reuse, or modify any part of the app without written permission.'
-              },
-              {
-                number: '8',
-                title: 'Changes to the App or Terms',
-                content: 'We may occasionally update these Terms or make changes to the app. By continuing to use NurCycle, you accept the updated terms. You will be notified of any major changes within the app.'
-              },
-              {
-                number: '9',
-                title: 'Termination',
-                content: 'You may delete your account at any time. We also reserve the right to terminate accounts that violate our terms, pose security risks, or disrupt other users\' experiences.'
-              },
-              {
-                number: '10',
-                title: 'Limitation of Liability',
-                content: 'NurCycle is provided "as is" without warranties of any kind. We are not liable for any indirect, incidental, or consequential damages arising from your use of the app.'
-              },
-              // {
-              //   number: '11',
-              //   title: 'Governing Law',
-              //   content: 'These Terms are governed by and interpreted in accordance with the laws of [Insert Country or Region], without regard to conflict of law principles.'
-              // },
-              {
-                number: '12',
-                title: 'Contact Us',
-                content: 'If you have questions or concerns about these Terms, you can reach us at:\n📧 support@nurcycle.app'
-              }
-            ].map((section, index) => (
-              // <Card key={index}>
-              //   <CardHeader>
-              //     <CardTitle className="text-base flex items-center gap-2">
-              //       <span className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
-              //         {section.number}
-              //       </span>
-              //       {section.title}
-              //     </CardTitle>
-              //   </CardHeader>
-              //   <CardContent>
-              //     <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-              //       {section.content}
-              //     </p>
-              //   </CardContent>
-              // </Card>
-
+            {
+            // [
+            //   {
+            //     number: '1',
+            //     title: 'Acceptance of Terms',
+            //     content: 'By accessing or using NurCycle, you confirm that you are at least 13 years of age and that you agree to be bound by these Terms and our Privacy Policy. If you do not agree with any part, please do not use the app.'
+            //   },
+            //   {
+            //     number: '2',
+            //     title: 'What NurCycle Offers',
+            //     content: 'NurCycle provides health and wellness tools including:\n• Period, ovulation, and fertility tracking\n• Pregnancy support and body changes logging\n• Personalized reminders and Islamic guidance\n• Community interaction and content sharing\n\nThis app is built with Muslim women in mind but is open to all women who want to track their health with dignity and privacy.'
+            //   },
+            //   {
+            //     number: '3',
+            //     title: 'User Accounts',
+            //     content: 'You may create a personal account to store your data securely. You are responsible for keeping your login information confidential and for all activity that occurs under your account.\n\nPlease do not impersonate others or use false information.'
+            //   },
+            //   {
+            //     number: '4',
+            //     title: 'User Data and Privacy',
+            //     content: 'Your personal data is stored securely and never sold or shared with third parties. See our full Privacy Policy for how we protect your information.\n\nYou can export or delete your data at any time from the app settings.'
+            //   },
+            //   {
+            //     number: '5',
+            //     title: 'Health Disclaimer',
+            //     content: 'NurCycle does not offer medical advice. All content and tools are for informational purposes only. Please consult a qualified healthcare provider for any medical concerns.\n\nIslamic rulings presented in the app are based on verified scholarly sources, but you are encouraged to consult your local scholars for personal rulings.'
+            //   },
+            //   {
+            //     number: '6',
+            //     title: 'Community Conduct',
+            //     content: 'Users may engage with one another respectfully through community features (if enabled). By participating, you agree not to:\n• Post inappropriate, offensive, or harmful content\n• Share false health information\n• Harass or bully other users\n\nWe reserve the right to remove accounts that violate these standards.'
+            //   },
+            //   {
+            //     number: '7',
+            //     title: 'Intellectual Property',
+            //     content: 'All content, branding, and designs within NurCycle are the property of the company and protected by applicable intellectual property laws. You may not copy, reuse, or modify any part of the app without written permission.'
+            //   },
+            //   {
+            //     number: '8',
+            //     title: 'Changes to the App or Terms',
+            //     content: 'We may occasionally update these Terms or make changes to the app. By continuing to use NurCycle, you accept the updated terms. You will be notified of any major changes within the app.'
+            //   },
+            //   {
+            //     number: '9',
+            //     title: 'Termination',
+            //     content: 'You may delete your account at any time. We also reserve the right to terminate accounts that violate our terms, pose security risks, or disrupt other users\' experiences.'
+            //   },
+            //   {
+            //     number: '10',
+            //     title: 'Limitation of Liability',
+            //     content: 'NurCycle is provided "as is" without warranties of any kind. We are not liable for any indirect, incidental, or consequential damages arising from your use of the app.'
+            //   },
+            
+            //   {
+            //     number: '12',
+            //     title: 'Contact Us',
+            //     content: 'If you have questions or concerns about these Terms, you can reach us at:\n📧 support@nurcycle.app'
+            //   }
+            // ]
+            
+            [
+  {
+    number: '1',
+    title: getLocalizedText('acceptance.of.terms'),
+    content: getLocalizedText('terms.content')
+  },
+  {
+    number: '2',
+    title: getLocalizedText('what.nurcycle.offers'),
+    content: getLocalizedText('nurcycle.offers.content')
+  },
+  {
+    number: '3',
+    title: getLocalizedText('user.accounts'),
+    content: getLocalizedText('user.accounts.content')
+  },
+  {
+    number: '4',
+    title: getLocalizedText('user.data.and.privacy'),
+    content: getLocalizedText('user.data.and.privacy.content')
+  },
+  {
+    number: '5',
+    title: getLocalizedText('health.disclaimer'),
+    content: getLocalizedText('health.disclaimer.content')
+  },
+  {
+    number: '6',
+    title: getLocalizedText('community.conduct'),
+    content: getLocalizedText('community.conduct.content')
+  },
+  {
+    number: '7',
+    title: getLocalizedText('intellectual.property'),
+    content: getLocalizedText('intellectual.property.content')
+  },
+  {
+    number: '8',
+    title: getLocalizedText('changes.to.app.or.terms'),
+    content: getLocalizedText('changes.to.app.or.terms.content')
+  },
+  {
+    number: '9',
+    title: getLocalizedText('termination'),
+    content: getLocalizedText('termination.content')
+  },
+  {
+    number: '10',
+    title: getLocalizedText('limitation.of.liability'),
+    content: getLocalizedText('limitation.of.liability.content')
+  },
+  {
+    number: '12',
+    title: getLocalizedText('contact.us'),
+    content: getLocalizedText('contact.us.content')
+  }
+].map((section, index) => (
+     
               <Card key={index} className="relative overflow-hidden card-3d">
                 <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'}`}></div>
                 <CardContent className="relative z-10 p-6">
@@ -517,27 +472,17 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
             ))}
 
             {/* Footer Message */}
-            {/* <Card className="bg-purple-50 border-purple-200">
-              <CardContent className="p-6 text-center">
-                <Heart className="w-8 h-8 text-purple-600 mx-auto mb-3" />
-                <p className="text-purple-800 font-medium mb-2">
-                  NurCycle was built with love, trust, and Islamic values.
-                </p>
-                <p className="text-purple-700 text-sm">
-                  We thank you for being part of this journey and trusting us with your wellness and worship.
-                </p>
-              </CardContent>
-            </Card> */}
+          
 
             <Card className="relative overflow-hidden card-3d">
-              <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : 'bg-gradient-to-r from-purple-500 to-purple-700'}`}></div>
+              <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-purple-500 to-purple-700'}`}></div>
               <CardContent className="relative z-10 p-6 text-center">
                 <Heart className={`w-8 h-8 ${settings.darkMode ? 'text-gray-300' : 'text-purple-600'} mx-auto mb-3`} />
                 <p className={`font-medium mb-2 ${settings.darkMode ? 'text-white' : 'text-purple-800'}`}>
-                  NurCycle was built with love, trust, and Islamic values.
+                 {getLocalizedText('nurcycle.built')}
                 </p>
                 <p className={`text-sm ${settings.darkMode ? 'text-gray-300' : 'text-purple-700'}`}>
-                  We thank you for being part of this journey and trusting us with your wellness and worship.
+                 {getLocalizedText('nurcycle.thank.you')}
                 </p>
               </CardContent>
             </Card>
@@ -553,25 +498,6 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
   return (
     <div className={`min-h-screen ${settings.darkMode ? 'bg-slate-800' : 'bg-gradient-to-br from-lavender-50 to-lavender-100'}`}>
       {/* Header */}
-      {/*       
-      <div className="bg-white shadow-sm sticky top-0 z-10 card-3d">
-        <div className="flex items-center justify-between p-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onBack}
-            className="rounded-full button-3d"
-          >
-            <ChevronLeft className="w-5 h-5 text-white" />
-          </Button>
-          <h1 className="text-lg font-semibold text-gray-900">{getLocalizedText('terms.conditions')}</h1>
-          <div className="w-10" />
-        </div>
-
-
-
-      </div> */}
-
       <div className="bg-white shadow-sm sticky top-0 z-10 card-3d">
         <div className={`flex items-center justify-between p-4 ${settings.darkMode ? 'bg-slate-900' : 'bg-white'}`}>
           <Button
@@ -595,24 +521,6 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
       {/* Terms Overview */}
       <div className="px-4 py-4 space-y-4">
 
-        {/* <Card className="bg-lavender-600 text-white shadow-lg card-3d">
-          <CardContent className="p-6">
-            <div className="flex items-start space-x-4 ">
-              <FileText className="w-8 h-8 flex-shrink-0 mt-1 text-lavender-800" />
-              <div>
-                <h3 className="font-semibold text-gray-900 text-lg mb-2">Terms & Conditions</h3>
-
-                <p className="text-sm opacity-90 text-gray-600 mb-3">
-                  Professional terms designed for Muslim women's wellness tracking with Islamic values and privacy protection.
-                </p>
-                <div className="flex flex-wrap gap-2 text-xs">
-                  <span className="bg-white/20 px-2 py-1 rounded-full text-gray-500">Effective: {termsData.effectiveDate}</span>
-                  <span className="bg-white/20 px-2 py-1 rounded-full text-gray-500">Version: {termsData.version}</span>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card> */}
 
         <Card className="relative overflow-hidden card-3d">
           <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'} `}></div>
@@ -621,17 +529,17 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
               <FileText className="w-8 h-8 flex-shrink-0 mt-1 text-lavender-800" />
               <div>
                 <h3 className={`${settings.darkMode ? 'text-white' : 'text-gray-900'} font-semibold text-lg mb-2`}>
-                  Terms & Conditions
+                 {getLocalizedText('terms.and.conditions')}
                 </h3>
                 <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm opacity-90 mb-3`}>
-                  Professional terms designed for Muslim women's wellness tracking with Islamic values and privacy protection.
+                 {getLocalizedText('professional.terms')}
                 </p>
                 <div className="flex flex-wrap gap-2 text-xs">
                   <span className={`bg-white/20 px-2 py-1 rounded-full ${settings.darkMode ? 'text-gray-200' : 'text-gray-500'}`}>
-                    Effective: {termsData.effectiveDate}
+                    {getLocalizedText('effective')}: {termsData.effectiveDate}
                   </span>
                   <span className={`bg-white/20 px-2 py-1 rounded-full ${settings.darkMode ? 'text-gray-200' : 'text-gray-500'}`}>
-                    Version: {termsData.version}
+                    {getLocalizedText('version')}: {termsData.version}
                   </span>
                 </div>
               </div>
@@ -648,7 +556,7 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
             onClick={() => setCurrentView('full-terms')}
           >
             <FileText className="w-5 h-5" />
-            <span className="text-xs">Read Full Terms</span>
+            <span className="text-xs">{getLocalizedText('read.full.terms')}</span>
           </Button>
           <Button
             variant="outline"
@@ -656,40 +564,21 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
             onClick={handleDownloadPDF}
           >
             <Download className="w-5 h-5" />
-            <span className="text-xs ">Download PDF</span>
+            <span className="text-xs ">{getLocalizedText('download.pdf')}</span>
           </Button>
         </div>
 
         {/* Key Sections Preview - Made functional */}
         <div className="space-y-2">
-          {/* <h3 className="font-semibold text-gray-900 text-sm mb-3">Key Sections</h3>
-           */}
+
           <h3 className={`font-semibold text-sm mb-3 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Key Sections
+           {getLocalizedText('key.sections')}
           </h3>
 
           {termsData?.sections.map((section, index) => {
             const IconComponent = section.icon;
             return (
-              // <Card
-              //   key={section.id}
-              //   className="bg-white shadow-sm cursor-pointer hover:bg-gray-50 transition-colors card-3d"
-              //   onClick={() => handleSectionClick(section.id)}
-              // >
-              //   <CardContent className="p-4">
-              //     <div className="flex items-start space-x-3">
-              //       <div className="w-8 h-8 rounded-full bg-lavender-100 flex items-center justify-center flex-shrink-0 circular-3d">
-              //         <IconComponent className="w-4 h-4 text-white" />
-              //       </div>
-              //       <div className="flex-1 min-w-0">
-              //         <h4 className="font-medium text-gray-900 text-sm mb-1">{section.title}</h4>
-              //         <p className="text-xs text-gray-500 line-clamp-2">{section.content}</p>
-              //       </div>
-              //       <ChevronLeft className="w-4 h-4 text-gray-400 rotate-180 flex-shrink-0" />
-              //     </div>
-              //   </CardContent>
-              // </Card>
-
+    
               <Card
                 key={section.id}
                 className="relative overflow-hidden card-3d cursor-pointer"
@@ -721,29 +610,15 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
         </div>
 
         {/* Multi-language Notice */}
-        {/* <Card className="bg-blue-50 border-blue-200 card-3d">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-3">
-              <Globe className="w-5 h-5 text-blue-600" />
-              <div>
-                <h4 className="font-medium text-blue-900 text-sm">Multi-Language Support</h4>
-                <p className="text-xs text-blue-700 mt-1">
-                  Available in Arabic, French, and all supported app languages. Change your language in App Settings.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card> */}
-
         <Card className="relative overflow-hidden card-3d bg-blue-50 border-blue-200">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-blue-500 to-blue-700'}`}></div>
   <CardContent className="relative z-10 p-4">
     <div className="flex items-center space-x-3">
       <Globe className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-blue-600'}`} />
       <div>
-        <h4 className={`font-medium text-sm ${settings.darkMode ? 'text-white' : 'text-blue-900'}`}>Multi-Language Support</h4>
+        <h4 className={`font-medium text-sm ${settings.darkMode ? 'text-white' : 'text-blue-900'}`}>{getLocalizedText('multi.language.support')}</h4>
         <p className={`text-xs mt-1 ${settings.darkMode ? 'text-gray-300' : 'text-blue-700'}`}>
-          Available in Arabic, French, and all supported app languages. Change your language in App Settings.
+         {getLocalizedText('multi.language.support.content')}
         </p>
       </div>
     </div>
@@ -752,21 +627,6 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
 
 
         {/* Legal Notice */}
-
-        {/* <Card className="bg-gray-50 border-gray-200 card-3d">
-          <CardContent className="p-4">
-            <div className="flex items-start space-x-3">
-              <Shield className="w-5 h-5 text-gray-600 mt-0.5" />
-              <div>
-                <h4 className="font-medium text-gray-900 text-sm">Legal Protection & Ethics</h4>
-                <p className="text-xs text-gray-600 mt-1">
-                  These terms are designed to protect both users and the platform while maintaining Islamic values of trust, privacy, and female empowerment.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card> */}
-
         <Card className="relative overflow-hidden card-3d bg-gray-50 border-gray-200">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-gray-500 to-gray-700'}`}></div>
   <CardContent className="relative z-10 p-4">
@@ -774,10 +634,10 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
       <Shield className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-gray-600'} mt-0.5`} />
       <div>
         <h4 className={`font-medium text-sm ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-          Legal Protection & Ethics
+          {getLocalizedText('legal.protection.and.ethics')}
         </h4>
         <p className={`text-xs mt-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-          These terms are designed to protect both users and the platform while maintaining Islamic values of trust, privacy, and female empowerment.
+          {getLocalizedText('legal.protection.and.ethics.content')}
         </p>
       </div>
     </div>
@@ -787,15 +647,11 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
 
         {/* Last Updated */}
         <div className="text-center pt-4">
-          {/* <div className="flex items-center justify-center space-x-2 text-xs text-gray-500">
-            <Calendar className="w-3 h-3" />
-            <span>Last updated: {termsData.lastUpdated}</span>
-          </div> */}
 
           <div className={`flex items-center justify-center space-x-2 text-xs ${settings.darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
   <Calendar className={`w-3 h-3 ${settings.darkMode ? 'text-white' : 'text-gray-500'}`} />
   <span className={settings.darkMode ? 'text-gray-300' : 'text-gray-500'}>
-    Last updated: {termsData.lastUpdated}
+   {getLocalizedText('last.updated')} {termsData.lastUpdated}
   </span>
 </div>
         </div>

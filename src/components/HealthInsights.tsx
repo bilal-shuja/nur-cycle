@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useLanguage } from '@/contexts/LanguageContext';
+
 
 const HealthInsights = () => {
   const [expandedDischarge, setExpandedDischarge] = useState<string | null>(null);
@@ -18,829 +20,1666 @@ const HealthInsights = () => {
   const [expandedRemedies, setExpandedRemedies] = useState<string | null>(null);
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [selectedSubtopic, setSelectedSubtopic] = useState(null);
-  
+  const { getLocalizedText } = useLanguage();
+
   // State for collapsible sections
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
-  const dischargeTypes = [
-    {
-      id: 'white',
-      title: 'White Discharge',
-      color: 'bg-gray-100 border-gray-300',
-      textColor: 'text-gray-800',
-      icon: '⚪',
-      status: 'safe',
-      brief: 'Usually normal, especially around ovulation',
-      detailed: 'Normal cervical mucus or sign of healthy vaginal environment. Monitor for any changes in odor or texture. Normal discharge does not affect wudu unless accompanied by other impurities.'
-    },
-    {
-      id: 'yellow',
-      title: 'Yellow Discharge',
-      color: 'bg-yellow-100 border-yellow-300',
-      textColor: 'text-yellow-800',
-      icon: '🟡',
-      status: 'caution',
-      brief: 'May indicate infection if foul-smelling',
-      detailed: 'Could be bacterial infection, STI, or sometimes normal if light yellow. See healthcare provider if accompanied by odor, itching, or pain. If abnormal discharge affects purity, consult a scholar about prayer requirements.'
-    },
-    {
-      id: 'white-clumpy',
-      title: 'White Clumpy',
-      color: 'bg-gray-200 border-gray-400',
-      textColor: 'text-gray-800',
-      icon: '🧀',
-      status: 'attention',
-      brief: 'Often a sign of yeast infection',
-      detailed: 'Overgrowth of Candida fungus in the vagina. Consult healthcare provider for antifungal treatment. During treatment, maintain regular purification practices unless medically advised otherwise.'
-    },
-    {
-      id: 'clear',
-      title: 'Clear Discharge',
-      color: 'bg-blue-50 border-blue-200',
-      textColor: 'text-blue-800',
-      icon: '💧',
-      status: 'safe',
-      brief: 'Normal around ovulation and arousal',
-      detailed: 'Healthy cervical mucus, often indicates fertile period. Completely normal, no action needed. Natural discharge is pure and does not invalidate wudu.'
-    },
-    {
-      id: 'brown',
-      title: 'Brown Discharge',
-      color: 'bg-amber-100 border-amber-300',
-      textColor: 'text-amber-800',
-      icon: '🟤',
-      status: 'safe',
-      brief: 'Old blood from menstruation or spotting',
-      detailed: 'Old blood that has oxidized, common at start/end of periods. Normal if during menstrual cycle. Brown discharge during menstrual days is considered hayd. Outside menstrual period, may be istihada.'
-    },
-    {
-      id: 'pink',
-      title: 'Pink Discharge',
-      color: 'bg-pink-100 border-pink-300',
-      textColor: 'text-pink-800',
-      icon: '🌸',
-      status: 'safe',
-      brief: 'Light bleeding or spotting',
-      detailed: 'Light bleeding mixed with cervical fluid. Usually normal, track patterns. If occurs during menstrual window, counts as hayd. If outside, may be istihādah.'
-    },
-    {
-      id: 'green',
-      title: 'Green Discharge',
-      color: 'bg-green-100 border-green-400',
-      textColor: 'text-green-800',
-      icon: '🟢',
-      status: 'urgent',
-      brief: 'Potential bacterial infection',
-      detailed: 'Often indicates bacterial vaginosis or STI. Seek immediate medical attention. During treatment, maintain purity as much as possible and consult scholar if needed.'
-    },
-    {
-      id: 'gray',
-      title: 'Gray Discharge',
-      color: 'bg-slate-100 border-slate-400',
-      textColor: 'text-slate-800',
-      icon: '⚫',
-      status: 'urgent',
-      brief: 'Associated with bacterial vaginosis',
-      detailed: 'Bacterial imbalance in vaginal environment. Consult healthcare provider promptly. Abnormal discharge may affect ritual purity - seek both medical and Islamic guidance.'
-    }
-  ];
+  // const dischargeTypes = [
+  //   {
+  //     id: 'white',
+  //     title: 'White Discharge',
+  //     color: 'bg-gray-100 border-gray-300',
+  //     textColor: 'text-gray-800',
+  //     icon: '⚪',
+  //     status: 'safe',
+  //     brief: 'Usually normal, especially around ovulation',
+  //     detailed: 'Normal cervical mucus or sign of healthy vaginal environment. Monitor for any changes in odor or texture. Normal discharge does not affect wudu unless accompanied by other impurities.'
+  //   },
+  //   {
+  //     id: 'yellow',
+  //     title: 'Yellow Discharge',
+  //     color: 'bg-yellow-100 border-yellow-300',
+  //     textColor: 'text-yellow-800',
+  //     icon: '🟡',
+  //     status: 'caution',
+  //     brief: 'May indicate infection if foul-smelling',
+  //     detailed: 'Could be bacterial infection, STI, or sometimes normal if light yellow. See healthcare provider if accompanied by odor, itching, or pain. If abnormal discharge affects purity, consult a scholar about prayer requirements.'
+  //   },
+  //   {
+  //     id: 'white-clumpy',
+  //     title: 'White Clumpy',
+  //     color: 'bg-gray-200 border-gray-400',
+  //     textColor: 'text-gray-800',
+  //     icon: '🧀',
+  //     status: 'attention',
+  //     brief: 'Often a sign of yeast infection',
+  //     detailed: 'Overgrowth of Candida fungus in the vagina. Consult healthcare provider for antifungal treatment. During treatment, maintain regular purification practices unless medically advised otherwise.'
+  //   },
+  //   {
+  //     id: 'clear',
+  //     title: 'Clear Discharge',
+  //     color: 'bg-blue-50 border-blue-200',
+  //     textColor: 'text-blue-800',
+  //     icon: '💧',
+  //     status: 'safe',
+  //     brief: 'Normal around ovulation and arousal',
+  //     detailed: 'Healthy cervical mucus, often indicates fertile period. Completely normal, no action needed. Natural discharge is pure and does not invalidate wudu.'
+  //   },
+  //   {
+  //     id: 'brown',
+  //     title: 'Brown Discharge',
+  //     color: 'bg-amber-100 border-amber-300',
+  //     textColor: 'text-amber-800',
+  //     icon: '🟤',
+  //     status: 'safe',
+  //     brief: 'Old blood from menstruation or spotting',
+  //     detailed: 'Old blood that has oxidized, common at start/end of periods. Normal if during menstrual cycle. Brown discharge during menstrual days is considered hayd. Outside menstrual period, may be istihada.'
+  //   }
+  //   ,
+  //   {
+  //     id: 'pink',
+  //     title: 'Pink Discharge',
+  //     color: 'bg-pink-100 border-pink-300',
+  //     textColor: 'text-pink-800',
+  //     icon: '🌸',
+  //     status: 'safe',
+  //     brief: 'Light bleeding or spotting',
+  //     detailed: 'Light bleeding mixed with cervical fluid. Usually normal, track patterns. If occurs during menstrual window, counts as hayd. If outside, may be istihādah.'
+  //   },
+  //   {
+  //     id: 'green',
+  //     title: 'Green Discharge',
+  //     color: 'bg-green-100 border-green-400',
+  //     textColor: 'text-green-800',
+  //     icon: '🟢',
+  //     status: 'urgent',
+  //     brief: 'Potential bacterial infection',
+  //     detailed: 'Often indicates bacterial vaginosis or STI. Seek immediate medical attention. During treatment, maintain purity as much as possible and consult scholar if needed.'
+  //   },
+  //   {
+  //     id: 'gray',
+  //     title: 'Gray Discharge',
+  //     color: 'bg-slate-100 border-slate-400',
+  //     textColor: 'text-slate-800',
+  //     icon: '⚫',
+  //     status: 'urgent',
+  //     brief: 'Associated with bacterial vaginosis',
+  //     detailed: 'Bacterial imbalance in vaginal environment. Consult healthcare provider promptly. Abnormal discharge may affect ritual purity - seek both medical and Islamic guidance.'
+  //   }
+  // ];
+
+  const dischargeTypes = [ 
+  {
+    id: 'white',
+    title: getLocalizedText('white.discharge'),
+    color: 'bg-gray-100 border-gray-300',
+    textColor: 'text-gray-800',
+    icon: '⚪',
+    status: 'safe',
+    brief: getLocalizedText('white.discharge.description'),
+    detailed: getLocalizedText('white.discharge.guidance')
+  },
+  {
+    id: 'yellow',
+    title: getLocalizedText('yellow.discharge'),
+    color: 'bg-yellow-100 border-yellow-300',
+    textColor: 'text-yellow-800',
+    icon: '🟡',
+    status: 'caution',
+    brief: getLocalizedText('yellow.discharge.description'),
+    detailed: getLocalizedText('yellow.discharge.guidance')
+  },
+  {
+    id: 'white-clumpy',
+    title: getLocalizedText('white.clumpy'),
+    color: 'bg-gray-200 border-gray-400',
+    textColor: 'text-gray-800',
+    icon: '🧀',
+    status: 'attention',
+    brief: getLocalizedText('white.clumpy.description'),
+    detailed: getLocalizedText('white.clumpy.guidance')
+  },
+  {
+    id: 'clear',
+    title: getLocalizedText('clear.discharge'),
+    color: 'bg-blue-50 border-blue-200',
+    textColor: 'text-blue-800',
+    icon: '💧',
+    status: 'safe',
+    brief: getLocalizedText('clear.discharge.description'),
+    detailed: getLocalizedText('clear.discharge.guidance')
+  },
+  {
+    id: 'brown',
+    title: getLocalizedText('brown.discharge'),
+    color: 'bg-amber-100 border-amber-300',
+    textColor: 'text-amber-800',
+    icon: '🟤',
+    status: 'safe',
+    brief: getLocalizedText('brown.discharge.description'),
+    detailed: getLocalizedText('brown.discharge.guidance')
+  },
+  {
+    id: 'pink',
+    title: getLocalizedText('pink.discharge'),
+    color: 'bg-pink-100 border-pink-300',
+    textColor: 'text-pink-800',
+    icon: '🌸',
+    status: 'safe',
+    brief: getLocalizedText('pink.discharge.description'),
+    detailed: getLocalizedText('pink.discharge.guidance')
+  },
+  {
+    id: 'green',
+    title: getLocalizedText('green.discharge'),
+    color: 'bg-green-100 border-green-400',
+    textColor: 'text-green-800',
+    icon: '🟢',
+    status: 'urgent',
+    brief: getLocalizedText('green.discharge.description'),
+    detailed: getLocalizedText('green.discharge.guidance')
+  },
+  {
+    id: 'gray',
+    title: getLocalizedText('gray.discharge'),
+    color: 'bg-slate-100 border-slate-400',
+    textColor: 'text-slate-800',
+    icon: '⚫',
+    status: 'urgent',
+    brief: getLocalizedText('gray.discharge.description'),
+    detailed: getLocalizedText('gray.discharge.guidance')
+  }
+];
+
+  // const bloodTypes = [
+  //   {
+  //     id: 'bright-red',
+  //     title: 'Bright Red',
+  //     color: 'bg-red-100 border-red-300',
+  //     textColor: 'text-red-800',
+  //     icon: '🔴',
+  //     status: 'safe',
+  //     brief: 'Fresh, active menstrual flow',
+  //     detailed: 'Healthy menstrual flow, usually normal in early to mid-period. This is considered valid menstruation (hayd) and requires ghusl at the end of your cycle. You should not pray or fast during this time.'
+  //   },
+  //   {
+  //     id: 'dark-red',
+  //     title: 'Dark Red',
+  //     color: 'bg-red-200 border-red-400',
+  //     textColor: 'text-red-900',
+  //     icon: '🟤',
+  //     status: 'safe',
+  //     brief: 'Thicker, deeper color blood',
+  //     detailed: 'Normal menstrual blood, possibly due to slower flow. Also considered hayd if it follows your usual cycle pattern. Continue to refrain from acts of worship that require purity.'
+  //   },
+  //   {
+  //     id: 'brown',
+  //     title: 'Brown Blood',
+  //     color: 'bg-amber-100 border-amber-400',
+  //     textColor: 'text-amber-800',
+  //     icon: '🟫',
+  //     status: 'safe',
+  //     brief: 'Old, oxidized blood',
+  //     detailed: 'Old oxidized blood, normal if within your menstrual window. If within your usual period duration, it is hayd. If seen before or after your period timeframe, it may be istihādah.'
+  //   },
+  //   {
+  //     id: 'pink',
+  //     title: 'Pink Blood',
+  //     color: 'bg-pink-100 border-pink-300',
+  //     textColor: 'text-pink-800',
+  //     icon: '🌸',
+  //     status: 'safe',
+  //     brief: 'Light flow or spotting',
+  //     detailed: 'Light flow or spotting, possible hormonal changes. If this occurs during your period time, it is counted as menstruation. If seen outside your normal period window, consult a scholar.'
+  //   },
+  //   {
+  //     id: 'black',
+  //     title: 'Black Blood',
+  //     color: 'bg-gray-200 border-gray-500',
+  //     textColor: 'text-gray-800',
+  //     icon: '⚫',
+  //     status: 'attention',
+  //     brief: 'Very old blood',
+  //     detailed: 'Old blood that has taken longer to exit. Considered hayd if it aligns with your regular cycle days. If persistent or outside usual days, it may not be menstrual.'
+  //   },
+  //   {
+  //     id: 'orange',
+  //     title: 'Orange Blood',
+  //     color: 'bg-orange-100 border-orange-300',
+  //     textColor: 'text-orange-800',
+  //     icon: '🟠',
+  //     status: 'caution',
+  //     brief: 'Mixed with discharge',
+  //     detailed: 'May be early period blood or could indicate infection. If this occurs during menstruation, it is considered hayd. Monitor for other symptoms, seek medical care if accompanied by odor or pain.'
+  //   },
+  //   {
+  //     id: 'gray',
+  //     title: 'Gray Blood',
+  //     color: 'bg-slate-200 border-slate-400',
+  //     textColor: 'text-slate-800',
+  //     icon: '🔘',
+  //     status: 'urgent',
+  //     brief: 'Requires immediate attention',
+  //     detailed: 'May indicate bacterial infection or miscarriage. Seek immediate medical evaluation. Gray discharge requires both medical attention and Islamic guidance due to potential complications.'
+  //   }
+  // ];
 
   const bloodTypes = [
-    {
-      id: 'bright-red',
-      title: 'Bright Red',
-      color: 'bg-red-100 border-red-300',
-      textColor: 'text-red-800',
-      icon: '🔴',
-      status: 'safe',
-      brief: 'Fresh, active menstrual flow',
-      detailed: 'Healthy menstrual flow, usually normal in early to mid-period. This is considered valid menstruation (hayd) and requires ghusl at the end of your cycle. You should not pray or fast during this time.'
-    },
-    {
-      id: 'dark-red',
-      title: 'Dark Red',
-      color: 'bg-red-200 border-red-400',
-      textColor: 'text-red-900',
-      icon: '🟤',
-      status: 'safe',
-      brief: 'Thicker, deeper color blood',
-      detailed: 'Normal menstrual blood, possibly due to slower flow. Also considered hayd if it follows your usual cycle pattern. Continue to refrain from acts of worship that require purity.'
-    },
-    {
-      id: 'brown',
-      title: 'Brown Blood',
-      color: 'bg-amber-100 border-amber-400',
-      textColor: 'text-amber-800',
-      icon: '🟫',
-      status: 'safe',
-      brief: 'Old, oxidized blood',
-      detailed: 'Old oxidized blood, normal if within your menstrual window. If within your usual period duration, it is hayd. If seen before or after your period timeframe, it may be istihādah.'
-    },
-    {
-      id: 'pink',
-      title: 'Pink Blood',
-      color: 'bg-pink-100 border-pink-300',
-      textColor: 'text-pink-800',
-      icon: '🌸',
-      status: 'safe',
-      brief: 'Light flow or spotting',
-      detailed: 'Light flow or spotting, possible hormonal changes. If this occurs during your period time, it is counted as menstruation. If seen outside your normal period window, consult a scholar.'
-    },
-    {
-      id: 'black',
-      title: 'Black Blood',
-      color: 'bg-gray-200 border-gray-500',
-      textColor: 'text-gray-800',
-      icon: '⚫',
-      status: 'attention',
-      brief: 'Very old blood',
-      detailed: 'Old blood that has taken longer to exit. Considered hayd if it aligns with your regular cycle days. If persistent or outside usual days, it may not be menstrual.'
-    },
-    {
-      id: 'orange',
-      title: 'Orange Blood',
-      color: 'bg-orange-100 border-orange-300',
-      textColor: 'text-orange-800',
-      icon: '🟠',
-      status: 'caution',
-      brief: 'Mixed with discharge',
-      detailed: 'May be early period blood or could indicate infection. If this occurs during menstruation, it is considered hayd. Monitor for other symptoms, seek medical care if accompanied by odor or pain.'
-    },
-    {
-      id: 'gray',
-      title: 'Gray Blood',
-      color: 'bg-slate-200 border-slate-400',
-      textColor: 'text-slate-800',
-      icon: '🔘',
-      status: 'urgent',
-      brief: 'Requires immediate attention',
-      detailed: 'May indicate bacterial infection or miscarriage. Seek immediate medical evaluation. Gray discharge requires both medical attention and Islamic guidance due to potential complications.'
-    }
-  ];
+  {
+    id: 'bright-red',
+    title: getLocalizedText('bright.red'),
+    color: 'bg-red-100 border-red-300',
+    textColor: 'text-red-800',
+    icon: '🔴',
+    status: 'safe',
+    brief: getLocalizedText('bright.red.description'),
+    detailed: getLocalizedText('bright.red.guidance')
+  },
+  {
+    id: 'dark-red',
+    title: getLocalizedText('dark.red'),
+    color: 'bg-red-200 border-red-400',
+    textColor: 'text-red-900',
+    icon: '🟤',
+    status: 'safe',
+    brief: getLocalizedText('dark.red.description'),
+    detailed: getLocalizedText('dark.red.guidance')
+  },
+  {
+    id: 'brown',
+    title: getLocalizedText('brown.blood'),
+    color: 'bg-amber-100 border-amber-400',
+    textColor: 'text-amber-800',
+    icon: '🟫',
+    status: 'safe',
+    brief: getLocalizedText('brown.blood.description'),
+    detailed: getLocalizedText('brown.blood.guidance')
+  },
+  {
+    id: 'pink',
+    title: getLocalizedText('pink.blood'),
+    color: 'bg-pink-100 border-pink-300',
+    textColor: 'text-pink-800',
+    icon: '🌸',
+    status: 'safe',
+    brief: getLocalizedText('pink.blood.description'),
+    detailed: getLocalizedText('pink.blood.guidance')
+  },
+  {
+    id: 'black',
+    title: getLocalizedText('black.blood'),
+    color: 'bg-gray-200 border-gray-500',
+    textColor: 'text-gray-800',
+    icon: '⚫',
+    status: 'attention',
+    brief: getLocalizedText('black.blood.description'),
+    detailed: getLocalizedText('black.blood.guidance')
+  },
+  {
+    id: 'orange',
+    title: getLocalizedText('orange.blood'),
+    color: 'bg-orange-100 border-orange-300',
+    textColor: 'text-orange-800',
+    icon: '🟠',
+    status: 'caution',
+    brief: getLocalizedText('orange.blood.description'),
+    detailed: getLocalizedText('orange.blood.guidance')
+  },
+  {
+    id: 'gray',
+    title: getLocalizedText('gray.blood'),
+    color: 'bg-slate-200 border-slate-400',
+    textColor: 'text-slate-800',
+    icon: '🔘',
+    status: 'urgent',
+    brief: getLocalizedText('gray.blood.description'),
+    detailed: getLocalizedText('gray.blood.guidance')
+  }
+];
 
-  const pregnancySigns = [
-    {
-      id: 'missed-period',
-      title: 'Missed Period',
-      icon: '📅',
-      brief: 'Most common early sign of pregnancy',
-      detailed: 'If your period is late by more than a week and you have a regular cycle, this could be the first sign of pregnancy. However, stress, illness, or hormonal changes can also cause delays. Take a pregnancy test if your period is significantly late.',
-      status: 'attention'
-    },
-    {
-      id: 'implantation-bleeding',
-      title: 'Implantation Bleeding',
-      icon: '🩸',
-      brief: 'Light spotting 6-12 days after conception',
-      detailed: 'Light pink or brown spotting that occurs when the fertilized egg attaches to the uterine wall. This is lighter and shorter than a regular period, lasting only 1-2 days. Not all women experience this, and it can be confused with a light period.',
-      status: 'safe'
-    },
-    {
-      id: 'breast-changes',
-      title: 'Breast Tenderness',
-      icon: '🤱',
-      brief: 'Swollen, tender, or heavy feeling breasts',
-      detailed: 'Hormonal changes can make breasts feel tender, swollen, or fuller than usual. The areolas may also darken or become more sensitive. These changes can occur as early as 1-2 weeks after conception.',
-      status: 'safe'
-    },
-    {
-      id: 'nausea',
-      title: 'Morning Sickness',
-      icon: '🤢',
-      brief: 'Nausea with or without vomiting',
-      detailed: 'Despite its name, morning sickness can occur at any time of day. It typically begins around 6 weeks of pregnancy but can start as early as 4 weeks. This is caused by rising hormone levels, particularly HCG.',
-      status: 'safe'
-    },
-    {
-      id: 'fatigue',
-      title: 'Extreme Fatigue',
-      icon: '😴',
-      brief: 'Unusual tiredness and exhaustion',
-      detailed: 'Feeling unusually tired or exhausted, even after adequate rest. This is caused by rising progesterone levels and increased blood production. Fatigue is one of the earliest pregnancy symptoms, often occurring before a missed period.',
-      status: 'safe'
-    },
-    {
-      id: 'frequent-urination',
-      title: 'Frequent Urination',
-      icon: '🚽',
-      brief: 'Need to urinate more often than usual',
-      detailed: 'Increased frequency of urination due to hormonal changes and increased blood flow to the kidneys. This symptom can begin as early as 6-8 weeks into pregnancy and continues throughout.',
-      status: 'safe'
-    },
-    {
-      id: 'food-aversions',
-      title: 'Food Aversions',
-      icon: '🤮',
-      brief: 'Strong dislike for certain foods or smells',
-      detailed: 'Sudden aversion to foods you normally enjoy, or increased sensitivity to smells. This is caused by hormonal changes and can be one of the first signs of pregnancy, often accompanying morning sickness.',
-      status: 'safe'
-    },
-    {
-      id: 'mood-changes',
-      title: 'Mood Swings',
-      icon: '😢',
-      brief: 'Emotional changes and mood fluctuations',
-      detailed: 'Feeling more emotional, irritable, or weepy than usual due to hormonal fluctuations. These mood changes are similar to PMS symptoms but may be more intense during early pregnancy.',
-      status: 'safe'
-    },
-    {
-      id: 'cramping',
-      title: 'Mild Cramping',
-      icon: '🩹',
-      brief: 'Light cramping in the lower abdomen',
-      detailed: 'Mild cramping or pulling sensations in the lower abdomen, similar to but usually lighter than menstrual cramps. This can be caused by implantation or the uterus beginning to expand.',
-      status: 'caution'
-    },
-    {
-      id: 'basal-temperature',
-      title: 'Elevated Basal Temperature',
-      icon: '🌡️',
-      brief: 'Body temperature remains high after ovulation',
-      detailed: 'If you track your basal body temperature, it typically drops before menstruation. If it remains elevated for more than 18 days after ovulation, this could indicate pregnancy.',
-      status: 'safe'
-    }
-  ];
+
+
+  // const pregnancySigns = [
+  //   {
+  //     id: 'missed-period',
+  //     title: 'Missed Period',
+  //     icon: '📅',
+  //     brief: 'Most common early sign of pregnancy',
+  //     detailed: 'If your period is late by more than a week and you have a regular cycle, this could be the first sign of pregnancy. However, stress, illness, or hormonal changes can also cause delays. Take a pregnancy test if your period is significantly late.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'implantation-bleeding',
+  //     title: 'Implantation Bleeding',
+  //     icon: '🩸',
+  //     brief: 'Light spotting 6-12 days after conception',
+  //     detailed: 'Light pink or brown spotting that occurs when the fertilized egg attaches to the uterine wall. This is lighter and shorter than a regular period, lasting only 1-2 days. Not all women experience this, and it can be confused with a light period.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'breast-changes',
+  //     title: 'Breast Tenderness',
+  //     icon: '🤱',
+  //     brief: 'Swollen, tender, or heavy feeling breasts',
+  //     detailed: 'Hormonal changes can make breasts feel tender, swollen, or fuller than usual. The areolas may also darken or become more sensitive. These changes can occur as early as 1-2 weeks after conception.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'nausea',
+  //     title: 'Morning Sickness',
+  //     icon: '🤢',
+  //     brief: 'Nausea with or without vomiting',
+  //     detailed: 'Despite its name, morning sickness can occur at any time of day. It typically begins around 6 weeks of pregnancy but can start as early as 4 weeks. This is caused by rising hormone levels, particularly HCG.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'fatigue',
+  //     title: 'Extreme Fatigue',
+  //     icon: '😴',
+  //     brief: 'Unusual tiredness and exhaustion',
+  //     detailed: 'Feeling unusually tired or exhausted, even after adequate rest. This is caused by rising progesterone levels and increased blood production. Fatigue is one of the earliest pregnancy symptoms, often occurring before a missed period.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'frequent-urination',
+  //     title: 'Frequent Urination',
+  //     icon: '🚽',
+  //     brief: 'Need to urinate more often than usual',
+  //     detailed: 'Increased frequency of urination due to hormonal changes and increased blood flow to the kidneys. This symptom can begin as early as 6-8 weeks into pregnancy and continues throughout.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'food-aversions',
+  //     title: 'Food Aversions',
+  //     icon: '🤮',
+  //     brief: 'Strong dislike for certain foods or smells',
+  //     detailed: 'Sudden aversion to foods you normally enjoy, or increased sensitivity to smells. This is caused by hormonal changes and can be one of the first signs of pregnancy, often accompanying morning sickness.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'mood-changes',
+  //     title: 'Mood Swings',
+  //     icon: '😢',
+  //     brief: 'Emotional changes and mood fluctuations',
+  //     detailed: 'Feeling more emotional, irritable, or weepy than usual due to hormonal fluctuations. These mood changes are similar to PMS symptoms but may be more intense during early pregnancy.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'cramping',
+  //     title: 'Mild Cramping',
+  //     icon: '🩹',
+  //     brief: 'Light cramping in the lower abdomen',
+  //     detailed: 'Mild cramping or pulling sensations in the lower abdomen, similar to but usually lighter than menstrual cramps. This can be caused by implantation or the uterus beginning to expand.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'basal-temperature',
+  //     title: 'Elevated Basal Temperature',
+  //     icon: '🌡️',
+  //     brief: 'Body temperature remains high after ovulation',
+  //     detailed: 'If you track your basal body temperature, it typically drops before menstruation. If it remains elevated for more than 18 days after ovulation, this could indicate pregnancy.',
+  //     status: 'safe'
+  //   }
+  // ];
+
+ const pregnancySigns = [
+  {
+    id: 'missed-period',
+    title: getLocalizedText('missed.period'),
+    icon: '📅',
+    brief: getLocalizedText('missed.period.description'),
+    detailed: getLocalizedText('missed.period.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'implantation-bleeding',
+    title: getLocalizedText('implantation.bleeding'),
+    icon: '🩸',
+    brief: getLocalizedText('implantation.bleeding.description'),
+    detailed: getLocalizedText('implantation.bleeding.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'breast-changes',
+    title: getLocalizedText('breast.tenderness'),
+    icon: '🤱',
+    brief: getLocalizedText('breast.tenderness.description'),
+    detailed: getLocalizedText('breast.tenderness.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'nausea',
+    title: getLocalizedText('morning.sickness'),
+    icon: '🤢',
+    brief: getLocalizedText('morning.sickness.description'),
+    detailed: getLocalizedText('morning.sickness.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'fatigue',
+    title: getLocalizedText('extreme.fatigue'),
+    icon: '😴',
+    brief: getLocalizedText('extreme.fatigue.description'),
+    detailed: getLocalizedText('extreme.fatigue.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'frequent-urination',
+    title: getLocalizedText('frequent.urination'),
+    icon: '🚽',
+    brief: getLocalizedText('frequent.urination.description'),
+    detailed: getLocalizedText('frequent.urination.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'food-aversions',
+    title: getLocalizedText('food.aversion'),
+    icon: '🤮',
+    brief: getLocalizedText('food.aversion.description'),
+    detailed: getLocalizedText('food.aversion.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'mood-changes',
+    title: getLocalizedText('mood.swings'),
+    icon: '😢',
+    brief: getLocalizedText('mood.swings.description'),
+    detailed: getLocalizedText('mood.swings.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'cramping',
+    title: getLocalizedText('mild.cramping'),
+    icon: '🩹',
+    brief: getLocalizedText('mild.cramping.description'),
+    detailed: getLocalizedText('mild.cramping.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'basal-temperature',
+    title: getLocalizedText('elevated.basal.temperature'),
+    icon: '🌡️',
+    brief: getLocalizedText('elevated.basal.temperature.description'),
+    detailed: getLocalizedText('elevated.basal.temperature.guidance'),
+    status: 'safe'
+  }
+];
+
+ 
+  // const pcosTopics = [
+  //   {
+  //     id: 'irregular-periods',
+  //     title: 'Irregular Periods',
+  //     icon: '📅',
+  //     brief: 'Unpredictable or absent menstrual cycles',
+  //     detailed: 'PCOS often causes irregular, infrequent, or absent periods due to hormonal imbalances. You may have fewer than 8 periods per year or go months without menstruating. This affects about 70% of women with PCOS.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'excess-androgens',
+  //     title: 'Excess Androgens',
+  //     icon: '🧔',
+  //     brief: 'High levels of male hormones',
+  //     detailed: 'Elevated androgen levels can cause hirsutism (excess hair growth on face, chest, back), male-pattern baldness, severe acne, and oily skin. Blood tests can confirm elevated testosterone or other androgen levels.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'insulin-resistance',
+  //     title: 'Insulin Resistance',
+  //     icon: '🍯',
+  //     brief: 'Body\'s reduced response to insulin',
+  //     detailed: 'Up to 80% of women with PCOS have insulin resistance, making it harder for cells to use glucose effectively. This can lead to weight gain, difficulty losing weight, and increased risk of diabetes.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'weight-management',
+  //     title: 'Weight Management',
+  //     icon: '⚖️',
+  //     brief: 'Difficulty maintaining healthy weight',
+  //     detailed: 'Many women with PCOS struggle with weight gain and difficulty losing weight due to insulin resistance and hormonal imbalances. Even a 5-10% weight loss can significantly improve symptoms.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'fertility-issues',
+  //     title: 'Fertility Challenges',
+  //     icon: '👶',
+  //     brief: 'Difficulty conceiving due to irregular ovulation',
+  //     detailed: 'PCOS is a leading cause of infertility due to irregular or absent ovulation. However, many women with PCOS can conceive with proper treatment and lifestyle modifications.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'skin-issues',
+  //     title: 'Skin Problems',
+  //     icon: '🔴',
+  //     brief: 'Acne, oily skin, and dark patches',
+  //     detailed: 'Hormonal imbalances can cause persistent acne, oily skin, and acanthosis nigricans (dark, velvety patches of skin, usually on the neck, armpits, or groin).',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'mood-disorders',
+  //     title: 'Mood & Mental Health',
+  //     icon: '🧠',
+  //     brief: 'Increased risk of anxiety and depression',
+  //     detailed: 'Women with PCOS have higher rates of anxiety, depression, and eating disorders. Hormonal fluctuations and the stress of managing symptoms can impact mental health significantly.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'sleep-apnea',
+  //     title: 'Sleep Disorders',
+  //     icon: '😴',
+  //     brief: 'Higher risk of sleep apnea',
+  //     detailed: 'Women with PCOS are at increased risk for sleep apnea and other sleep disorders, which can worsen insulin resistance and make weight management more difficult.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'dietary-management',
+  //     title: 'Dietary Approaches',
+  //     icon: '🥗',
+  //     brief: 'Nutrition strategies for PCOS management',
+  //     detailed: 'A low-glycemic diet, anti-inflammatory foods, and regular meal timing can help manage insulin resistance. Consider working with a registered dietitian familiar with PCOS.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'exercise-benefits',
+  //     title: 'Exercise & Movement',
+  //     icon: '🏃‍♀️',
+  //     brief: 'Physical activity benefits for PCOS',
+  //     detailed: 'Regular exercise can improve insulin sensitivity, help with weight management, reduce inflammation, and improve mood. Both cardio and strength training are beneficial for PCOS management.',
+  //     status: 'safe'
+  //   }
+  // ];
 
   const pcosTopics = [
-    {
-      id: 'irregular-periods',
-      title: 'Irregular Periods',
-      icon: '📅',
-      brief: 'Unpredictable or absent menstrual cycles',
-      detailed: 'PCOS often causes irregular, infrequent, or absent periods due to hormonal imbalances. You may have fewer than 8 periods per year or go months without menstruating. This affects about 70% of women with PCOS.',
-      status: 'attention'
-    },
-    {
-      id: 'excess-androgens',
-      title: 'Excess Androgens',
-      icon: '🧔',
-      brief: 'High levels of male hormones',
-      detailed: 'Elevated androgen levels can cause hirsutism (excess hair growth on face, chest, back), male-pattern baldness, severe acne, and oily skin. Blood tests can confirm elevated testosterone or other androgen levels.',
-      status: 'attention'
-    },
-    {
-      id: 'insulin-resistance',
-      title: 'Insulin Resistance',
-      icon: '🍯',
-      brief: 'Body\'s reduced response to insulin',
-      detailed: 'Up to 80% of women with PCOS have insulin resistance, making it harder for cells to use glucose effectively. This can lead to weight gain, difficulty losing weight, and increased risk of diabetes.',
-      status: 'caution'
-    },
-    {
-      id: 'weight-management',
-      title: 'Weight Management',
-      icon: '⚖️',
-      brief: 'Difficulty maintaining healthy weight',
-      detailed: 'Many women with PCOS struggle with weight gain and difficulty losing weight due to insulin resistance and hormonal imbalances. Even a 5-10% weight loss can significantly improve symptoms.',
-      status: 'attention'
-    },
-    {
-      id: 'fertility-issues',
-      title: 'Fertility Challenges',
-      icon: '👶',
-      brief: 'Difficulty conceiving due to irregular ovulation',
-      detailed: 'PCOS is a leading cause of infertility due to irregular or absent ovulation. However, many women with PCOS can conceive with proper treatment and lifestyle modifications.',
-      status: 'attention'
-    },
-    {
-      id: 'skin-issues',
-      title: 'Skin Problems',
-      icon: '🔴',
-      brief: 'Acne, oily skin, and dark patches',
-      detailed: 'Hormonal imbalances can cause persistent acne, oily skin, and acanthosis nigricans (dark, velvety patches of skin, usually on the neck, armpits, or groin).',
-      status: 'caution'
-    },
-    {
-      id: 'mood-disorders',
-      title: 'Mood & Mental Health',
-      icon: '🧠',
-      brief: 'Increased risk of anxiety and depression',
-      detailed: 'Women with PCOS have higher rates of anxiety, depression, and eating disorders. Hormonal fluctuations and the stress of managing symptoms can impact mental health significantly.',
-      status: 'attention'
-    },
-    {
-      id: 'sleep-apnea',
-      title: 'Sleep Disorders',
-      icon: '😴',
-      brief: 'Higher risk of sleep apnea',
-      detailed: 'Women with PCOS are at increased risk for sleep apnea and other sleep disorders, which can worsen insulin resistance and make weight management more difficult.',
-      status: 'caution'
-    },
-    {
-      id: 'dietary-management',
-      title: 'Dietary Approaches',
-      icon: '🥗',
-      brief: 'Nutrition strategies for PCOS management',
-      detailed: 'A low-glycemic diet, anti-inflammatory foods, and regular meal timing can help manage insulin resistance. Consider working with a registered dietitian familiar with PCOS.',
-      status: 'safe'
-    },
-    {
-      id: 'exercise-benefits',
-      title: 'Exercise & Movement',
-      icon: '🏃‍♀️',
-      brief: 'Physical activity benefits for PCOS',
-      detailed: 'Regular exercise can improve insulin sensitivity, help with weight management, reduce inflammation, and improve mood. Both cardio and strength training are beneficial for PCOS management.',
-      status: 'safe'
-    }
-  ];
+  {
+    id: 'irregular-periods',
+    title: getLocalizedText('irregular.periods'),
+    icon: '📅',
+    brief: getLocalizedText('irregular.periods.description'),
+    detailed: getLocalizedText('irregular.periods.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'excess-androgens',
+    title: getLocalizedText('excess.androgens'),
+    icon: '🧔',
+    brief: getLocalizedText('excess.androgens.description'),
+    detailed: getLocalizedText('excess.androgens.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'insulin-resistance',
+    title: getLocalizedText('insulin.resistance'),
+    icon: '🍯',
+    brief: getLocalizedText('insulin.resistance.description'),
+    detailed: getLocalizedText('insulin.resistance.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'weight-management',
+    title: getLocalizedText('weight.management'),
+    icon: '⚖️',
+    brief: getLocalizedText('weight.management.description'),
+    detailed: getLocalizedText('weight.management.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'fertility-issues',
+    title: getLocalizedText('fertility.challenges'),
+    icon: '👶',
+    brief: getLocalizedText('fertility.challenges.description'),
+    detailed: getLocalizedText('fertility.challenges.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'skin-issues',
+    title: getLocalizedText('skin.problems'),
+    icon: '🔴',
+    brief: getLocalizedText('skin.problems.description'),
+    detailed: getLocalizedText('skin.problems.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'mood-disorders',
+    title: getLocalizedText('mood.mental.health'),
+    icon: '🧠',
+    brief: getLocalizedText('mood.mental.health.description'),
+    detailed: getLocalizedText('mood.mental.health.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'sleep-apnea',
+    title: getLocalizedText('sleep.disorders'),
+    icon: '😴',
+    brief: getLocalizedText('sleep.disorders.description'),
+    detailed: getLocalizedText('sleep.disorders.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'dietary-management',
+    title: getLocalizedText('dietary.approaches'),
+    icon: '🥗',
+    brief: getLocalizedText('dietary.approaches.description'),
+    detailed: getLocalizedText('dietary.approaches.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'exercise-benefits',
+    title: getLocalizedText('exercise.movement'),
+    icon: '🏃‍♀️',
+    brief: getLocalizedText('exercise.movement.description'),
+    detailed: getLocalizedText('exercise.movement.guidance'),
+    status: 'safe'
+  }
+];
+
+  // const endometriosisTopics = [
+  //   {
+  //     id: 'pelvic-pain',
+  //     title: 'Pelvic Pain',
+  //     icon: '🩹',
+  //     brief: 'Chronic pain in the pelvic region',
+  //     detailed: 'Persistent pelvic pain that may worsen during menstruation. The pain can be sharp, cramping, or a dull ache, and may be felt in the lower back, abdomen, or pelvis.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'painful-periods',
+  //     title: 'Painful Menstruation',
+  //     icon: '😣',
+  //     brief: 'Severe menstrual cramps and pain',
+  //     detailed: 'Dysmenorrhea that is often more severe than typical menstrual cramps. Pain may begin before menstruation and extend several days into the cycle.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'heavy-bleeding',
+  //     title: 'Heavy Menstrual Bleeding',
+  //     icon: '🩸',
+  //     brief: 'Excessive menstrual flow',
+  //     detailed: 'Menorrhagia or unusually heavy periods that may include large clots. You may need to change pads or tampons every hour or use two products simultaneously.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'painful-intercourse',
+  //     title: 'Pain During Intimacy',
+  //     icon: '💔',
+  //     brief: 'Discomfort during or after intercourse',
+  //     detailed: 'Deep pain during or after sexual intercourse, which may be caused by endometrial tissue on organs behind the uterus or lower vagina.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'fertility-concerns',
+  //     title: 'Fertility Issues',
+  //     icon: '👶',
+  //     brief: 'Difficulty conceiving',
+  //     detailed: 'Endometriosis can affect fertility by causing scarring, blocking fallopian tubes, or affecting egg quality. However, many women with endometriosis can still conceive.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'digestive-symptoms',
+  //     title: 'Digestive Problems',
+  //     icon: '🤢',
+  //     brief: 'Bowel and bladder issues',
+  //     detailed: 'Painful bowel movements, constipation, diarrhea, bloating, or painful urination, especially during menstruation if endometrial tissue affects the bowel or bladder.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'fatigue',
+  //     title: 'Chronic Fatigue',
+  //     icon: '😴',
+  //     brief: 'Persistent tiredness and exhaustion',
+  //     detailed: 'Ongoing fatigue that may be related to the body\'s inflammatory response to endometriosis, chronic pain, or heavy menstrual bleeding causing anemia.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'pain-management',
+  //     title: 'Pain Management',
+  //     icon: '💊',
+  //     brief: 'Strategies for managing endometriosis pain',
+  //     detailed: 'Various approaches including NSAIDs, hormonal treatments, heat therapy, gentle exercise, and stress management techniques can help manage endometriosis pain.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'emotional-support',
+  //     title: 'Emotional Well-being',
+  //     icon: '💚',
+  //     brief: 'Mental health and coping strategies',
+  //     detailed: 'Living with chronic pain can affect mental health. Support groups, counseling, and stress management techniques can be valuable for emotional well-being.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'treatment-options',
+  //     title: 'Treatment Approaches',
+  //     icon: '🏥',
+  //     brief: 'Medical and surgical treatment options',
+  //     detailed: 'Treatment may include pain medication, hormone therapy, or surgery. Work with your healthcare provider to develop a treatment plan that addresses your specific symptoms and goals.',
+  //     status: 'safe'
+  //   }
+  // ];
 
   const endometriosisTopics = [
-    {
-      id: 'pelvic-pain',
-      title: 'Pelvic Pain',
-      icon: '🩹',
-      brief: 'Chronic pain in the pelvic region',
-      detailed: 'Persistent pelvic pain that may worsen during menstruation. The pain can be sharp, cramping, or a dull ache, and may be felt in the lower back, abdomen, or pelvis.',
-      status: 'attention'
-    },
-    {
-      id: 'painful-periods',
-      title: 'Painful Menstruation',
-      icon: '😣',
-      brief: 'Severe menstrual cramps and pain',
-      detailed: 'Dysmenorrhea that is often more severe than typical menstrual cramps. Pain may begin before menstruation and extend several days into the cycle.',
-      status: 'attention'
-    },
-    {
-      id: 'heavy-bleeding',
-      title: 'Heavy Menstrual Bleeding',
-      icon: '🩸',
-      brief: 'Excessive menstrual flow',
-      detailed: 'Menorrhagia or unusually heavy periods that may include large clots. You may need to change pads or tampons every hour or use two products simultaneously.',
-      status: 'caution'
-    },
-    {
-      id: 'painful-intercourse',
-      title: 'Pain During Intimacy',
-      icon: '💔',
-      brief: 'Discomfort during or after intercourse',
-      detailed: 'Deep pain during or after sexual intercourse, which may be caused by endometrial tissue on organs behind the uterus or lower vagina.',
-      status: 'attention'
-    },
-    {
-      id: 'fertility-concerns',
-      title: 'Fertility Issues',
-      icon: '👶',
-      brief: 'Difficulty conceiving',
-      detailed: 'Endometriosis can affect fertility by causing scarring, blocking fallopian tubes, or affecting egg quality. However, many women with endometriosis can still conceive.',
-      status: 'attention'
-    },
-    {
-      id: 'digestive-symptoms',
-      title: 'Digestive Problems',
-      icon: '🤢',
-      brief: 'Bowel and bladder issues',
-      detailed: 'Painful bowel movements, constipation, diarrhea, bloating, or painful urination, especially during menstruation if endometrial tissue affects the bowel or bladder.',
-      status: 'caution'
-    },
-    {
-      id: 'fatigue',
-      title: 'Chronic Fatigue',
-      icon: '😴',
-      brief: 'Persistent tiredness and exhaustion',
-      detailed: 'Ongoing fatigue that may be related to the body\'s inflammatory response to endometriosis, chronic pain, or heavy menstrual bleeding causing anemia.',
-      status: 'attention'
-    },
-    {
-      id: 'pain-management',
-      title: 'Pain Management',
-      icon: '💊',
-      brief: 'Strategies for managing endometriosis pain',
-      detailed: 'Various approaches including NSAIDs, hormonal treatments, heat therapy, gentle exercise, and stress management techniques can help manage endometriosis pain.',
-      status: 'safe'
-    },
-    {
-      id: 'emotional-support',
-      title: 'Emotional Well-being',
-      icon: '💚',
-      brief: 'Mental health and coping strategies',
-      detailed: 'Living with chronic pain can affect mental health. Support groups, counseling, and stress management techniques can be valuable for emotional well-being.',
-      status: 'safe'
-    },
-    {
-      id: 'treatment-options',
-      title: 'Treatment Approaches',
-      icon: '🏥',
-      brief: 'Medical and surgical treatment options',
-      detailed: 'Treatment may include pain medication, hormone therapy, or surgery. Work with your healthcare provider to develop a treatment plan that addresses your specific symptoms and goals.',
-      status: 'safe'
-    }
-  ];
+  {
+    id: 'pelvic-pain',
+    title: getLocalizedText('pelvic.pain'),
+    icon: '🩹',
+    brief: getLocalizedText('pelvic.pain.description'),
+    detailed: getLocalizedText('pelvic.pain.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'painful-periods',
+    title: getLocalizedText('painful.menstruation'),
+    icon: '😣',
+    brief: getLocalizedText('painful.menstruation.description'),
+    detailed: getLocalizedText('painful.menstruation.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'heavy-bleeding',
+    title: getLocalizedText('heavy.menstrual.bleeding'),
+    icon: '🩸',
+    brief: getLocalizedText('heavy.menstrual.bleeding.description'),
+    detailed: getLocalizedText('heavy.menstrual.bleeding.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'painful-intercourse',
+    title: getLocalizedText('pain.during.intimacy'),
+    icon: '💔',
+    brief: getLocalizedText('pain.during.intimacy.description'),
+    detailed: getLocalizedText('pain.during.intimacy.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'fertility-concerns',
+    title: getLocalizedText('fertility.issues'),
+    icon: '👶',
+    brief: getLocalizedText('fertility.issues.description'),
+    detailed: getLocalizedText('fertility.issues.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'digestive-symptoms',
+    title: getLocalizedText('digestive.problems'),
+    icon: '🤢',
+    brief: getLocalizedText('digestive.problems.description'),
+    detailed: getLocalizedText('digestive.problems.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'fatigue',
+    title: getLocalizedText('chronic.fatigue'),
+    icon: '😴',
+    brief: getLocalizedText('chronic.fatigue.description'),
+    detailed: getLocalizedText('chronic.fatigue.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'pain-management',
+    title: getLocalizedText('pain.management'),
+    icon: '💊',
+    brief: getLocalizedText('pain.management.description'),
+    detailed: getLocalizedText('pain.management.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'emotional-support',
+    title: getLocalizedText('emotional.wellbeing'),
+    icon: '💚',
+    brief: getLocalizedText('emotional.wellbeing.description'),
+    detailed: getLocalizedText('emotional.wellbeing.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'treatment-options',
+    title: getLocalizedText('treatment.approaches'),
+    icon: '🏥',
+    brief: getLocalizedText('treatment.approaches.description'),
+    detailed: getLocalizedText('treatment.approaches.guidance'),
+    status: 'safe'
+  }
+];
+
+  
+  // const crampTriggers = [
+  //   {
+  //     id: 'caffeine',
+  //     title: 'Caffeine Intake',
+  //     icon: '☕',
+  //     brief: 'Coffee and caffeinated drinks can worsen cramps',
+  //     detailed: 'Caffeine can constrict blood vessels and increase muscle tension, potentially making menstrual cramps more severe. Try limiting coffee, tea, and energy drinks during your period.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'processed-foods',
+  //     title: 'Processed Foods',
+  //     icon: '🍟',
+  //     brief: 'High-sodium and processed foods increase inflammation',
+  //     detailed: 'Foods high in sodium, trans fats, and artificial additives can increase inflammation and water retention, making cramps and bloating worse. Opt for whole, unprocessed foods instead.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'sugar',
+  //     title: 'High Sugar Intake',
+  //     icon: '🍰',
+  //     brief: 'Excess sugar can intensify pain and mood swings',
+  //     detailed: 'High sugar intake can cause blood sugar spikes and crashes, increasing inflammation and making you more sensitive to pain. It can also worsen mood swings and energy crashes.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'dehydration',
+  //     title: 'Dehydration',
+  //     icon: '💧',
+  //     brief: 'Not drinking enough water worsens cramps',
+  //     detailed: 'Dehydration can make muscles more prone to cramping and increase overall discomfort. Staying well-hydrated helps maintain proper muscle function and can reduce the severity of cramps.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'stress',
+  //     title: 'Stress & Anxiety',
+  //     icon: '😰',
+  //     brief: 'High stress levels can amplify period pain',
+  //     detailed: 'Stress increases cortisol levels and can make you more sensitive to pain. It also causes muscle tension, which can worsen cramps. Practice stress management techniques during your period.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'lack-of-movement',
+  //     title: 'Sedentary Lifestyle',
+  //     icon: '🛋️',
+  //     brief: 'Lack of movement can increase cramping',
+  //     detailed: 'Sitting or lying down for extended periods can worsen cramps by reducing blood flow. Gentle movement and stretching can help improve circulation and reduce pain.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'poor-posture',
+  //     title: 'Poor Posture',
+  //     icon: '🪑',
+  //     brief: 'Bad posture can worsen pelvic and back pain',
+  //     detailed: 'Slouching or poor posture can put additional pressure on your pelvic area and lower back, intensifying menstrual pain. Maintain good posture and consider ergonomic support.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'inadequate-sleep',
+  //     title: 'Sleep Deprivation',
+  //     icon: '😴',
+  //     brief: 'Poor sleep makes pain worse',
+  //     detailed: 'Lack of sleep lowers your pain threshold and affects hormone regulation, making cramps feel more severe. Aim for 7-9 hours of quality sleep, especially during your period.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'smoking',
+  //     title: 'Smoking',
+  //     icon: '🚬',
+  //     brief: 'Smoking reduces oxygen flow and worsens pain',
+  //     detailed: 'Smoking reduces oxygen flow to the pelvic area and can make menstrual cramps more severe. It also affects hormone levels and can worsen PMS symptoms.',
+  //     status: 'urgent'
+  //   },
+  //   {
+  //     id: 'alcohol',
+  //     title: 'Alcohol Consumption',
+  //     icon: '🍷',
+  //     brief: 'Alcohol can disrupt hormones and increase inflammation',
+  //     detailed: 'Alcohol can disrupt hormone balance, increase inflammation, and worsen mood swings. It can also interfere with sleep quality, making you more sensitive to pain.',
+  //     status: 'caution'
+  //   }
+  // ];
 
   const crampTriggers = [
-    {
-      id: 'caffeine',
-      title: 'Caffeine Intake',
-      icon: '☕',
-      brief: 'Coffee and caffeinated drinks can worsen cramps',
-      detailed: 'Caffeine can constrict blood vessels and increase muscle tension, potentially making menstrual cramps more severe. Try limiting coffee, tea, and energy drinks during your period.',
-      status: 'caution'
-    },
-    {
-      id: 'processed-foods',
-      title: 'Processed Foods',
-      icon: '🍟',
-      brief: 'High-sodium and processed foods increase inflammation',
-      detailed: 'Foods high in sodium, trans fats, and artificial additives can increase inflammation and water retention, making cramps and bloating worse. Opt for whole, unprocessed foods instead.',
-      status: 'caution'
-    },
-    {
-      id: 'sugar',
-      title: 'High Sugar Intake',
-      icon: '🍰',
-      brief: 'Excess sugar can intensify pain and mood swings',
-      detailed: 'High sugar intake can cause blood sugar spikes and crashes, increasing inflammation and making you more sensitive to pain. It can also worsen mood swings and energy crashes.',
-      status: 'caution'
-    },
-    {
-      id: 'dehydration',
-      title: 'Dehydration',
-      icon: '💧',
-      brief: 'Not drinking enough water worsens cramps',
-      detailed: 'Dehydration can make muscles more prone to cramping and increase overall discomfort. Staying well-hydrated helps maintain proper muscle function and can reduce the severity of cramps.',
-      status: 'attention'
-    },
-    {
-      id: 'stress',
-      title: 'Stress & Anxiety',
-      icon: '😰',
-      brief: 'High stress levels can amplify period pain',
-      detailed: 'Stress increases cortisol levels and can make you more sensitive to pain. It also causes muscle tension, which can worsen cramps. Practice stress management techniques during your period.',
-      status: 'attention'
-    },
-    {
-      id: 'lack-of-movement',
-      title: 'Sedentary Lifestyle',
-      icon: '🛋️',
-      brief: 'Lack of movement can increase cramping',
-      detailed: 'Sitting or lying down for extended periods can worsen cramps by reducing blood flow. Gentle movement and stretching can help improve circulation and reduce pain.',
-      status: 'caution'
-    },
-    {
-      id: 'poor-posture',
-      title: 'Poor Posture',
-      icon: '🪑',
-      brief: 'Bad posture can worsen pelvic and back pain',
-      detailed: 'Slouching or poor posture can put additional pressure on your pelvic area and lower back, intensifying menstrual pain. Maintain good posture and consider ergonomic support.',
-      status: 'caution'
-    },
-    {
-      id: 'inadequate-sleep',
-      title: 'Sleep Deprivation',
-      icon: '😴',
-      brief: 'Poor sleep makes pain worse',
-      detailed: 'Lack of sleep lowers your pain threshold and affects hormone regulation, making cramps feel more severe. Aim for 7-9 hours of quality sleep, especially during your period.',
-      status: 'attention'
-    },
-    {
-      id: 'smoking',
-      title: 'Smoking',
-      icon: '🚬',
-      brief: 'Smoking reduces oxygen flow and worsens pain',
-      detailed: 'Smoking reduces oxygen flow to the pelvic area and can make menstrual cramps more severe. It also affects hormone levels and can worsen PMS symptoms.',
-      status: 'urgent'
-    },
-    {
-      id: 'alcohol',
-      title: 'Alcohol Consumption',
-      icon: '🍷',
-      brief: 'Alcohol can disrupt hormones and increase inflammation',
-      detailed: 'Alcohol can disrupt hormone balance, increase inflammation, and worsen mood swings. It can also interfere with sleep quality, making you more sensitive to pain.',
-      status: 'caution'
-    }
-  ];
+  {
+    id: 'caffeine',
+    title: getLocalizedText('caffeine.intake'),
+    icon: '☕',
+    brief: getLocalizedText('caffeine.intake.description'),
+    detailed: getLocalizedText('caffeine.intake.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'processed-foods',
+    title: getLocalizedText('processed.foods'),
+    icon: '🍟',
+    brief: getLocalizedText('processed.foods.description'),
+    detailed: getLocalizedText('processed.foods.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'sugar',
+    title: getLocalizedText('high.sugar.intake'),
+    icon: '🍰',
+    brief: getLocalizedText('high.sugar.intake.description'),
+    detailed: getLocalizedText('high.sugar.intake.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'dehydration',
+    title: getLocalizedText('dehydration'),
+    icon: '💧',
+    brief: getLocalizedText('dehydration.description'),
+    detailed: getLocalizedText('dehydration.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'stress',
+    title: getLocalizedText('stress.anxiety'),
+    icon: '😰',
+    brief: getLocalizedText('stress.anxiety.description'),
+    detailed: getLocalizedText('stress.anxiety.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'lack-of-movement',
+    title: getLocalizedText('sedentary.lifestyle'),
+    icon: '🛋️',
+    brief: getLocalizedText('sedentary.lifestyle.description'),
+    detailed: getLocalizedText('sedentary.lifestyle.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'poor-posture',
+    title: getLocalizedText('poor.posture'),
+    icon: '🪑',
+    brief: getLocalizedText('poor.posture.description'),
+    detailed: getLocalizedText('poor.posture.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'inadequate-sleep',
+    title: getLocalizedText('sleep.deprivation'),
+    icon: '😴',
+    brief: getLocalizedText('sleep.deprivation.description'),
+    detailed: getLocalizedText('sleep.deprivation.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'smoking',
+    title: getLocalizedText('smoking'),
+    icon: '🚬',
+    brief: getLocalizedText('smoking.description'),
+    detailed: getLocalizedText('smoking.guidance'),
+    status: 'urgent'
+  },
+  {
+    id: 'alcohol',
+    title: getLocalizedText('alcohol.consumption'),
+    icon: '🍷',
+    brief: getLocalizedText('alcohol.consumption.description'),
+    detailed: getLocalizedText('alcohol.consumption.guidance'),
+    status: 'caution'
+  }
+];
+
+
+
+  // const latePeriodsReasons = [
+  //   {
+  //     id: 'stress-impact',
+  //     title: 'Stress & Emotional Factors',
+  //     icon: '😰',
+  //     brief: 'High stress can delay ovulation and periods',
+  //     detailed: 'Chronic stress increases cortisol levels, which can interfere with the hormones that regulate your menstrual cycle. Major life changes, work stress, or emotional trauma can delay or skip periods.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'weight-changes',
+  //     title: 'Significant Weight Changes',
+  //     icon: '⚖️',
+  //     brief: 'Rapid weight loss or gain affects hormones',
+  //     detailed: 'Sudden weight loss, excessive exercise, or significant weight gain can disrupt hormone production and delay periods. Your body needs adequate fat stores to produce hormones properly.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'hormonal-imbalances',
+  //     title: 'Hormonal Disorders',
+  //     icon: '🧬',
+  //     brief: 'Conditions like PCOS or thyroid issues',
+  //     detailed: 'Polycystic ovary syndrome (PCOS), thyroid disorders, or other hormonal imbalances can cause irregular or missed periods. These conditions affect the delicate balance of reproductive hormones.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'medications',
+  //     title: 'Medication Effects',
+  //     icon: '💊',
+  //     brief: 'Certain medications can delay periods',
+  //     detailed: 'Birth control pills, antidepressants, antipsychotics, and some other medications can affect your menstrual cycle. Starting or stopping medications can temporarily disrupt your cycle.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'excessive-exercise',
+  //     title: 'Intense Physical Activity',
+  //     icon: '🏃‍♀️',
+  //     brief: 'Over-exercising can suppress menstruation',
+  //     detailed: 'Intense or excessive exercise can suppress ovulation and menstruation, especially in athletes or those with low body weight. This is called exercise-induced amenorrhea.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'illness-infection',
+  //     title: 'Illness & Infections',
+  //     icon: '🤒',
+  //     brief: 'Being sick can temporarily delay periods',
+  //     detailed: 'Acute illness, infections, or chronic health conditions can temporarily disrupt your menstrual cycle as your body focuses energy on recovery rather than reproduction.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'travel-changes',
+  //     title: 'Travel & Time Zone Changes',
+  //     icon: '✈️',
+  //     brief: 'Travel stress and schedule changes affect cycles',
+  //     detailed: 'Long-distance travel, especially across time zones, can disrupt your body\'s natural rhythms and temporarily affect your menstrual cycle. This usually resolves within 1-2 cycles.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'age-factors',
+  //     title: 'Age-Related Changes',
+  //     icon: '📅',
+  //     brief: 'Perimenopause or adolescence irregularities',
+  //     detailed: 'Teenagers may have irregular cycles as their bodies mature, while women in their 40s may experience perimenopause, causing irregular or missed periods.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'breastfeeding',
+  //     title: 'Breastfeeding',
+  //     icon: '🤱',
+  //     brief: 'Nursing can suppress ovulation and periods',
+  //     detailed: 'Breastfeeding releases prolactin, which can suppress ovulation and menstruation. This is more common with exclusive breastfeeding and frequent nursing sessions.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'sleep-disruption',
+  //     title: 'Sleep Pattern Changes',
+  //     icon: '🌙',
+  //     brief: 'Irregular sleep schedules can affect hormones',
+  //     detailed: 'Shift work, insomnia, or major changes in sleep patterns can disrupt your circadian rhythm and the hormones that regulate your menstrual cycle.',
+  //     status: 'caution'
+  //   }
+  // ];
 
   const latePeriodsReasons = [
-    {
-      id: 'stress-impact',
-      title: 'Stress & Emotional Factors',
-      icon: '😰',
-      brief: 'High stress can delay ovulation and periods',
-      detailed: 'Chronic stress increases cortisol levels, which can interfere with the hormones that regulate your menstrual cycle. Major life changes, work stress, or emotional trauma can delay or skip periods.',
-      status: 'attention'
-    },
-    {
-      id: 'weight-changes',
-      title: 'Significant Weight Changes',
-      icon: '⚖️',
-      brief: 'Rapid weight loss or gain affects hormones',
-      detailed: 'Sudden weight loss, excessive exercise, or significant weight gain can disrupt hormone production and delay periods. Your body needs adequate fat stores to produce hormones properly.',
-      status: 'caution'
-    },
-    {
-      id: 'hormonal-imbalances',
-      title: 'Hormonal Disorders',
-      icon: '🧬',
-      brief: 'Conditions like PCOS or thyroid issues',
-      detailed: 'Polycystic ovary syndrome (PCOS), thyroid disorders, or other hormonal imbalances can cause irregular or missed periods. These conditions affect the delicate balance of reproductive hormones.',
-      status: 'attention'
-    },
-    {
-      id: 'medications',
-      title: 'Medication Effects',
-      icon: '💊',
-      brief: 'Certain medications can delay periods',
-      detailed: 'Birth control pills, antidepressants, antipsychotics, and some other medications can affect your menstrual cycle. Starting or stopping medications can temporarily disrupt your cycle.',
-      status: 'caution'
-    },
-    {
-      id: 'excessive-exercise',
-      title: 'Intense Physical Activity',
-      icon: '🏃‍♀️',
-      brief: 'Over-exercising can suppress menstruation',
-      detailed: 'Intense or excessive exercise can suppress ovulation and menstruation, especially in athletes or those with low body weight. This is called exercise-induced amenorrhea.',
-      status: 'caution'
-    },
-    {
-      id: 'illness-infection',
-      title: 'Illness & Infections',
-      icon: '🤒',
-      brief: 'Being sick can temporarily delay periods',
-      detailed: 'Acute illness, infections, or chronic health conditions can temporarily disrupt your menstrual cycle as your body focuses energy on recovery rather than reproduction.',
-      status: 'caution'
-    },
-    {
-      id: 'travel-changes',
-      title: 'Travel & Time Zone Changes',
-      icon: '✈️',
-      brief: 'Travel stress and schedule changes affect cycles',
-      detailed: 'Long-distance travel, especially across time zones, can disrupt your body\'s natural rhythms and temporarily affect your menstrual cycle. This usually resolves within 1-2 cycles.',
-      status: 'safe'
-    },
-    {
-      id: 'age-factors',
-      title: 'Age-Related Changes',
-      icon: '📅',
-      brief: 'Perimenopause or adolescence irregularities',
-      detailed: 'Teenagers may have irregular cycles as their bodies mature, while women in their 40s may experience perimenopause, causing irregular or missed periods.',
-      status: 'safe'
-    },
-    {
-      id: 'breastfeeding',
-      title: 'Breastfeeding',
-      icon: '🤱',
-      brief: 'Nursing can suppress ovulation and periods',
-      detailed: 'Breastfeeding releases prolactin, which can suppress ovulation and menstruation. This is more common with exclusive breastfeeding and frequent nursing sessions.',
-      status: 'safe'
-    },
-    {
-      id: 'sleep-disruption',
-      title: 'Sleep Pattern Changes',
-      icon: '🌙',
-      brief: 'Irregular sleep schedules can affect hormones',
-      detailed: 'Shift work, insomnia, or major changes in sleep patterns can disrupt your circadian rhythm and the hormones that regulate your menstrual cycle.',
-      status: 'caution'
-    }
-  ];
+  {
+    id: 'stress-impact',
+    title: getLocalizedText('stress.emotional.factors'),
+    icon: '😰',
+    brief: getLocalizedText('stress.emotional.factors.description'),
+    detailed: getLocalizedText('stress.emotional.factors.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'weight-changes',
+    title: getLocalizedText('significant.weight.changes'),
+    icon: '⚖️',
+    brief: getLocalizedText('significant.weight.changes.description'),
+    detailed: getLocalizedText('significant.weight.changes.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'hormonal-imbalances',
+    title: getLocalizedText('hormonal.disorders'),
+    icon: '🧬',
+    brief: getLocalizedText('hormonal.disorders.description'),
+    detailed: getLocalizedText('hormonal.disorders.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'medications',
+    title: getLocalizedText('medication.effects'),
+    icon: '💊',
+    brief: getLocalizedText('medication.effects.description'),
+    detailed: getLocalizedText('medication.effects.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'excessive-exercise',
+    title: getLocalizedText('intense.physical.activity'),
+    icon: '🏃‍♀️',
+    brief: getLocalizedText('intense.physical.activity.description'),
+    detailed: getLocalizedText('intense.physical.activity.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'illness-infection',
+    title: getLocalizedText('illness.infections'),
+    icon: '🤒',
+    brief: getLocalizedText('illness.infections.description'),
+    detailed: getLocalizedText('illness.infections.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'travel-changes',
+    title: getLocalizedText('travel.time.zone.changes'),
+    icon: '✈️',
+    brief: getLocalizedText('travel.time.zone.changes.description'),
+    detailed: getLocalizedText('travel.time.zone.changes.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'age-factors',
+    title: getLocalizedText('age.related.changes'),
+    icon: '📅',
+    brief: getLocalizedText('age.related.changes.description'),
+    detailed: getLocalizedText('age.related.changes.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'breastfeeding',
+    title: getLocalizedText('breastfeeding'),
+    icon: '🤱',
+    brief: getLocalizedText('breastfeeding.description'),
+    detailed: getLocalizedText('breastfeeding.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'sleep-disruption',
+    title: getLocalizedText('sleep.pattern.changes'),
+    icon: '🌙',
+    brief: getLocalizedText('sleep.pattern.changes.description'),
+    detailed: getLocalizedText('sleep.pattern.changes.guidance'),
+    status: 'caution'
+  }
+];
+
+
+  // const periodLengthFactors = [
+  //   {
+  //     id: 'hormonal-fluctuations',
+  //     title: 'Natural Hormone Changes',
+  //     icon: '🌊',
+  //     brief: 'Normal monthly variations in hormone levels',
+  //     detailed: 'Slight variations in estrogen and progesterone levels can naturally cause your period to be a day or two shorter or longer from month to month. This is completely normal.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'birth-control-effects',
+  //     title: 'Birth Control Impact',
+  //     icon: '💊',
+  //     brief: 'Hormonal contraceptives can alter period length',
+  //     detailed: 'Birth control pills, patches, rings, or IUDs can make periods lighter and shorter, or in some cases, longer. Some methods may eventually stop periods altogether.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'age-related-changes',
+  //     title: 'Age & Life Stage',
+  //     icon: '📅',
+  //     brief: 'Periods change throughout your reproductive years',
+  //     detailed: 'Teenagers often have irregular period lengths as their cycles establish. Women approaching menopause may experience shorter or longer periods as hormone levels fluctuate.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'stress-lifestyle',
+  //     title: 'Stress & Lifestyle Factors',
+  //     icon: '😰',
+  //     brief: 'Life changes can affect period duration',
+  //     detailed: 'High stress, significant weight changes, intense exercise, or major life changes can temporarily alter the length of your periods by affecting hormone production.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'underlying-conditions',
+  //     title: 'Medical Conditions',
+  //     icon: '🩺',
+  //     brief: 'Health conditions can impact period length',
+  //     detailed: 'Conditions like PCOS, endometriosis, thyroid disorders, or uterine fibroids can cause periods to be consistently longer or shorter than normal.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'medication-influence',
+  //     title: 'Medication Side Effects',
+  //     icon: '💉',
+  //     brief: 'Certain drugs can change period characteristics',
+  //     detailed: 'Blood thinners, antidepressants, steroids, and other medications can affect the length and heaviness of your periods. Consult your healthcare provider about any concerns.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'nutritional-factors',
+  //     title: 'Diet & Nutrition',
+  //     icon: '🥗',
+  //     brief: 'Poor nutrition can affect menstrual health',
+  //     detailed: 'Severe calorie restriction, eating disorders, or nutritional deficiencies can cause periods to become lighter, shorter, or irregular as the body conserves energy.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'pregnancy-breastfeeding',
+  //     title: 'Pregnancy & Breastfeeding',
+  //     icon: '🤱',
+  //     brief: 'Reproductive states that affect cycles',
+  //     detailed: 'Recent pregnancy, miscarriage, or breastfeeding can temporarily affect period length and regularity as your body readjusts hormonally.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'exercise-impact',
+  //     title: 'Physical Activity Levels',
+  //     icon: '🏃‍♀️',
+  //     brief: 'Exercise intensity can influence period length',
+  //     detailed: 'Very intense training can make periods lighter and shorter, while moderate exercise may help regulate cycles. Sudden changes in activity level can temporarily affect periods.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'when-to-worry',
+  //     title: 'When to Seek Help',
+  //     icon: '🚨',
+  //     brief: 'Warning signs that need medical attention',
+  //     detailed: 'See a healthcare provider if your periods suddenly become very short (less than 2 days), very long (more than 7 days), or if you experience severe pain, very heavy bleeding, or periods stop entirely.',
+  //     status: 'attention'
+  //   }
+  // ];
+
 
   const periodLengthFactors = [
-    {
-      id: 'hormonal-fluctuations',
-      title: 'Natural Hormone Changes',
-      icon: '🌊',
-      brief: 'Normal monthly variations in hormone levels',
-      detailed: 'Slight variations in estrogen and progesterone levels can naturally cause your period to be a day or two shorter or longer from month to month. This is completely normal.',
-      status: 'safe'
-    },
-    {
-      id: 'birth-control-effects',
-      title: 'Birth Control Impact',
-      icon: '💊',
-      brief: 'Hormonal contraceptives can alter period length',
-      detailed: 'Birth control pills, patches, rings, or IUDs can make periods lighter and shorter, or in some cases, longer. Some methods may eventually stop periods altogether.',
-      status: 'safe'
-    },
-    {
-      id: 'age-related-changes',
-      title: 'Age & Life Stage',
-      icon: '📅',
-      brief: 'Periods change throughout your reproductive years',
-      detailed: 'Teenagers often have irregular period lengths as their cycles establish. Women approaching menopause may experience shorter or longer periods as hormone levels fluctuate.',
-      status: 'safe'
-    },
-    {
-      id: 'stress-lifestyle',
-      title: 'Stress & Lifestyle Factors',
-      icon: '😰',
-      brief: 'Life changes can affect period duration',
-      detailed: 'High stress, significant weight changes, intense exercise, or major life changes can temporarily alter the length of your periods by affecting hormone production.',
-      status: 'caution'
-    },
-    {
-      id: 'underlying-conditions',
-      title: 'Medical Conditions',
-      icon: '🩺',
-      brief: 'Health conditions can impact period length',
-      detailed: 'Conditions like PCOS, endometriosis, thyroid disorders, or uterine fibroids can cause periods to be consistently longer or shorter than normal.',
-      status: 'attention'
-    },
-    {
-      id: 'medication-influence',
-      title: 'Medication Side Effects',
-      icon: '💉',
-      brief: 'Certain drugs can change period characteristics',
-      detailed: 'Blood thinners, antidepressants, steroids, and other medications can affect the length and heaviness of your periods. Consult your healthcare provider about any concerns.',
-      status: 'caution'
-    },
-    {
-      id: 'nutritional-factors',
-      title: 'Diet & Nutrition',
-      icon: '🥗',
-      brief: 'Poor nutrition can affect menstrual health',
-      detailed: 'Severe calorie restriction, eating disorders, or nutritional deficiencies can cause periods to become lighter, shorter, or irregular as the body conserves energy.',
-      status: 'caution'
-    },
-    {
-      id: 'pregnancy-breastfeeding',
-      title: 'Pregnancy & Breastfeeding',
-      icon: '🤱',
-      brief: 'Reproductive states that affect cycles',
-      detailed: 'Recent pregnancy, miscarriage, or breastfeeding can temporarily affect period length and regularity as your body readjusts hormonally.',
-      status: 'safe'
-    },
-    {
-      id: 'exercise-impact',
-      title: 'Physical Activity Levels',
-      icon: '🏃‍♀️',
-      brief: 'Exercise intensity can influence period length',
-      detailed: 'Very intense training can make periods lighter and shorter, while moderate exercise may help regulate cycles. Sudden changes in activity level can temporarily affect periods.',
-      status: 'caution'
-    },
-    {
-      id: 'when-to-worry',
-      title: 'When to Seek Help',
-      icon: '🚨',
-      brief: 'Warning signs that need medical attention',
-      detailed: 'See a healthcare provider if your periods suddenly become very short (less than 2 days), very long (more than 7 days), or if you experience severe pain, very heavy bleeding, or periods stop entirely.',
-      status: 'attention'
-    }
-  ];
+  {
+    id: 'hormonal-fluctuations',
+    title: getLocalizedText('natural.hormone.changes'),
+    icon: '🌊',
+    brief: getLocalizedText('natural.hormone.changes.description'),
+    detailed: getLocalizedText('natural.hormone.changes.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'birth-control-effects',
+    title: getLocalizedText('birth.control.impact'),
+    icon: '💊',
+    brief: getLocalizedText('birth.control.impact.description'),
+    detailed: getLocalizedText('birth.control.impact.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'age-related-changes',
+    title: getLocalizedText('age.life.stage'),
+    icon: '📅',
+    brief: getLocalizedText('age.life.stage.description'),
+    detailed: getLocalizedText('age.life.stage.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'stress-lifestyle',
+    title: getLocalizedText('stress.lifestyle.factors'),
+    icon: '😰',
+    brief: getLocalizedText('stress.lifestyle.factors.description'),
+    detailed: getLocalizedText('stress.lifestyle.factors.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'underlying-conditions',
+    title: getLocalizedText('medical.conditions'),
+    icon: '🩺',
+    brief: getLocalizedText('medical.conditions.description'),
+    detailed: getLocalizedText('medical.conditions.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'medication-influence',
+    title: getLocalizedText('medication.side.effects'),
+    icon: '💉',
+    brief: getLocalizedText('medication.side.effects.description'),
+    detailed: getLocalizedText('medication.side.effects.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'nutritional-factors',
+    title: getLocalizedText('diet.nutrition'),
+    icon: '🥗',
+    brief: getLocalizedText('diet.nutrition.description'),
+    detailed: getLocalizedText('diet.nutrition.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'pregnancy-breastfeeding',
+    title: getLocalizedText('pregnancy.breastfeeding'),
+    icon: '🤱',
+    brief: getLocalizedText('pregnancy.breastfeeding.description'),
+    detailed: getLocalizedText('pregnancy.breastfeeding.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'exercise-impact',
+    title: getLocalizedText('physical.activity.levels'),
+    icon: '🏃‍♀️',
+    brief: getLocalizedText('physical.activity.levels.description'),
+    detailed: getLocalizedText('physical.activity.levels.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'when-to-worry',
+    title: getLocalizedText('when.to.seek.help'),
+    icon: '🚨',
+    brief: getLocalizedText('when.to.seek.help.description'),
+    detailed: getLocalizedText('when.to.seek.help.guidance'),
+    status: 'attention'
+  }
+];
+
+
+
+  // const contraceptionTopics = [
+  //   {
+  //     id: 'islamic-perspective',
+  //     title: 'Islamic Views on Family Planning',
+  //     icon: '🌙',
+  //     brief: 'Religious guidance on contraception',
+  //     detailed: 'Islam permits family planning for valid reasons such as health, economic concerns, or spacing children. Most scholars allow reversible contraception, while permanent sterilization is generally discouraged unless medically necessary.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'natural-methods',
+  //     title: 'Natural Family Planning',
+  //     icon: '📊',
+  //     brief: 'Fertility awareness-based methods',
+  //     detailed: 'Tracking ovulation through basal body temperature, cervical mucus changes, or calendar methods. These methods require dedication and education but have no side effects and align with natural body rhythms.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'barrier-methods',
+  //     title: 'Barrier Contraceptives',
+  //     icon: '🛡️',
+  //     brief: 'Physical methods that prevent sperm from reaching egg',
+  //     detailed: 'Condoms, diaphragms, and cervical caps physically block sperm. Condoms also protect against STIs. These methods are non-hormonal and can be used as needed.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'hormonal-options',
+  //     title: 'Hormonal Contraceptives',
+  //     icon: '💊',
+  //     brief: 'Birth control pills, patches, and injections',
+  //     detailed: 'Methods that use hormones to prevent ovulation. Include birth control pills, patches, rings, and shots. Very effective but may have side effects and aren\'t suitable for everyone.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'iud-options',
+  //     title: 'Intrauterine Devices (IUDs)',
+  //     icon: '🔹',
+  //     brief: 'Long-term reversible contraception',
+  //     detailed: 'Small devices placed in the uterus that prevent pregnancy for 3-10 years. Available in hormonal and non-hormonal (copper) types. Highly effective but require medical insertion.',
+  //     status: 'caution'
+  //   },
+  //   {
+  //     id: 'effectiveness-rates',
+  //     title: 'Method Effectiveness',
+  //     icon: '📈',
+  //     brief: 'Comparing success rates of different methods',
+  //     detailed: 'IUDs and implants are over 99% effective, birth control pills are 91-99% effective with perfect use, condoms are 85-98% effective, and natural methods vary from 76-99% depending on the method and consistency of use.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'side-effects',
+  //     title: 'Understanding Side Effects',
+  //     icon: '⚠️',
+  //     brief: 'Potential risks and benefits of each method',
+  //     detailed: 'Hormonal methods may cause mood changes, weight gain, or irregular bleeding. Copper IUDs may increase menstrual flow. Natural methods have no physical side effects but require significant commitment.',
+  //     status: 'attention'
+  //   },
+  //   {
+  //     id: 'choosing-method',
+  //     title: 'Choosing the Right Method',
+  //     icon: '🎯',
+  //     brief: 'Factors to consider when selecting contraception',
+  //     detailed: 'Consider your health history, lifestyle, relationship status, desire for future pregnancy, religious beliefs, and personal preferences. Consult with healthcare providers to make an informed decision.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'emergency-contraception',
+  //     title: 'Emergency Contraception',
+  //     icon: '🚨',
+  //     brief: 'Options after unprotected intercourse',
+  //     detailed: 'Emergency contraceptive pills (Plan B) or copper IUD insertion can prevent pregnancy if used within 3-5 days after unprotected intercourse. Consult Islamic scholars about emergency contraception use.',
+  //     status: 'urgent'
+  //   },
+  //   {
+  //     id: 'consultation-importance',
+  //     title: 'Professional Consultation',
+  //     icon: '👩‍⚕️',
+  //     brief: 'Working with healthcare providers',
+  //     detailed: 'Always consult qualified healthcare providers when choosing contraception. They can assess your individual health needs, discuss options, and monitor for any complications or side effects.',
+  //     status: 'safe'
+  //   }
+  // ];
+
 
   const contraceptionTopics = [
-    {
-      id: 'islamic-perspective',
-      title: 'Islamic Views on Family Planning',
-      icon: '🌙',
-      brief: 'Religious guidance on contraception',
-      detailed: 'Islam permits family planning for valid reasons such as health, economic concerns, or spacing children. Most scholars allow reversible contraception, while permanent sterilization is generally discouraged unless medically necessary.',
-      status: 'safe'
-    },
-    {
-      id: 'natural-methods',
-      title: 'Natural Family Planning',
-      icon: '📊',
-      brief: 'Fertility awareness-based methods',
-      detailed: 'Tracking ovulation through basal body temperature, cervical mucus changes, or calendar methods. These methods require dedication and education but have no side effects and align with natural body rhythms.',
-      status: 'safe'
-    },
-    {
-      id: 'barrier-methods',
-      title: 'Barrier Contraceptives',
-      icon: '🛡️',
-      brief: 'Physical methods that prevent sperm from reaching egg',
-      detailed: 'Condoms, diaphragms, and cervical caps physically block sperm. Condoms also protect against STIs. These methods are non-hormonal and can be used as needed.',
-      status: 'safe'
-    },
-    {
-      id: 'hormonal-options',
-      title: 'Hormonal Contraceptives',
-      icon: '💊',
-      brief: 'Birth control pills, patches, and injections',
-      detailed: 'Methods that use hormones to prevent ovulation. Include birth control pills, patches, rings, and shots. Very effective but may have side effects and aren\'t suitable for everyone.',
-      status: 'caution'
-    },
-    {
-      id: 'iud-options',
-      title: 'Intrauterine Devices (IUDs)',
-      icon: '🔹',
-      brief: 'Long-term reversible contraception',
-      detailed: 'Small devices placed in the uterus that prevent pregnancy for 3-10 years. Available in hormonal and non-hormonal (copper) types. Highly effective but require medical insertion.',
-      status: 'caution'
-    },
-    {
-      id: 'effectiveness-rates',
-      title: 'Method Effectiveness',
-      icon: '📈',
-      brief: 'Comparing success rates of different methods',
-      detailed: 'IUDs and implants are over 99% effective, birth control pills are 91-99% effective with perfect use, condoms are 85-98% effective, and natural methods vary from 76-99% depending on the method and consistency of use.',
-      status: 'safe'
-    },
-    {
-      id: 'side-effects',
-      title: 'Understanding Side Effects',
-      icon: '⚠️',
-      brief: 'Potential risks and benefits of each method',
-      detailed: 'Hormonal methods may cause mood changes, weight gain, or irregular bleeding. Copper IUDs may increase menstrual flow. Natural methods have no physical side effects but require significant commitment.',
-      status: 'attention'
-    },
-    {
-      id: 'choosing-method',
-      title: 'Choosing the Right Method',
-      icon: '🎯',
-      brief: 'Factors to consider when selecting contraception',
-      detailed: 'Consider your health history, lifestyle, relationship status, desire for future pregnancy, religious beliefs, and personal preferences. Consult with healthcare providers to make an informed decision.',
-      status: 'safe'
-    },
-    {
-      id: 'emergency-contraception',
-      title: 'Emergency Contraception',
-      icon: '🚨',
-      brief: 'Options after unprotected intercourse',
-      detailed: 'Emergency contraceptive pills (Plan B) or copper IUD insertion can prevent pregnancy if used within 3-5 days after unprotected intercourse. Consult Islamic scholars about emergency contraception use.',
-      status: 'urgent'
-    },
-    {
-      id: 'consultation-importance',
-      title: 'Professional Consultation',
-      icon: '👩‍⚕️',
-      brief: 'Working with healthcare providers',
-      detailed: 'Always consult qualified healthcare providers when choosing contraception. They can assess your individual health needs, discuss options, and monitor for any complications or side effects.',
-      status: 'safe'
-    }
-  ];
+  {
+    id: 'islamic-perspective',
+    title: getLocalizedText('islamic.views.on.family.planning'),
+    icon: '🌙',
+    brief: getLocalizedText('islamic.views.on.family.planning.description'),
+    detailed: getLocalizedText('islamic.views.on.family.planning.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'natural-methods',
+    title: getLocalizedText('natural.family.planning'),
+    icon: '📊',
+    brief: getLocalizedText('natural.family.planning.description'),
+    detailed: getLocalizedText('natural.family.planning.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'barrier-methods',
+    title: getLocalizedText('barrier.contraceptives'),
+    icon: '🛡️',
+    brief: getLocalizedText('barrier.contraceptives.description'),
+    detailed: getLocalizedText('barrier.contraceptives.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'hormonal-options',
+    title: getLocalizedText('hormonal.contraceptives'),
+    icon: '💊',
+    brief: getLocalizedText('hormonal.contraceptives.description'),
+    detailed: getLocalizedText('hormonal.contraceptives.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'iud-options',
+    title: getLocalizedText('intrauterine.devices'),
+    icon: '🔹',
+    brief: getLocalizedText('intrauterine.devices.description'),
+    detailed: getLocalizedText('intrauterine.devices.guidance'),
+    status: 'caution'
+  },
+  {
+    id: 'effectiveness-rates',
+    title: getLocalizedText('method.effectiveness'),
+    icon: '📈',
+    brief: getLocalizedText('method.effectiveness.description'),
+    detailed: getLocalizedText('method.effectiveness.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'side-effects',
+    title: getLocalizedText('understanding.side.effects'),
+    icon: '⚠️',
+    brief: getLocalizedText('understanding.side.effects.description'),
+    detailed: getLocalizedText('understanding.side.effects.guidance'),
+    status: 'attention'
+  },
+  {
+    id: 'choosing-method',
+    title: getLocalizedText('choosing.the.right.method'),
+    icon: '🎯',
+    brief: getLocalizedText('choosing.the.right.method.description'),
+    detailed: getLocalizedText('choosing.the.right.method.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'emergency-contraception',
+    title: getLocalizedText('emergency.contraception'),
+    icon: '🚨',
+    brief: getLocalizedText('emergency.contraception.description'),
+    detailed: getLocalizedText('emergency.contraception.guidance'),
+    status: 'urgent'
+  },
+  {
+    id: 'consultation-importance',
+    title: getLocalizedText('professional.consultation'),
+    icon: '👩‍⚕️',
+    brief: getLocalizedText('professional.consultation.description'),
+    detailed: getLocalizedText('professional.consultation.guidance'),
+    status: 'safe'
+  }
+];
 
-  const naturalRemedies = [
-    {
-      id: 'heat-therapy',
-      title: 'Heat Application',
-      icon: '🔥',
-      brief: 'Warmth helps relax uterine muscles',
-      detailed: 'Apply heat pads, hot water bottles, or take warm baths to relax cramping muscles. Heat increases blood flow and can significantly reduce pain. Use for 15-20 minutes at a time.',
-      status: 'safe'
-    },
-    {
-      id: 'herbal-teas',
-      title: 'Herbal Remedies',
-      icon: '🫖',
-      brief: 'Chamomile, ginger, and other healing teas',
-      detailed: 'Chamomile tea has anti-inflammatory properties, ginger tea helps with nausea and pain, and raspberry leaf tea may help tone the uterus. Drink 2-3 cups daily during your period.',
-      status: 'safe'
-    },
-    {
-      id: 'essential-oils',
-      title: 'Aromatherapy & Essential Oils',
-      icon: '🌿',
-      brief: 'Lavender, clary sage for pain relief',
-      detailed: 'Diluted essential oils like lavender, clary sage, or marjoram can be massaged onto the lower abdomen. These oils have antispasmodic properties that may help reduce cramping.',
-      status: 'safe'
-    },
-    {
-      id: 'gentle-massage',
-      title: 'Abdominal Massage',
-      icon: '👐',
-      brief: 'Circular motions to ease tension',
-      detailed: 'Gentle circular massage on the lower abdomen and lower back can help relieve cramping. Use light pressure and massage for 5-10 minutes, optionally with diluted essential oils.',
-      status: 'safe'
-    },
-    {
-      id: 'yoga-stretches',
-      title: 'Gentle Yoga & Stretching',
-      icon: '🧘‍♀️',
-      brief: 'Specific poses to relieve menstrual pain',
-      detailed: 'Child\'s pose, cat-cow stretches, and supine twists can help relieve menstrual cramps. Gentle movement increases blood flow and releases endorphins that naturally reduce pain.',
-      status: 'safe'
-    },
-    {
-      id: 'sunnah-remedies',
-      title: 'Prophetic Medicine',
-      icon: '🍯',
-      brief: 'Islamic traditional remedies',
-      detailed: 'Honey, black seed (Nigella sativa), dates, and figs are mentioned in Islamic tradition for their healing properties. These natural foods can provide comfort and nutrition during menstruation.',
-      status: 'safe'
-    },
-    {
-      id: 'dietary-changes',
-      title: 'Anti-inflammatory Foods',
-      icon: '🥗',
-      brief: 'Foods that reduce inflammation and pain',
-      detailed: 'Omega-3 rich foods (salmon, walnuts), leafy greens, berries, and turmeric have anti-inflammatory properties. Avoid processed foods, excess sugar, and caffeine during your period.',
-      status: 'safe'
-    },
-    {
-      id: 'hydration',
-      title: 'Proper Hydration',
-      icon: '💧',
-      brief: 'Water helps reduce bloating and cramping',
-      detailed: 'Drinking plenty of water helps reduce bloating and can ease cramping. Warm water may be more soothing than cold. Add lemon or cucumber for flavor and additional benefits.',
-      status: 'safe'
-    },
-    {
-      id: 'magnesium-foods',
-      title: 'Magnesium-Rich Foods',
-      icon: '🥜',
-      brief: 'Natural muscle relaxant from food sources',
-      detailed: 'Dark chocolate, nuts, seeds, and leafy greens are rich in magnesium, which acts as a natural muscle relaxant. Magnesium deficiency can worsen menstrual cramps.',
-      status: 'safe'
-    },
-    {
-      id: 'rest-relaxation',
-      title: 'Rest & Stress Management',
-      icon: '🛌',
-      brief: 'Adequate sleep and relaxation techniques',
-      detailed: 'Ensure adequate sleep and practice stress-reduction techniques like deep breathing, meditation, or reading Quran. Stress can worsen menstrual symptoms, so prioritize self-care.',
-      status: 'safe'
-    }
-  ];
+
+
+  // const naturalRemedies = [
+  //   {
+  //     id: 'heat-therapy',
+  //     title: 'Heat Application',
+  //     icon: '🔥',
+  //     brief: 'Warmth helps relax uterine muscles',
+  //     detailed: 'Apply heat pads, hot water bottles, or take warm baths to relax cramping muscles. Heat increases blood flow and can significantly reduce pain. Use for 15-20 minutes at a time.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'herbal-teas',
+  //     title: 'Herbal Remedies',
+  //     icon: '🫖',
+  //     brief: 'Chamomile, ginger, and other healing teas',
+  //     detailed: 'Chamomile tea has anti-inflammatory properties, ginger tea helps with nausea and pain, and raspberry leaf tea may help tone the uterus. Drink 2-3 cups daily during your period.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'essential-oils',
+  //     title: 'Aromatherapy & Essential Oils',
+  //     icon: '🌿',
+  //     brief: 'Lavender, clary sage for pain relief',
+  //     detailed: 'Diluted essential oils like lavender, clary sage, or marjoram can be massaged onto the lower abdomen. These oils have antispasmodic properties that may help reduce cramping.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'gentle-massage',
+  //     title: 'Abdominal Massage',
+  //     icon: '👐',
+  //     brief: 'Circular motions to ease tension',
+  //     detailed: 'Gentle circular massage on the lower abdomen and lower back can help relieve cramping. Use light pressure and massage for 5-10 minutes, optionally with diluted essential oils.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'yoga-stretches',
+  //     title: 'Gentle Yoga & Stretching',
+  //     icon: '🧘‍♀️',
+  //     brief: 'Specific poses to relieve menstrual pain',
+  //     detailed: 'Child\'s pose, cat-cow stretches, and supine twists can help relieve menstrual cramps. Gentle movement increases blood flow and releases endorphins that naturally reduce pain.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'sunnah-remedies',
+  //     title: 'Prophetic Medicine',
+  //     icon: '🍯',
+  //     brief: 'Islamic traditional remedies',
+  //     detailed: 'Honey, black seed (Nigella sativa), dates, and figs are mentioned in Islamic tradition for their healing properties. These natural foods can provide comfort and nutrition during menstruation.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'dietary-changes',
+  //     title: 'Anti-inflammatory Foods',
+  //     icon: '🥗',
+  //     brief: 'Foods that reduce inflammation and pain',
+  //     detailed: 'Omega-3 rich foods (salmon, walnuts), leafy greens, berries, and turmeric have anti-inflammatory properties. Avoid processed foods, excess sugar, and caffeine during your period.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'hydration',
+  //     title: 'Proper Hydration',
+  //     icon: '💧',
+  //     brief: 'Water helps reduce bloating and cramping',
+  //     detailed: 'Drinking plenty of water helps reduce bloating and can ease cramping. Warm water may be more soothing than cold. Add lemon or cucumber for flavor and additional benefits.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'magnesium-foods',
+  //     title: 'Magnesium-Rich Foods',
+  //     icon: '🥜',
+  //     brief: 'Natural muscle relaxant from food sources',
+  //     detailed: 'Dark chocolate, nuts, seeds, and leafy greens are rich in magnesium, which acts as a natural muscle relaxant. Magnesium deficiency can worsen menstrual cramps.',
+  //     status: 'safe'
+  //   },
+  //   {
+  //     id: 'rest-relaxation',
+  //     title: 'Rest & Stress Management',
+  //     icon: '🛌',
+  //     brief: 'Adequate sleep and relaxation techniques',
+  //     detailed: 'Ensure adequate sleep and practice stress-reduction techniques like deep breathing, meditation, or reading Quran. Stress can worsen menstrual symptoms, so prioritize self-care.',
+  //     status: 'safe'
+  //   }
+  // ];
+
+const naturalRemedies = [
+  {
+    id: 'heat-therapy',
+    title: getLocalizedText('heat.application'),
+    icon: '🔥',
+    brief: getLocalizedText('heat.application.description'),
+    detailed: getLocalizedText('heat.application.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'herbal-teas',
+    title: getLocalizedText('herbal.remedies'),
+    icon: '🫖',
+    brief: getLocalizedText('herbal.remedies.description'),
+    detailed: getLocalizedText('herbal.remedies.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'essential-oils',
+    title: getLocalizedText('aromatherapy.and.essential.oils'),
+    icon: '🌿',
+    brief: getLocalizedText('aromatherapy.and.essential.oils.description'),
+    detailed: getLocalizedText('aromatherapy.and.essential.oils.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'gentle-massage',
+    title: getLocalizedText('abdominal.massage'),
+    icon: '👐',
+    brief: getLocalizedText('abdominal.massage.description'),
+    detailed: getLocalizedText('abdominal.massage.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'yoga-stretches',
+    title: getLocalizedText('gentle.yoga.and.stretching'),
+    icon: '🧘‍♀️',
+    brief: getLocalizedText('gentle.yoga.and.stretching.description'),
+    detailed: getLocalizedText('gentle.yoga.and.stretching.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'sunnah-remedies',
+    title: getLocalizedText('prophetic.medicine'),
+    icon: '🍯',
+    brief: getLocalizedText('prophetic.medicine.description'),
+    detailed: getLocalizedText('prophetic.medicine.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'dietary-changes',
+    title: getLocalizedText('anti.inflammatory.foods'),
+    icon: '🥗',
+    brief: getLocalizedText('anti.inflammatory.foods.description'),
+    detailed: getLocalizedText('anti.inflammatory.foods.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'hydration',
+    title: getLocalizedText('proper.hydration'),
+    icon: '💧',
+    brief: getLocalizedText('proper.hydration.description'),
+    detailed: getLocalizedText('proper.hydration.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'magnesium-foods',
+    title: getLocalizedText('magnesium.rich.foods'),
+    icon: '🥜',
+    brief: getLocalizedText('magnesium.rich.foods.description'),
+    detailed: getLocalizedText('magnesium.rich.foods.guidance'),
+    status: 'safe'
+  },
+  {
+    id: 'rest-relaxation',
+    title: getLocalizedText('rest.and.stress.management'),
+    icon: '🛌',
+    brief: getLocalizedText('rest.and.stress.management.description'),
+    detailed: getLocalizedText('rest.and.stress.management.guidance'),
+    status: 'safe'
+  }
+];
+
+  
 
   const pregnancyHealthTopics = [
     {
@@ -1034,23 +1873,13 @@ const HealthInsights = () => {
         } else {
           document.documentElement.classList.remove('dark');
         }  
-          console.log('Settings loaded:', parsedSettings);
         } catch (error) {
           console.error('Error loading settings:', error);
         }
       }
       else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-  
-      // Apply dark mode immediately if enabled:
-  
-      // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-      // if (isDarkMode) {
-      //   document.documentElement.classList.add('dark');
-      // }
-  
   
     }, []);
 
@@ -1538,55 +2367,7 @@ const HealthInsights = () => {
     title: string
   }) => (
 
-    // <Card className="mb-6">
-    //   <CardHeader>
-    //     <CardTitle className="flex items-center gap-2">
-    //       <Droplets className="w-5 h-5 text-lavender-600" />
-    //       {title}
-    //     </CardTitle>
-    //   </CardHeader>
-    //   <CardContent>
-    //     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-    //       {types.map((type) => (
-    //         <Card 
-    //           key={type.id}
-    //           className={`cursor-pointer hover:shadow-md transition-all duration-300 ${type.color}`}
-    //           onClick={() => setExpandedType(expandedType === type.id ? null : type.id)}
-    //         >
-    //           <CardContent className="p-3 text-center">
-    //             <div className="flex items-center justify-between mb-2">
-    //               <span className="text-xl">{type.icon}</span>
-    //               {getStatusIcon(type.status)}
-    //             </div>
-    //             <h4 className={`font-semibold text-xs ${type.textColor} mb-1`}>
-    //               {type.title}
-    //             </h4>
-    //             <p className={`text-xs ${type.textColor} opacity-75`}>
-    //               {type.brief}
-    //             </p>
-    //           </CardContent>
-    //         </Card>
-    //       ))}
-    //     </div>
 
-    //     {expandedType && (
-    //       <Card className="mt-4 bg-lavender-50 border-lavender-200">
-    //         <CardContent className="p-4">
-    //           <div className="flex items-center gap-2 mb-3">
-    //             <span className="text-2xl">{types.find(t => t.id === expandedType)?.icon}</span>
-    //             <h4 className="font-semibold text-lavender-800">
-    //               {types.find(t => t.id === expandedType)?.title}
-    //             </h4>
-    //             {getStatusIcon(types.find(t => t.id === expandedType)?.status)}
-    //           </div>
-    //           <p className="text-lavender-700 text-sm leading-relaxed">
-    //             {types.find(t => t.id === expandedType)?.detailed}
-    //           </p>
-    //         </CardContent>
-    //       </Card>
-    //     )}
-    //   </CardContent>
-    // </Card>
 
       <Card className="relative overflow-hidden mb-6">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : 'bg-white border border-lavender-200'}`}></div>
@@ -1655,63 +2436,7 @@ const HealthInsights = () => {
     title: string,
     titleIcon: React.ReactNode
   }) => (
-    // <Card className="mb-6">
-    //   <CardHeader>
-    //     <CardTitle className="flex items-center gap-2">
-    //       {titleIcon}
-    //       {title}
-    //     </CardTitle>
-    //   </CardHeader>
-    //   <CardContent>
-    //     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-    //       {topics.map((topic) => (
-    //         <Card 
-    //           key={topic.id}
-    //           className="cursor-pointer hover:shadow-md transition-all duration-300 border-lavender-200 hover:bg-lavender-50"
-    //           onClick={() => setExpandedTopic(expandedTopic === topic.id ? null : topic.id)}
-    //         >
-    //           <CardContent className="p-4">
-    //             <div className="flex items-center justify-between mb-2">
-    //               <div className="flex items-center gap-2">
-    //                 <span className="text-lg">{topic.icon}</span>
-    //                 <h4 className="font-semibold text-sm text-gray-800">
-    //                   {topic.title}
-    //                 </h4>
-    //               </div>
-    //               <div className="flex items-center gap-1">
-    //                 {getStatusIcon(topic.status)}
-    //                 {expandedTopic === topic.id ? 
-    //                   <ChevronUp className="w-4 h-4 text-lavender-600" /> : 
-    //                   <ChevronDown className="w-4 h-4 text-lavender-600" />
-    //                 }
-    //               </div>
-    //             </div>
-    //             <p className="text-xs text-gray-600 mb-2">
-    //               {topic.brief}
-    //             </p>
-    //           </CardContent>
-    //         </Card>
-    //       ))}
-    //     </div>
-
-    //     {expandedTopic && (
-    //       <Card className="mt-4 bg-lavender-50 border-lavender-200">
-    //         <CardContent className="p-4">
-    //           <div className="flex items-center gap-2 mb-3">
-    //             <span className="text-2xl">{topics.find(t => t.id === expandedTopic)?.icon}</span>
-    //             <h4 className="font-semibold text-lavender-800">
-    //               {topics.find(t => t.id === expandedTopic)?.title}
-    //             </h4>
-    //             {getStatusIcon(topics.find(t => t.id === expandedTopic)?.status)}
-    //           </div>
-    //           <p className="text-lavender-700 text-sm leading-relaxed">
-    //             {topics.find(t => t.id === expandedTopic)?.detailed}
-    //           </p>
-    //         </CardContent>
-    //       </Card>
-    //     )}
-    //   </CardContent>
-    // </Card>
+  
 
     <Card className="relative overflow-hidden mb-6">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : 'bg-white border border-lavender-200'}`}></div>
@@ -1781,169 +2506,336 @@ const HealthInsights = () => {
 
   );
 
+  // const educationalGuides = [
+  //   {
+  //     title: getLocalizedText('vaginal.discharge.guide'),
+  //     description: "Comprehensive guide to understanding different types of vaginal discharge, what they mean for your health, and when to seek medical attention.",
+  //     icons: ["⚪", "🟡", "🧀", "💧"],
+  //     coverage: "8 Types Covered",
+  //     color: "from-blue-500 to-blue-600",
+  //     component: <ColorChart 
+  //       types={dischargeTypes} 
+  //       expandedType={expandedDischarge} 
+  //       setExpandedType={setExpandedDischarge}
+  //       title="Vaginal Discharge Color Chart"
+  //     />
+  //   },
+  //   {
+  //     title: "Period Blood Color Guide", 
+  //     description: "Learn about different period blood colors, their meanings, and Islamic rulings regarding menstruation (hayd) vs. non-menstrual bleeding (istihādah).",
+  //     icons: ["🔴", "🟤", "🟫", "🌸"],
+  //     coverage: "7 Colors Explained",
+  //     color: "from-red-500 to-red-600",
+  //     component: <ColorChart 
+  //       types={bloodTypes} 
+  //       expandedType={expandedBlood} 
+  //       setExpandedType={setExpandedBlood}
+  //       title="Period Blood Color Chart"
+  //     />
+  //   },
+  //   {
+  //     title: "Early Signs of Pregnancy",
+  //     description: "Comprehensive guide to early pregnancy symptoms, when to test, and how to handle the emotional journey with Islamic guidance and support.",
+  //     icons: ["🤰", "🧪", "💭", "💕"],
+  //     coverage: "10 Topics Covered",
+  //     color: "from-pink-500 to-pink-600",
+  //     component: <TopicChart 
+  //       topics={pregnancySigns} 
+  //       expandedTopic={expandedPregnancy} 
+  //       setExpandedTopic={setExpandedPregnancy}
+  //       title="Early Pregnancy Signs"
+  //       titleIcon={<Baby className="w-5 h-5 text-lavender-600" />}
+  //     />
+  //   }
+  // ];
+
   const educationalGuides = [
-    {
-      title: "Vaginal Discharge Guide",
-      description: "Comprehensive guide to understanding different types of vaginal discharge, what they mean for your health, and when to seek medical attention.",
-      icons: ["⚪", "🟡", "🧀", "💧"],
-      coverage: "8 Types Covered",
-      color: "from-blue-500 to-blue-600",
-      component: <ColorChart 
-        types={dischargeTypes} 
-        expandedType={expandedDischarge} 
-        setExpandedType={setExpandedDischarge}
-        title="Vaginal Discharge Color Chart"
-      />
-    },
-    {
-      title: "Period Blood Color Guide", 
-      description: "Learn about different period blood colors, their meanings, and Islamic rulings regarding menstruation (hayd) vs. non-menstrual bleeding (istihādah).",
-      icons: ["🔴", "🟤", "🟫", "🌸"],
-      coverage: "7 Colors Explained",
-      color: "from-red-500 to-red-600",
-      component: <ColorChart 
-        types={bloodTypes} 
-        expandedType={expandedBlood} 
-        setExpandedType={setExpandedBlood}
-        title="Period Blood Color Chart"
-      />
-    },
-    {
-      title: "Early Signs of Pregnancy",
-      description: "Comprehensive guide to early pregnancy symptoms, when to test, and how to handle the emotional journey with Islamic guidance and support.",
-      icons: ["🤰", "🧪", "💭", "💕"],
-      coverage: "10 Topics Covered",
-      color: "from-pink-500 to-pink-600",
-      component: <TopicChart 
-        topics={pregnancySigns} 
-        expandedTopic={expandedPregnancy} 
-        setExpandedTopic={setExpandedPregnancy}
-        title="Early Pregnancy Signs"
-        titleIcon={<Baby className="w-5 h-5 text-lavender-600" />}
-      />
-    }
-  ];
+  {
+    title: getLocalizedText('vaginal.discharge.guide'),
+    description: getLocalizedText('vaginal.discharge.guide.description'),
+    icons: ["⚪", "🟡", "🧀", "💧"],
+    coverage: getLocalizedText('vaginal.discharge.guide.coverage'),
+    color: "from-blue-500 to-blue-600",
+    component: <ColorChart 
+      types={dischargeTypes} 
+      expandedType={expandedDischarge} 
+      setExpandedType={setExpandedDischarge}
+      title={getLocalizedText('vaginal.discharge.color.chart')}
+    />
+  },
+  {
+    title: getLocalizedText('period.blood.color.guide'),
+    description: getLocalizedText('period.blood.color.guide.description'),
+    icons: ["🔴", "🟤", "🟫", "🌸"],
+    coverage: getLocalizedText('period.blood.color.guide.coverage'),
+    color: "from-red-500 to-red-600",
+    component: <ColorChart 
+      types={bloodTypes} 
+      expandedType={expandedBlood} 
+      setExpandedType={setExpandedBlood}
+      title={getLocalizedText('period.blood.color.chart')}
+    />
+  },
+  {
+    title: getLocalizedText('early.signs.of.pregnancy'),
+    description: getLocalizedText('early.signs.of.pregnancy.description'),
+    icons: ["🤰", "🧪", "💭", "💕"],
+    coverage: getLocalizedText('early.signs.of.pregnancy.coverage'),
+    color: "from-pink-500 to-pink-600",
+    component: <TopicChart 
+      topics={pregnancySigns} 
+      expandedTopic={expandedPregnancy} 
+      setExpandedTopic={setExpandedPregnancy}
+      title={getLocalizedText('early.pregnancy.signs')} 
+      titleIcon={<Baby className="w-5 h-5 text-lavender-600" />}
+    />
+  }
+];
+
+
+  // const healthConditions = [
+  //   {
+  //     title: "PCOS Support & Awareness",
+  //     description: "Living with PCOS: Understanding symptoms, managing naturally, and finding confidence with faith-based support and medical guidance.",
+  //     icons: ["🌀", "💪", "🌱", "🤲"],
+  //     coverage: "10 Topics",
+  //     color: "from-purple-500 to-purple-600",
+  //     component: <TopicChart 
+  //       topics={pcosTopics} 
+  //       expandedTopic={expandedPCOS} 
+  //       setExpandedTopic={setExpandedPCOS}
+  //       title="PCOS Support & Management"
+  //       titleIcon={<Flower className="w-5 h-5 text-lavender-600" />}
+  //     />
+  //   },
+  //   {
+  //     title: "Endometriosis Support",
+  //     description: "Understanding endometriosis: pain management, emotional support, and spiritual strength for navigating this challenging condition.",
+  //     icons: ["🌙", "💙", "🛡️", "🤲"],
+  //     coverage: "10 Topics",
+  //     color: "from-indigo-500 to-indigo-600",
+  //     component: <TopicChart 
+  //       topics={endometriosisTopics} 
+  //       expandedTopic={expandedEndometriosis} 
+  //       setExpandedTopic={setExpandedEndometriosis}
+  //       title="Endometriosis Support"
+  //       titleIcon={<Shield className="w-5 h-5 text-lavender-600" />}
+  //     />
+  //   }
+  // ];
 
   const healthConditions = [
-    {
-      title: "PCOS Support & Awareness",
-      description: "Living with PCOS: Understanding symptoms, managing naturally, and finding confidence with faith-based support and medical guidance.",
-      icons: ["🌀", "💪", "🌱", "🤲"],
-      coverage: "10 Topics",
-      color: "from-purple-500 to-purple-600",
-      component: <TopicChart 
-        topics={pcosTopics} 
-        expandedTopic={expandedPCOS} 
-        setExpandedTopic={setExpandedPCOS}
-        title="PCOS Support & Management"
-        titleIcon={<Flower className="w-5 h-5 text-lavender-600" />}
-      />
-    },
-    {
-      title: "Endometriosis Support",
-      description: "Understanding endometriosis: pain management, emotional support, and spiritual strength for navigating this challenging condition.",
-      icons: ["🌙", "💙", "🛡️", "🤲"],
-      coverage: "10 Topics",
-      color: "from-indigo-500 to-indigo-600",
-      component: <TopicChart 
-        topics={endometriosisTopics} 
-        expandedTopic={expandedEndometriosis} 
-        setExpandedTopic={setExpandedEndometriosis}
-        title="Endometriosis Support"
-        titleIcon={<Shield className="w-5 h-5 text-lavender-600" />}
-      />
-    }
-  ];
+  {
+    title: getLocalizedText('pcos.support.awareness'),
+    description: getLocalizedText('pcos.support.awareness.description'),
+    icons: ["🌀", "💪", "🌱", "🤲"],
+    coverage: getLocalizedText('pcos.support.awareness.coverage'),
+    color: "from-purple-500 to-purple-600",
+    component: <TopicChart 
+      topics={pcosTopics} 
+      expandedTopic={expandedPCOS} 
+      setExpandedTopic={setExpandedPCOS}
+      title= {getLocalizedText('pcos.support.management')}
+      titleIcon={<Flower className="w-5 h-5 text-lavender-600" />}
+    />
+  },
+  {
+    title: getLocalizedText('endometriosis.support'),
+    description: getLocalizedText('endometriosis.support.description'),
+    icons: ["🌙", "💙", "🛡️", "🤲"],
+    coverage: getLocalizedText('endometriosis.support.coverage'),
+    color: "from-indigo-500 to-indigo-600",
+    component: <TopicChart 
+      topics={endometriosisTopics} 
+      expandedTopic={expandedEndometriosis} 
+      setExpandedTopic={setExpandedEndometriosis}
+      title={getLocalizedText('endometriosis.support')}
+      titleIcon={<Shield className="w-5 h-5 text-lavender-600" />}
+    />
+  }
+];
+
+
+  // const periodManagement = [
+  //   {
+  //     title: "What Makes Cramps Worse",
+  //     description: "Understanding triggers that worsen period pain and how to avoid them for better menstrual comfort.",
+  //     icons: ["☕", "😰", "🍰", "💧"],
+  //     coverage: "10 Triggers",
+  //     color: "from-orange-500 to-orange-600",
+  //     component: <TopicChart 
+  //       topics={crampTriggers} 
+  //       expandedTopic={expandedCrampTriggers} 
+  //       setExpandedTopic={setExpandedCrampTriggers}
+  //       title="Cramp Triggers to Avoid"
+  //       titleIcon={<AlertCircle className="w-5 h-5 text-lavender-600" />}
+  //     />
+  //   },
+  //   {
+  //     title: "Why Periods Are Late",
+  //     description: "Non-pregnancy causes of delayed menstruation: stress, hormones, health conditions, and lifestyle factors.",
+  //     icons: ["⏰", "😰", "⚖️", "🩺"],
+  //     coverage: "10 Causes",
+  //     color: "from-yellow-500 to-yellow-600",
+  //     component: <TopicChart 
+  //       topics={latePeriodsReasons} 
+  //       expandedTopic={expandedLatePeriods} 
+  //       setExpandedTopic={setExpandedLatePeriods}
+  //       title="Common Causes of Late Periods"
+  //       titleIcon={<Clock className="w-5 h-5 text-lavender-600" />}
+  //     />
+  //   },
+  //   {
+  //     title: "Period Length Changes",
+  //     description: "Why periods might be shorter or longer than usual: hormones, birth control, health conditions, and when to see a doctor.",
+  //     icons: ["📅", "⬆️", "⬇️", "🩺"],
+  //     coverage: "10 Topics",
+  //     color: "from-green-500 to-green-600",
+  //     component: <TopicChart 
+  //       topics={periodLengthFactors} 
+  //       expandedTopic={expandedPeriodLength} 
+  //       setExpandedTopic={setExpandedPeriodLength}
+  //       title="Understanding Period Length Changes"
+  //       titleIcon={<Calendar className="w-5 h-5 text-lavender-600" />}
+  //     />
+  //   }
+  // ];
 
   const periodManagement = [
-    {
-      title: "What Makes Cramps Worse",
-      description: "Understanding triggers that worsen period pain and how to avoid them for better menstrual comfort.",
-      icons: ["☕", "😰", "🍰", "💧"],
-      coverage: "10 Triggers",
-      color: "from-orange-500 to-orange-600",
-      component: <TopicChart 
-        topics={crampTriggers} 
-        expandedTopic={expandedCrampTriggers} 
-        setExpandedTopic={setExpandedCrampTriggers}
-        title="Cramp Triggers to Avoid"
-        titleIcon={<AlertCircle className="w-5 h-5 text-lavender-600" />}
-      />
-    },
-    {
-      title: "Why Periods Are Late",
-      description: "Non-pregnancy causes of delayed menstruation: stress, hormones, health conditions, and lifestyle factors.",
-      icons: ["⏰", "😰", "⚖️", "🩺"],
-      coverage: "10 Causes",
-      color: "from-yellow-500 to-yellow-600",
-      component: <TopicChart 
-        topics={latePeriodsReasons} 
-        expandedTopic={expandedLatePeriods} 
-        setExpandedTopic={setExpandedLatePeriods}
-        title="Common Causes of Late Periods"
-        titleIcon={<Clock className="w-5 h-5 text-lavender-600" />}
-      />
-    },
-    {
-      title: "Period Length Changes",
-      description: "Why periods might be shorter or longer than usual: hormones, birth control, health conditions, and when to see a doctor.",
-      icons: ["📅", "⬆️", "⬇️", "🩺"],
-      coverage: "10 Topics",
-      color: "from-green-500 to-green-600",
-      component: <TopicChart 
-        topics={periodLengthFactors} 
-        expandedTopic={expandedPeriodLength} 
-        setExpandedTopic={setExpandedPeriodLength}
-        title="Understanding Period Length Changes"
-        titleIcon={<Calendar className="w-5 h-5 text-lavender-600" />}
-      />
-    }
-  ];
+  {
+    title: getLocalizedText('what.makes.cramps.worse'),
+    description: getLocalizedText('what.makes.cramps.worse.description'),
+    icons: ["☕", "😰", "🍰", "💧"],
+    coverage: getLocalizedText('what.makes.cramps.worse.coverage'),
+    color: "from-orange-500 to-orange-600",
+    component: <TopicChart 
+      topics={crampTriggers} 
+      expandedTopic={expandedCrampTriggers} 
+      setExpandedTopic={setExpandedCrampTriggers}
+      title= {getLocalizedText('cramp.triggers.to.avoid')} 
+      titleIcon={<AlertCircle className="w-5 h-5 text-lavender-600" />}
+    />
+  },
+  {
+    title: getLocalizedText('why.periods.are.late'),
+    description: getLocalizedText('why.periods.are.late.description'),
+    icons: ["⏰", "😰", "⚖️", "🩺"],
+    coverage: getLocalizedText('why.periods.are.late.coverage'),
+    color: "from-yellow-500 to-yellow-600",
+    component: <TopicChart 
+      topics={latePeriodsReasons} 
+      expandedTopic={expandedLatePeriods} 
+      setExpandedTopic={setExpandedLatePeriods}
+      title= {getLocalizedText('common.causes.of.late.periods')} 
+      titleIcon={<Clock className="w-5 h-5 text-lavender-600" />}
+    />
+  },
+  {
+    title: getLocalizedText('period.length.changes'),
+    description: getLocalizedText('period.length.changes.description'),
+    icons: ["📅", "⬆️", "⬇️", "🩺"],
+    coverage: getLocalizedText('period.length.changes.coverage'),
+    color: "from-green-500 to-green-600",
+    component: <TopicChart 
+      topics={periodLengthFactors} 
+      expandedTopic={expandedPeriodLength} 
+      setExpandedTopic={setExpandedPeriodLength}
+      title= {getLocalizedText('understanding.period.length.changes')} 
+      titleIcon={<Calendar className="w-5 h-5 text-lavender-600" />}
+    />
+  }
+];
+
+
+  // const familyPlanning = [
+  //   {
+  //     title: "Pregnancy & Health Topics",
+  //     description: "Comprehensive health topics covering pregnancy complications, mental health, working mothers, maternal care, and women's health conditions.",
+  //     icons: ["🤰", "🧠", "👩🏽‍💼", "🏥"],
+  //     coverage: "17 Topics",
+  //     color: "from-rose-500 to-rose-600",
+  //     component: <TopicChart 
+  //       topics={pregnancyHealthTopics} 
+  //       expandedTopic={expandedPregnancy} 
+  //       setExpandedTopic={setExpandedPregnancy}
+  //       title="Pregnancy & Women's Health Topics"
+  //       titleIcon={<Heart className="w-5 h-5 text-lavender-600" />}
+  //     />
+  //   },
+  //   {
+  //     title: "Contraception & Family Planning",
+  //     description: "Understanding birth control options with Islamic guidance: methods, effectiveness, side effects, and family planning wisdom.",
+  //     icons: ["🛡️", "💊", "🌙", "👥"],
+  //     coverage: "10 Topics",
+  //     color: "from-teal-500 to-teal-600",
+  //     component: <TopicChart 
+  //       topics={contraceptionTopics} 
+  //       expandedTopic={expandedContraception} 
+  //       setExpandedTopic={setExpandedContraception}
+  //       title="Family Planning & Contraception"
+  //       titleIcon={<Target className="w-5 h-5 text-lavender-600" />}
+  //     />
+  //   },
+  //   {
+  //     title: "Natural Cramp Remedies",
+  //     description: "Evidence-based home remedies for period pain: heat therapy, herbs, Sunnah remedies, and natural comfort measures.",
+  //     icons: ["🔥", "🌿", "🍯"],
+  //     coverage: "10 Remedies",
+  //     color: "from-emerald-500 to-emerald-600",
+  //     component: <TopicChart 
+  //       topics={naturalRemedies} 
+  //       expandedTopic={expandedRemedies} 
+  //       setExpandedTopic={setExpandedRemedies}
+  //       title="Natural Pain Relief Methods"
+  //       titleIcon={<Leaf className="w-5 h-5 text-lavender-600" />}
+  //     />
+  //   }
+  // ];
 
   const familyPlanning = [
-    {
-      title: "Pregnancy & Health Topics",
-      description: "Comprehensive health topics covering pregnancy complications, mental health, working mothers, maternal care, and women's health conditions.",
-      icons: ["🤰", "🧠", "👩🏽‍💼", "🏥"],
-      coverage: "17 Topics",
-      color: "from-rose-500 to-rose-600",
-      component: <TopicChart 
-        topics={pregnancyHealthTopics} 
-        expandedTopic={expandedPregnancy} 
-        setExpandedTopic={setExpandedPregnancy}
-        title="Pregnancy & Women's Health Topics"
-        titleIcon={<Heart className="w-5 h-5 text-lavender-600" />}
-      />
-    },
-    {
-      title: "Contraception & Family Planning",
-      description: "Understanding birth control options with Islamic guidance: methods, effectiveness, side effects, and family planning wisdom.",
-      icons: ["🛡️", "💊", "🌙", "👥"],
-      coverage: "10 Topics",
-      color: "from-teal-500 to-teal-600",
-      component: <TopicChart 
-        topics={contraceptionTopics} 
-        expandedTopic={expandedContraception} 
-        setExpandedTopic={setExpandedContraception}
-        title="Family Planning & Contraception"
-        titleIcon={<Target className="w-5 h-5 text-lavender-600" />}
-      />
-    },
-    {
-      title: "Natural Cramp Remedies",
-      description: "Evidence-based home remedies for period pain: heat therapy, herbs, Sunnah remedies, and natural comfort measures.",
-      icons: ["🔥", "🫖", "🌿", "🍯"],
-      coverage: "10 Remedies",
-      color: "from-emerald-500 to-emerald-600",
-      component: <TopicChart 
-        topics={naturalRemedies} 
-        expandedTopic={expandedRemedies} 
-        setExpandedTopic={setExpandedRemedies}
-        title="Natural Pain Relief Methods"
-        titleIcon={<Leaf className="w-5 h-5 text-lavender-600" />}
-      />
-    }
-  ];
+  {
+    title: getLocalizedText('pregnancy.health.topics'),
+    description: getLocalizedText('pregnancy.health.topics.description'),
+    icons: ["🤰", "🧠", "👩🏽‍💼", "🏥"],
+    coverage: getLocalizedText('pregnancy.health.topics.coverage'),
+    color: "from-rose-500 to-rose-600",
+    component: <TopicChart 
+      topics={pregnancyHealthTopics} 
+      expandedTopic={expandedPregnancy} 
+      setExpandedTopic={setExpandedPregnancy}
+      title={getLocalizedText('common.causes.of.late.periods')}
+      titleIcon={<Heart className="w-5 h-5 text-lavender-600" />}
+    />
+  },
+  {
+    title: getLocalizedText('contraception.family.planning'),
+    description: getLocalizedText('contraception.family.planning.description'),
+    icons: ["🛡️", "💊", "🌙", "👥"],
+    coverage: getLocalizedText('contraception.family.planning.coverage'),
+    color: "from-teal-500 to-teal-600",
+    component: <TopicChart 
+      topics={contraceptionTopics} 
+      expandedTopic={expandedContraception} 
+      setExpandedTopic={setExpandedContraception}
+      title= {getLocalizedText('family.planning.contraception')} 
+      titleIcon={<Target className="w-5 h-5 text-lavender-600" />}
+    />
+  },
+  {
+    title: getLocalizedText('natural.cramp.remedies'),
+    description: getLocalizedText('natural.cramp.remedies.description'),
+    icons: ["🔥", "🌿", "🍯"],
+    coverage: getLocalizedText('natural.cramp.remedies.coverage'),
+    color: "from-emerald-500 to-emerald-600",
+    component: <TopicChart 
+      topics={naturalRemedies} 
+      expandedTopic={expandedRemedies} 
+      setExpandedTopic={setExpandedRemedies}
+      title= {getLocalizedText('natural.pain.relief.methods')} 
+      titleIcon={<Leaf className="w-5 h-5 text-lavender-600" />}
+    />
+  }
+];
 
   const toggleSection = (sectionKey: string) => {
     setOpenSections(prev => ({
@@ -1956,32 +2848,7 @@ const HealthInsights = () => {
     const isOpen = openSections[sectionKey] || false;
     
     return (
-    // <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer card-3d">
-    //   <CardContent className="p-4">
-    //     <div className="flex items-start gap-3 mb-3">
-    //       <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${guide.color} flex items-center justify-center text-white text-xs font-bold circular-3d`}>
-    //         {guide.icons[0]}
-    //       </div>
-    //       <div className="flex-1">
-    //         <h3 className="font-semibold text-gray-800 mb-1">{guide.title}</h3>
-    //         <div className="flex gap-1 mb-2">
-    //           {guide.icons.map((icon: string, index: number) => (
-    //             <span key={index} className="text-sm">{icon}</span>
-    //           ))}
-    //           <span className="text-xs text-lavender-600 font-medium ml-1">{guide.coverage}</span>
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <p className="text-gray-600 text-sm leading-relaxed mb-3">{guide.description}</p>
-        
-    //     {/* Show interactive content */}
-    //     {guide.component && (
-    //       <div className="mt-4">
-    //         {guide.component}
-    //       </div>
-    //     )}
-    //   </CardContent>
-    // </Card>
+
 
       <Collapsible open={isOpen} onOpenChange={() => toggleSection(sectionKey)}>
         <Card className="relative overflow-hidden card-3d">
@@ -2025,52 +2892,17 @@ const HealthInsights = () => {
   return (
     <div className="space-y-6">
 
-      {/* <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Health Insights</h1>
-        <p className="text-gray-600">Comprehensive health guidance for informed decisions</p>
-      </div> */}
-
       <div className={`text-center ${settings.darkMode ? 'text-white' : ''}`}>
   <h1 className={`text-3xl font-bold mb-2 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
-    Health Insights
+   {getLocalizedText('health.insights')}
   </h1>
   <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-    Comprehensive health guidance for informed decisions
+    {getLocalizedText('comprehensive.health.guidance')}
   </p>
 </div>
 
       {/* Health Scores */}
-      
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="card-3d">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <h3 className="font-semibold text-gray-800">Cycle Regularity</h3>
-                <p className="text-sm text-gray-600">Your cycles are very regular</p>
-              </div>
-              <div className="text-right">
-                <span className="text-2xl font-bold text-lavender-600">92%</span>
-              </div>
-            </div>
-            <Progress value={92} className="h-2" />
-          </CardContent>
-        </Card>
 
-        <Card className="card-3d">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-semibold text-gray-800">Overall Health Score</h3>
-                <p className="text-sm text-gray-600">Based on tracking patterns</p>
-              </div>
-              <div className="text-right">
-                <span className="text-lg font-bold text-green-600">Excellent</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div> */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
   <Card className="relative overflow-hidden card-3d">
@@ -2078,8 +2910,8 @@ const HealthInsights = () => {
     <CardContent className="p-4 relative z-10">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h3 className={`font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>Cycle Regularity</h3>
-          <p className={`text-sm ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Your cycles are very regular</p>
+          <h3 className={`font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>{getLocalizedText('cycle.regularity')}</h3>
+          <p className={`text-sm ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{getLocalizedText('your.cycles.are.very.regular')}</p>
         </div>
         <div className="text-right">
           <span className={`text-2xl font-bold ${settings.darkMode ? 'text-lavender-400' : 'text-lavender-600'}`}>92%</span>
@@ -2094,11 +2926,11 @@ const HealthInsights = () => {
     <CardContent className="p-4 relative z-10">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className={`font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>Overall Health Score</h3>
-          <p className={`text-sm ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Based on tracking patterns</p>
+          <h3 className={`font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>{getLocalizedText('overall.health.score')}</h3>
+          <p className={`text-sm ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{getLocalizedText('based.on.tracking.patterns')}</p>
         </div>
         <div className="text-right">
-          <span className={`text-lg font-bold ${settings.darkMode ? 'text-green-400' : 'text-green-600'}`}>Excellent</span>
+          <span className={`text-lg font-bold ${settings.darkMode ? 'text-green-400' : 'text-green-600'}`}>{getLocalizedText('excellent')}</span>
         </div>
       </div>
     </CardContent>
@@ -2107,17 +2939,14 @@ const HealthInsights = () => {
 
 
       {/* Educational Health Guides */}
-      <div>
-        {/* <h2 className="text-xl font-bold text-gray-800 mb-4">Educational Health Guides</h2>
-         */}
 
-         <h2 className={`text-xl font-bold mb-4 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>Educational Health Guides</h2>
+         <h2 className={`text-xl font-bold mb-4 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>{getLocalizedText('educational.health.guides')}</h2>
         <div className="grid grid-cols-1 gap-4">
           {educationalGuides.map((guide, index) => (
             <GuideCard key={index} guide={guide} sectionKey={`educational-${index}`} />
           ))}
         </div>
-      </div>
+  
 
       {/* Pregnancy & Women's Health Topics Grid */}
       <div>
@@ -2348,10 +3177,9 @@ const HealthInsights = () => {
 
       {/* Understanding Health Conditions */}
       <div>
-        {/* <h2 className="text-xl font-bold text-gray-800 mb-4">Understanding Health Conditions</h2>
-         */}
+    
          <h2 className={`text-xl font-bold mb-4 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
-  Understanding Health Conditions
+          {getLocalizedText('understanding.health.conditions')}
 </h2>
          <div className="grid grid-cols-1 gap-4">
            {healthConditions.map((guide, index) => (
@@ -2362,10 +3190,9 @@ const HealthInsights = () => {
 
       {/* Period Management & Understanding */}
       <div>
-        {/* <h2 className="text-xl font-bold text-gray-800 mb-4">Period Management & Understanding</h2>
-         */}
+   
          <h2 className={`text-xl font-bold mb-4 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
-  Period Management & Understanding
+           {getLocalizedText('period.management.understanding')}
 </h2>
 
          <div className="grid grid-cols-1 gap-4">
@@ -2377,88 +3204,41 @@ const HealthInsights = () => {
 
       {/* Family Planning & Natural Remedies */}
       <div>
-        {/* <h2 className="text-xl font-bold text-gray-800 mb-1">Family Planning & Natural Remedies</h2>
-         */}
+     
          <h2 className={`text-xl font-bold mb-1 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
-  Family Planning & Natural Remedies
+ {getLocalizedText('family.planning.natural.remedies')}
 </h2>
 
-         <div className="grid grid-cols-1 gap-4">
+         {/* <div className="grid grid-cols-1 gap-4">
            {familyPlanning.map((guide, index) => (
              <GuideCard key={index} guide={guide} sectionKey={`family-${index}`} />
            ))}
-         </div>
+         </div> */}
       </div>
 
-      {/* Cycle Patterns */}
-      {/* <Card className="bg-gradient-to-br from-lavender-50 to-lavender-100 border-lavender-200 card-3d">
-        <CardHeader>
-          <CardTitle className="text-lavender-800">Cycle Patterns</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="text-center">
-              <p className="text-sm text-lavender-600 mb-1">Average Length:</p>
-              <p className="text-lg font-bold text-lavender-800">28 days</p>
-            </div>
-            <div className="text-center">
-              <p className="text-sm text-lavender-600 mb-1">Period Duration:</p>
-              <p className="text-lg font-bold text-lavender-800">5 days</p>
-            </div>
-            <div className="text-center">
-              <p className="text-sm text-lavender-600 mb-1">Regularity:</p>
-              <p className="text-lg font-bold text-lavender-800">High</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card> */}
-
-      {/* <Card className={`relative overflow-hidden card-3d ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : 'bg-gradient-to-br from-lavender-50 to-lavender-100 border-lavender-200'}`}>
-  <CardHeader>
-    <CardTitle className={`${settings.darkMode ? 'text-white' : 'text-lavender-800'}`}>
-      Cycle Patterns
-    </CardTitle>
-  </CardHeader>
-  <CardContent>
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-      <div className="text-center">
-        <p className={`${settings.darkMode ? 'text-gray-400' : 'text-lavender-600'} text-sm mb-1`}>Average Length:</p>
-        <p className={`${settings.darkMode ? 'text-white' : 'text-lavender-800'} text-lg font-bold`}>28 days</p>
-      </div>
-      <div className="text-center">
-        <p className={`${settings.darkMode ? 'text-gray-400' : 'text-lavender-600'} text-sm mb-1`}>Period Duration:</p>
-        <p className={`${settings.darkMode ? 'text-white' : 'text-lavender-800'} text-lg font-bold`}>5 days</p>
-      </div>
-      <div className="text-center">
-        <p className={`${settings.darkMode ? 'text-gray-400' : 'text-lavender-600'} text-sm mb-1`}>Regularity:</p>
-        <p className={`${settings.darkMode ? 'text-white' : 'text-lavender-800'} text-lg font-bold`}>High</p>
-      </div>
-    </div>
-  </CardContent>
-</Card> */}
 
 <Card className="relative overflow-hidden card-3d">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : ' from-lavender-50 to-lavender-100 border-lavender-200'}`}></div>
 
   <CardHeader className="relative z-10">
     <CardTitle className={`text-xl font-bold ${settings.darkMode ? 'text-white' : 'text-lavender-800'}`}>
-      Cycle Patterns
+     {getLocalizedText('cycle.patterns')}
     </CardTitle>
   </CardHeader>
 
   <CardContent className="relative z-10">
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
       <div className="text-center">
-        <p className={`text-sm mb-1 ${settings.darkMode ? 'text-gray-400' : 'text-lavender-600'}`}>Average Length:</p>
-        <p className={`text-lg font-bold ${settings.darkMode ? 'text-white' : 'text-lavender-800'}`}>28 days</p>
+        <p className={`text-sm mb-1 ${settings.darkMode ? 'text-gray-400' : 'text-lavender-600'}`}>{getLocalizedText('cycle.patterns.average.length')}</p>
+        <p className={`text-lg font-bold ${settings.darkMode ? 'text-white' : 'text-lavender-800'}`}>28 {getLocalizedText('days')}</p>
       </div>
       <div className="text-center">
-        <p className={`text-sm mb-1 ${settings.darkMode ? 'text-gray-400' : 'text-lavender-600'}`}>Period Duration:</p>
-        <p className={`text-lg font-bold ${settings.darkMode ? 'text-white' : 'text-lavender-800'}`}>5 days</p>
+        <p className={`text-sm mb-1 ${settings.darkMode ? 'text-gray-400' : 'text-lavender-600'}`}>{getLocalizedText('cycle.patterns.period.duration')}</p>
+        <p className={`text-lg font-bold ${settings.darkMode ? 'text-white' : 'text-lavender-800'}`}>5 {getLocalizedText('days')}</p>
       </div>
       <div className="text-center">
-        <p className={`text-sm mb-1 ${settings.darkMode ? 'text-gray-400' : 'text-lavender-600'}`}>Regularity:</p>
-        <p className={`text-lg font-bold ${settings.darkMode ? 'text-white' : 'text-lavender-800'}`}>High</p>
+        <p className={`text-sm mb-1 ${settings.darkMode ? 'text-gray-400' : 'text-lavender-600'}`}>{getLocalizedText('cycle.patterns.regularity')}</p>
+        <p className={`text-lg font-bold ${settings.darkMode ? 'text-white' : 'text-lavender-800'}`}>{getLocalizedText('high')}</p>
       </div>
     </div>
   </CardContent>
@@ -2470,63 +3250,6 @@ const HealthInsights = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-        {/* <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 card-3d">
-          <CardHeader>
-            <CardTitle className="text-blue-800 flex items-center gap-2">
-              <Heart className="w-5 h-5" />
-              Health Reminders
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 text-sm text-blue-700">
-              <li className="flex items-start gap-2">
-                <span className="text-blue-500 mt-1">•</span>
-                <span>Stay hydrated during your cycle</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-500 mt-1">•</span>
-                <span>Maintain proper hygiene practices</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-500 mt-1">•</span>
-                <span>Track any unusual symptoms</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-500 mt-1">•</span>
-                <span>Consult healthcare providers when needed</span>
-              </li>
-            </ul>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 card-3d">
-          <CardHeader>
-            <CardTitle className="text-green-800 flex items-center gap-2">
-              <Moon className="w-5 h-5" />
-              Islamic Wellness
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 text-sm text-green-700">
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">•</span>
-                <span>Understanding your body is Sunnah</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">•</span>
-                <span>Seek knowledge about health</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">•</span>
-                <span>Maintain spiritual and physical purity</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">•</span>
-                <span>Trust in Allah's wisdom</span>
-              </li>
-            </ul>
-          </CardContent>
-        </Card> */}
 
           <Card className="relative overflow-hidden card-3d">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : ' from-blue-50 to-blue-100 border-blue-200'}`}></div>
@@ -2534,13 +3257,16 @@ const HealthInsights = () => {
   <CardHeader className="relative z-10">
     <CardTitle className={`flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-blue-800'}`}>
       <Heart className="w-5 h-5" />
-      Health Reminders
+     {getLocalizedText('health.reminders')}
     </CardTitle>
   </CardHeader>
 
   <CardContent className="relative z-10">
     <ul className={`space-y-2 text-sm ${settings.darkMode ? 'text-gray-300' : 'text-blue-700'}`}>
-      {['Stay hydrated during your cycle', 'Maintain proper hygiene practices', 'Track any unusual symptoms', 'Consult healthcare providers when needed'].map((text, index) => (
+      {[ getLocalizedText('stay.hydrated.during.cycle'),
+  getLocalizedText('maintain.proper.hygiene'),
+  getLocalizedText('track.unusual.symptoms'),
+  getLocalizedText('consult.healthcare.providers')].map((text, index) => (
         <li key={index} className="flex items-start gap-2">
           <span className={`${settings.darkMode ? 'text-blue-400' : 'text-blue-500'} mt-1`}>•</span>
           <span>{text}</span>
@@ -2556,13 +3282,16 @@ const HealthInsights = () => {
   <CardHeader className="relative z-10">
     <CardTitle className={`flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-green-800'}`}>
       <Moon className="w-5 h-5" />
-      Islamic Wellness
+     {getLocalizedText('islamic.wellness')}
     </CardTitle>
   </CardHeader>
 
   <CardContent className="relative z-10">
     <ul className={`space-y-2 text-sm ${settings.darkMode ? 'text-gray-300' : 'text-green-700'}`}>
-      {['Understanding your body is Sunnah', 'Seek knowledge about health', 'Maintain spiritual and physical purity', 'Trust in Allah\'s wisdom'].map((text, index) => (
+      {[ getLocalizedText('understanding.your.body.is.sunnah'),
+  getLocalizedText('seek.knowledge.about.health'),
+  getLocalizedText('maintain.spiritual.and.physical.purity'),
+  getLocalizedText('trust.in.allahs.wisdom')].map((text, index) => (
         <li key={index} className="flex items-start gap-2">
           <span className={`${settings.darkMode ? 'text-green-400' : 'text-green-500'} mt-1`}>•</span>
           <span>{text}</span>
@@ -2578,22 +3307,7 @@ const HealthInsights = () => {
       </div>
 
       {/* Islamic Health Wisdom */}
-      {/* <Card className="bg-gradient-to-r from-lavender-600 via-lavender-500 to-lavender-800 relative overflow-hidden card-3d">
-        <div className="absolute inset-0 opacity-20">
-          <div className="animate-pulse absolute top-0 right-0 w-16 h-16 bg-lavender-300 rounded-full"></div>
-          <div className="animate-pulse absolute bottom-0 left-0 w-12 h-12 bg-lavender-400 rounded-full animation-delay-700"></div>
-        </div>
-        <CardContent className="p-6 text-center relative z-10">
-          <h2 className="text-xl font-bold mb-4 text-lavender-800">Islamic Health Wisdom</h2>
-          <p className="text-base text-purple-900  mb-2">
-            "Allah has not created a disease without creating a cure for it, except for one disease: old age."
-          </p>
-          <p className="text-sm text-gray-299 opacity-75 text-purple-900  mb-4">- Sahih Bukhari 5678</p>
-          <p className="text-sm text-gray-299 opacity-80 text-purple-900 ">
-            Seeking knowledge about our health and bodies is part of the wisdom Allah has given us.
-          </p>
-        </CardContent>
-      </Card> */}
+
 
    <Card className="relative overflow-hidden card-3d">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : ' from-lavender-600 via-lavender-500 to-lavender-800 border-lavender-200'}`}></div>
@@ -2605,16 +3319,16 @@ const HealthInsights = () => {
 
   <CardContent className="p-6 text-center relative z-10">
     <h2 className={`text-xl font-bold mb-4 ${settings.darkMode ? 'text-white' : 'text-lavender-800'}`}>
-      Islamic Health Wisdom
+     {getLocalizedText('islamic.health.wisdom')}
     </h2>
     <p className={`text-base mb-2 ${settings.darkMode ? 'text-gray-300' : 'text-purple-900'}`}>
-      "Allah has not created a disease without creating a cure for it, except for one disease: old age."
+     {getLocalizedText('health.wisdom.quote')}
     </p>
     <p className={`text-sm opacity-75 mb-4 ${settings.darkMode ? 'text-gray-400' : 'text-purple-900'}`}>
       - Sahih Bukhari 5678
     </p>
     <p className={`text-sm opacity-80 ${settings.darkMode ? 'text-gray-400' : 'text-purple-900'}`}>
-      Seeking knowledge about our health and bodies is part of the wisdom Allah has given us.
+      {getLocalizedText('seeking.knowledge.about.health')}
     </p>
   </CardContent>
 </Card>
