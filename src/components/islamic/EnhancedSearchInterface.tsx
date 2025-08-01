@@ -42,60 +42,121 @@ const EnhancedSearchInterface = ({
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
 
   // Enhanced search through knowledge base with better matching
+
+  // const searchKnowledgeBase = (query: string) => {
+  //   if (!query.trim()) return [];
+
+  //   const queryLower = query.toLowerCase();
+  //   const queryWords = queryLower.split(' ').filter(word => word.length > 2);
+
+  //   return knowledgeBase
+  //     .map(item => {
+  //       let relevanceScore = 0;
+  //       if (item.question.toLowerCase().includes(queryLower)) {
+  //         relevanceScore += 10;
+  //       }
+  //       if (item.answer.toLowerCase().includes(queryLower)) {
+  //         relevanceScore += 8;
+  //       }
+  //       const tagMatches = item.tags.filter((tag: string) =>
+  //         tag.toLowerCase().includes(queryLower) ||
+  //         queryWords.some(word => tag.toLowerCase().includes(word))
+  //       );
+  //       relevanceScore += tagMatches.length * 5;
+
+  //       queryWords.forEach(word => {
+  //         if (item.question.toLowerCase().includes(word)) relevanceScore += 3;
+  //         if (item.answer.toLowerCase().includes(word)) relevanceScore += 2;
+  //       });
+  //       const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+
+  //       return {
+  //         ...item,
+  //         relevanceScore,
+  //         matchesCategory
+  //       };
+  //     })
+  //     .filter(item => item.relevanceScore > 0 && item.matchesCategory)
+  //     .sort((a, b) => b.relevanceScore - a.relevanceScore)
+  //     .map(item => ({
+  //       id: `kb-${item.id}`,
+  //       type: 'knowledge-base' as const,
+  //       question: item.question,
+  //       answer: item.answer,
+  //       category: item.category,
+  //       tags: item.tags,
+  //       source: item.source
+  //     }));
+  // };
+
   const searchKnowledgeBase = (query: string) => {
-    if (!query.trim()) return [];
+  if (!query.trim()) return [];
 
-    const queryLower = query.toLowerCase();
-    const queryWords = queryLower.split(' ').filter(word => word.length > 2);
+  const queryLower = query.toLowerCase();
+  const queryWords = queryLower.split(' ').filter(word => word.length > 2);
 
-    return knowledgeBase
-      .map(item => {
-        let relevanceScore = 0;
+  return knowledgeBase
+    .filter(item => {
+      // Add null/undefined checks for required properties
+      return item && 
+             item.question && 
+             item.answer && 
+             Array.isArray(item.tags);
+    })
+    .map(item => {
+      let relevanceScore = 0;
 
-        // Exact phrase match in question (highest priority)
-        if (item.question.toLowerCase().includes(queryLower)) {
-          relevanceScore += 10;
-        }
+      // Safe string operations with null checks
+      const questionLower = item.question?.toLowerCase() || '';
+      const answerLower = item.answer?.toLowerCase() || '';
 
-        // Exact phrase match in answer
-        if (item.answer.toLowerCase().includes(queryLower)) {
-          relevanceScore += 8;
-        }
+      // Exact phrase match in question (highest priority)
+      if (questionLower.includes(queryLower)) {
+        relevanceScore += 10;
+      }
 
-        // Tag matches
-        const tagMatches = item.tags.filter((tag: string) =>
-          tag.toLowerCase().includes(queryLower) ||
-          queryWords.some(word => tag.toLowerCase().includes(word))
-        );
-        relevanceScore += tagMatches.length * 5;
+      // Exact phrase match in answer
+      if (answerLower.includes(queryLower)) {
+        relevanceScore += 8;
+      }
 
-        // Individual word matches
-        queryWords.forEach(word => {
-          if (item.question.toLowerCase().includes(word)) relevanceScore += 3;
-          if (item.answer.toLowerCase().includes(word)) relevanceScore += 2;
-        });
+      // Tag matches with safe array operations
+      const tagMatches = (item.tags || []).filter((tag: string) => {
+        if (!tag || typeof tag !== 'string') return false;
+        const tagLower = tag.toLowerCase();
+        return tagLower.includes(queryLower) ||
+               queryWords.some(word => tagLower.includes(word));
+      });
+      relevanceScore += tagMatches.length * 5;
 
-        // Category filter
-        const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+      // Individual word matches with safe operations
+      queryWords.forEach(word => {
+        if (questionLower.includes(word)) relevanceScore += 3;
+        if (answerLower.includes(word)) relevanceScore += 2;
+      });
 
-        return {
-          ...item,
-          relevanceScore,
-          matchesCategory
-        };
-      })
-      .filter(item => item.relevanceScore > 0 && item.matchesCategory)
-      .sort((a, b) => b.relevanceScore - a.relevanceScore)
-      .map(item => ({
-        id: `kb-${item.id}`,
-        type: 'knowledge-base' as const,
-        question: item.question,
-        answer: item.answer,
-        category: item.category,
-        tags: item.tags,
-        source: item.source
-      }));
-  };
+      // Category filter with safe comparison
+      const matchesCategory = selectedCategory === 'all' || 
+                            (item.category && item.category === selectedCategory);
+
+      return {
+        ...item,
+        relevanceScore,
+        matchesCategory
+      };
+    })
+    .filter(item => item.relevanceScore > 0 && item.matchesCategory)
+    .sort((a, b) => b.relevanceScore - a.relevanceScore)
+    .map(item => ({
+      id: `kb-${item.id}`,
+      type: 'knowledge-base' as const,
+      question: item.question,
+      answer: item.answer,
+      category: item.category,
+      tags: item.tags,
+      source: item.source
+    }));
+};
 
 
   const [settings, setSettings] = useState({
@@ -151,6 +212,7 @@ const EnhancedSearchInterface = ({
         }
 
       } catch (error) {
+        return error;
       }
     }
     else {
@@ -510,10 +572,7 @@ Focus on women's religious matters, purity, worship, and menstruation-related to
                   {searchHistory.slice(0, 3).map((item) => (
                     <div
                       key={item.id}
-                      className={`p-3 rounded-lg transition-all duration-300 ${settings.darkMode
-                        ? 'bg-slate-800 border border-slate-600'
-                        : 'bg-purple-50 border border-purple-200'
-                        }`}
+                      className={`p-3 rounded-lg transition-all duration-300 ${settings.darkMode? 'bg-slate-800 border border-slate-600' : 'bg-purple-50 border border-purple-200'}`}
                     >
                       <h4 className={`font-medium text-sm mb-1 ${settings.darkMode ? 'text-white' : 'text-purple-800'}`}>
                         {item.question}
@@ -524,9 +583,7 @@ Focus on women's religious matters, purity, worship, and menstruation-related to
                       <Button
                         variant="ghost"
                         size="sm"
-                        className={`p-0 h-auto mt-2 ${settings.darkMode
-                          ? 'text-purple-400 hover:text-purple-300'
-                          : 'text-purple-600 hover:text-purple-700'
+                        className={`p-0 h-auto mt-2 ${settings.darkMode ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-700'
                           }`}
                         onClick={() => handleQuickSearch(item.question)}
                       >
@@ -539,6 +596,8 @@ Focus on women's religious matters, purity, worship, and menstruation-related to
             </Card>
 
           )}
+
+
         </>
       )}
     </div>

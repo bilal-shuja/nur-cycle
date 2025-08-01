@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+
 import { useLanguage } from '@/contexts/LanguageContext';
 
 
@@ -3040,7 +3042,7 @@ const naturalRemedies = [
             <h2 className={`text-xl font-bold mb-4 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
               Pregnancy & Women's Health Topics
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {/* <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {[
                 {
                   title: "Pregnancy Complications",
@@ -3170,7 +3172,149 @@ const naturalRemedies = [
                   </CardContent>
                 </Card>
               ))}
-            </div>
+            </div> */}
+
+               <Carousel className="w-full">
+              <div className="flex items-center justify-between mb-4">
+                <div></div>
+                <div className="flex items-center space-x-2">
+                  <CarouselPrevious className="relative !top-0 !transform-none !border !border-gray-300 hover:bg-gray-50" />
+                  <CarouselNext className="relative !top-0 !transform-none !border !border-gray-300 hover:bg-gray-50" />
+                </div>
+              </div>
+              <CarouselContent className="-ml-1">
+                {[
+                {
+                  title: "Pregnancy Complications",
+                  icon: "⚠️",
+                  description: "Understanding risks and warning signs",
+                  color: "from-red-500 to-red-600"
+                },
+                {
+                  title: "Pregnancy Loss",
+                  icon: "💜",
+                  description: "Support during difficult times",
+                  color: "from-purple-500 to-purple-600"
+                },
+                {
+                  title: "Working Moms",
+                  icon: "👩🏽‍💼",
+                  description: "Balancing career and motherhood",
+                  color: "from-blue-500 to-blue-600"
+                },
+                {
+                  title: "Sleep & Eating",
+                  icon: "🍎",
+                  description: "Managing nutrition and rest",
+                  color: "from-green-500 to-green-600"
+                },
+                {
+                  title: "Mental Health",
+                  icon: "🧠",
+                  description: "Supporting emotional wellbeing",
+                  color: "from-indigo-500 to-indigo-600"
+                },
+                {
+                  title: "Contraception",
+                  icon: "💊",
+                  description: "Family planning guidance",
+                  color: "from-pink-500 to-pink-600"
+                },
+                {
+                  title: "Birthing While Black",
+                  icon: "🛡️",
+                  description: "Addressing health disparities",
+                  color: "from-amber-500 to-amber-600"
+                },
+                {
+                  title: "Marriage & New Baby",
+                  icon: "👶🏽",
+                  description: "Relationship changes",
+                  color: "from-rose-500 to-rose-600"
+                },
+                {
+                  title: "Sexual Health",
+                  icon: "💖",
+                  description: "Intimate wellness education",
+                  color: "from-teal-500 to-teal-600"
+                },
+                {
+                  title: "After Birth",
+                  icon: "🤱🏽",
+                  description: "Postpartum recovery care",
+                  color: "from-emerald-500 to-emerald-600"
+                },
+                {
+                  title: "Intimacy & Bleeding",
+                  icon: "🩸",
+                  description: "Changes after childbirth",
+                  color: "from-red-400 to-red-500"
+                },
+                {
+                  title: "Thyroid Health",
+                  icon: "🔬",
+                  description: "Managing thyroid conditions",
+                  color: "from-cyan-500 to-cyan-600"
+                },
+                {
+                  title: "Diabetes",
+                  icon: "📊",
+                  description: "Blood sugar management",
+                  color: "from-orange-500 to-orange-600"
+                },
+                {
+                  title: "FGM Support",
+                  icon: "🤝",
+                  description: "Healing and support resources",
+                  color: "from-violet-500 to-violet-600"
+                },
+                {
+                  title: "Hormonal Changes",
+                  icon: "📈",
+                  description: "Understanding body transitions",
+                  color: "from-yellow-500 to-yellow-600"
+                },
+                {
+                  title: "Pre-eclampsia",
+                  icon: "🚨",
+                  description: "Recognition and management",
+                  color: "from-red-600 to-red-700"
+                },
+                {
+                  title: "C-Section Care",
+                  icon: "🏥",
+                  description: "Recovery and wound care",
+                  color: "from-blue-600 to-blue-700"
+                },
+                {
+                  title: "Postpartum Depression",
+                  icon: "😢",
+                  description: "Mental health after birth",
+                  color: "from-slate-500 to-slate-600"
+                }
+              ].map((topic, index) => (
+                <CarouselItem key={index} className="pl-1 basis-1/2 md:basis-1/3 lg:basis-1/4">
+                  <Card 
+                    className="relative overflow-hidden card-3d cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105"
+                    onClick={() => setSelectedTopic(topic)}
+                  >
+                    <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-800 border border-slate-600' : 'bg-gradient-to-br ' + topic.color + ' opacity-10'}`}></div>
+                    <CardContent className="p-4 relative z-10 text-center">
+                      <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${topic.color} flex items-center justify-center text-white text-xl mb-3 mx-auto`}>
+                        {topic.icon}
+                      </div>
+                      <h3 className={`font-semibold text-sm ${settings.darkMode ? 'text-white' : 'text-gray-800'} mb-2`}>
+                        {topic.title}
+                      </h3>
+                      <p className={`text-xs ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                        {topic.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+              </CarouselContent>
+            </Carousel>
           </div>
         )}
       </div>
@@ -3209,11 +3353,11 @@ const naturalRemedies = [
  {getLocalizedText('family.planning.natural.remedies')}
 </h2>
 
-         {/* <div className="grid grid-cols-1 gap-4">
+         <div className="grid grid-cols-1 gap-4">
            {familyPlanning.map((guide, index) => (
              <GuideCard key={index} guide={guide} sectionKey={`family-${index}`} />
            ))}
-         </div> */}
+         </div>
       </div>
 
 

@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
+import { Calendar, Plus } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -111,17 +111,13 @@ const CalendarWidget = ({ onNavigateToTracker, onNavigateToCalendar }: CalendarW
         } else {
           document.documentElement.classList.remove('dark');
         }
-        console.log('Settings loaded:', parsedSettings);
       } catch (error) {
         console.error('Error loading settings:', error);
       }
     }
     else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-
-    // Apply dark mode immediately if enabled:
 
 
 
@@ -131,11 +127,9 @@ const CalendarWidget = ({ onNavigateToTracker, onNavigateToCalendar }: CalendarW
     <>
 
 
-      {/* <Card className="bg-gradient-to-br from-purple-50 to-purple-100 relative overflow-hidden dark:bg-black dark:text-white"> */}
-
       <Card className="relative overflow-hidden text-black dark:text-white p-4 shadow-lg">
-  <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-purple-100 dark:hidden"></div>
-  <div className="absolute inset-0 hidden dark:block bg-slate-900 dark:text-white"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-purple-100 dark:hidden"></div>
+        <div className="absolute inset-0 hidden dark:block bg-slate-900 dark:text-white"></div>
         {/* Animated background elements */}
         <div className="absolute inset-0 opacity-20">
           <div className="animate-pulse absolute top-4 right-4 w-16 h-16 bg-gradient-to-br from-purple-300 to-purple-500 rounded-full"></div>
@@ -186,7 +180,7 @@ const CalendarWidget = ({ onNavigateToTracker, onNavigateToCalendar }: CalendarW
                 )}
               </div>
 
-              <div className={`rounded-lg p-4 text-center border ${settings.darkMode ? 'bg-slate-900 border-slate-700 text-white' : 'bg-gradient-to-r from-purple-50 via-white to-purple-50 border-purple-100 text-purple-800'}`}>
+              <div className={`rounded-lg p-4 text-center border ${settings.darkMode ? 'bg-slate-900 border-slate-700 text-white' : ' from-purple-200 via-lavender to-purple-400 border-purple-100 text-lavender-700'}`}>
                 <div className="flex items-center justify-center mb-2" >
                   <div className="w-12 h-12 bg-gradient-to-br from-lavender-300 via-lavender-500 to-lavender-700 rounded-full flex items-center justify-center" style={{ marginTop: "-1em" }}>
                     <span className="text-white text-xl" >🌙</span>
@@ -208,12 +202,12 @@ const CalendarWidget = ({ onNavigateToTracker, onNavigateToCalendar }: CalendarW
                   <div
                     key={index}
                     className={`p-2 rounded-lg text-sm ${date.toDateString() === currentDate.toDateString()
-                        ? 'bg-gradient-to-br from-purple-500 to-purple-600 text-white'
-                        : isPeriodDay(date)
-                          ? 'bg-red-100 text-red-800'
-                          : isFertileDay(date)
-                            ? 'bg-green-100 text-green-800'
-                            : 'hover:bg-purple-50'
+                      ? 'bg-gradient-to-br from-purple-500 to-purple-600 text-white'
+                      : isPeriodDay(date)
+                        ? 'bg-red-100 text-red-800'
+                        : isFertileDay(date)
+                          ? 'bg-green-100 text-green-800'
+                          : 'hover:bg-purple-50'
                       }`}
                   >
                     {date.getDate()}
@@ -224,20 +218,23 @@ const CalendarWidget = ({ onNavigateToTracker, onNavigateToCalendar }: CalendarW
           )}
 
           <div className="flex gap-2 mt-4">
+
             <Button
-              className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
+              className=" min-w-[150px] bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 pe-5"
               onClick={onNavigateToCalendar}
             >
               <Plus className="w-4 h-4 mr-2" />
               {getLocalizedText("action.logPeriod")}
             </Button>
+
             <Button
               variant="outline"
-              className="flex-1 hover:bg-purple-50 border-purple-200"
+              className=" min-w-[150px] hover:bg-purple-50 border-purple-200 pe-5"
               onClick={onNavigateToCalendar}
             >
               {getLocalizedText("action.viewFullCalendar")}
             </Button>
+
           </div>
         </CardContent>
       </Card>
@@ -297,7 +294,7 @@ const CalendarWidget = ({ onNavigateToTracker, onNavigateToCalendar }: CalendarW
             <Button variant="outline" onClick={() => setIsLogModalOpen(false)}>
               Cancel
             </Button>
-            <Button 
+            <Button
               onClick={() => {
                 // Here you would typically save the log entry
                 console.log('Logging period entry:', { logDate, logType, logIntensity });
