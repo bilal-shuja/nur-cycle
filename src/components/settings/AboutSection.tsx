@@ -107,7 +107,7 @@ const AboutSection = ({ onBack }: AboutSectionProps) => {
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-purple-600 to-purple-800'}`}></div>
   <CardContent className="relative z-10 p-6">
     <h2 className={`text-2xl font-bold mb-4 text-center ${settings.darkMode ? 'text-white' : 'text-gray-700'}`}>
-     {getLocalizedText('welcome.to.nurcycle')}
+     {getLocalizedText('welcome.to.nurcyclee')}
     </h2>
     <p className={`leading-relaxed ${settings.darkMode ? 'text-gray-300' : 'text-purple-400'}`}>
      {getLocalizedText('nurcycle.explanation')}
@@ -172,27 +172,6 @@ const AboutSection = ({ onBack }: AboutSectionProps) => {
   </CardContent>
 </Card>
 
- 
-        {/* <Card className="relative overflow-hidden card-3d">
-  <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'}`}></div>
-  <CardContent className="relative z-10 p-6">
-    <h3 className={`text-xl font-bold mb-4 flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-purple-800'}`}>
-      💜 Who We Serve
-    </h3>
-    <p className={`text-sm ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed mb-3`}>
-      NurCycle is built for every woman who wants to know and honor her body, including:
-    </p>
-    <ul className={`space-y-2 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} text-sm`}>
-      <li>• Muslim women seeking faith-friendly health solutions</li>
-      <li>• Women confused about Islamic rulings on menstruation, postnatal bleeding, or purity</li>
-      <li>• Reverts navigating conflicting cultural or religious teachings</li>
-      <li>• Women who feel unseen, misunderstood, or exhausted by typical period apps</li>
-      <li>• Teenagers, wives, mothers, students, daughters — all of us</li>
-      <li>• Women who want to feel seen, supported, and safe in their feminine journey</li>
-    </ul>
-  </CardContent>
-</Card> */}
-
 
 <Card className="relative overflow-hidden card-3d">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : 'from-lavender-500 to-lavender-700'}`}></div>
@@ -228,52 +207,6 @@ const AboutSection = ({ onBack }: AboutSectionProps) => {
   </CardContent>
 </Card>
 
-{/* 
-        <Card className="relative overflow-hidden card-3d">
-  <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-purple-500 to-purple-700'}`}></div>
-  <CardContent className="relative z-10 p-6">
-    <h3 className={`text-xl font-bold ${settings.darkMode ? 'text-white' : 'text-purple-800'} mb-4 flex items-center gap-2`}>
-      💬 Founder's Message
-    </h3>
-    <p className={`text-sm ${settings.darkMode ? 'text-gray-300' : 'text-purple-600'} mb-4 italic`}>by Z</p>
-    <div className={`space-y-4 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-      <p>
-        As a Muslim woman who has struggled for years to understand her own body, I created NurCycle from a place of deep personal need — and deep community love.
-      </p>
-      <p>
-        If this app had existed when I was younger, it would have saved me countless headaches and heartaches. From the confusing hormonal shifts of being a teenager, to the fertility transitions of becoming a wife, to the overwhelming body changes of motherhood — I was constantly left wondering:
-      </p>
-      <ul className="space-y-1 text-sm ml-4">
-        <li>• Has my period ended or not?</li>
-        <li>• Do I wait 40 full days after giving birth or pray once the bleeding stops?</li>
-        <li>• Is this spotting istihada or still hayd?</li>
-        <li>• Why does every other period app tell me things that don't match my faith?</li>
-      </ul>
-      <p>
-        I was tired of trying to patch together Islamic rulings from blogs, lecture clips, and outdated books — while also scrolling through Western apps that offered sexual advice but no spiritual direction.
-      </p>
-      <p>
-        I looked everywhere for an app made by Muslim women, for Muslim women — and there was nothing.
-      </p>
-      <p>
-        That's when I knew: we deserve more. We deserve something that reflects our values. We are no longer minorities — not in number, not in voice, not in brilliance. So why shouldn't we have our own tools, our own spaces, our own systems?
-      </p>
-      <p>
-        NurCycle is that space. It is for you. It is for us.
-      </p>
-      <p>
-        I am endlessly grateful to Allah for giving me the opportunity to give back to my sisters — to the ummah I love so dearly.
-      </p>
-      <p>
-        Your experiences are real. Your struggles are valid. And your body, with all of its wisdom and complexity, deserves to be understood and honored — within the timeless guidance of Qur'an and Sunnah.
-      </p>
-      <p className={`font-semibold ${settings.darkMode ? 'text-gray-100' : 'text-purple-800'}`}>
-        This is our light. This is NurCycle.
-      </p>
-    </div>
-  </CardContent>
-</Card>
- */}
 <Card className="relative overflow-hidden card-3d">
   <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : 'from-purple-500 to-purple-700'}`}></div>
   <CardContent className="relative z-10 p-6">

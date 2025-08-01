@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
+import { Calendar, Plus } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -111,17 +111,13 @@ const CalendarWidget = ({ onNavigateToTracker, onNavigateToCalendar }: CalendarW
         } else {
           document.documentElement.classList.remove('dark');
         }
-        console.log('Settings loaded:', parsedSettings);
       } catch (error) {
         console.error('Error loading settings:', error);
       }
     }
     else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-
-    // Apply dark mode immediately if enabled:
 
 
 
@@ -130,8 +126,6 @@ const CalendarWidget = ({ onNavigateToTracker, onNavigateToCalendar }: CalendarW
   return (
     <>
 
-
-      {/* <Card className="bg-gradient-to-br from-purple-50 to-purple-100 relative overflow-hidden dark:bg-black dark:text-white"> */}
 
       <Card className="relative overflow-hidden text-black dark:text-white p-4 shadow-lg">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-purple-100 dark:hidden"></div>

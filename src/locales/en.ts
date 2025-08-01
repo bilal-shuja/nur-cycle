@@ -1578,7 +1578,7 @@ const en = {
   'response.within.24.hours': 'Response within 24 hours',
   'opening.email.client': 'Opening email client...',
 
-  // 'welcome.to.nurcycle': 'Welcome to NurCycle — Where Faith Meets Feminine Wellness.',
+  'welcome.to.nurcyclee': 'Welcome to NurCycle — Where Faith Meets Feminine Wellness.',
   'nurcycle.explanation': 'At NurCycle, we believe that understanding your body is a form of empowerment — and that true wellness embraces both the physical and the spiritual. Designed with Muslim women in mind (and open to all!), NurCycle is your go-to companion for navigating your menstrual cycle, fertility, pregnancy, and overall hormonal health — all in line with Islamic values and modern science.',
 
   'why.we.exist': 'Why We Exist',
@@ -1617,7 +1617,7 @@ const en = {
   "patchingTogetherRulings": "I was tired of trying to patch together Islamic rulings from blogs, lecture clips, and outdated books — while also scrolling through Western apps that offered sexual advice but no spiritual direction.",
   "lookedForMuslimApp": "I looked everywhere for an app made by Muslim women, for Muslim women — and there was nothing.",
   "deserveMore": "That's when I knew: we deserve more. We deserve something that reflects our values. We are no longer minorities — not in number, not in voice, not in brilliance. So why shouldn't we have our own tools, our own spaces, our own systems?",
-  "nurcycleIsThatSpace": "NurCycle is that space. It is for you. It is for us.",
+  "nurcycleIsThatSpace": "This is our light. This is NurCycle.",
   "endlessGratitudeToAllah": "I am endlessly grateful to Allah for giving me the opportunity to give back to my sisters — to the ummah I love so dearly.",
   "experiencesAreReal": "Your experiences are real. Your struggles are valid. And your body, with all of its wisdom and complexity, deserves to be understood and honored — within the timeless guidance of Qur'an and Sunnah.",
 

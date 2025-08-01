@@ -1530,7 +1530,7 @@ const es = {
   'opening.email.client': 'Abriendo cliente de correo electrónico...',
   'browse.topics': 'Explorar temas',
   'get.in.touch': 'Póngase en contacto',
-  // 'welcome.to.nurcycle': 'Bienvenido a NurCycle — Donde la fe se encuentra con el bienestar femenino.',
+  'welcome.to.nurcyclee': 'Bienvenido a NurCycle — Donde la fe se encuentra con el bienestar femenino.',
   'nurcycle.explanation': 'En NurCycle, creemos que entender tu cuerpo es una forma de empoderamiento, y que el verdadero bienestar abarca tanto lo físico como lo espiritual. Diseñado con las mujeres musulmanas en mente (¡y abierto a todas!), NurCycle es tu compañero ideal para navegar tu ciclo menstrual, fertilidad, embarazo y salud hormonal general, todo en línea con los valores islámicos y la ciencia moderna.',
 
   'why.we.exist': 'Por qué existimos',
@@ -1571,7 +1571,7 @@ const es = {
   "patchingTogetherRulings": "Estaba cansada de intentar juntar rulings islámicos de blogs, clips de conferencias y libros desactualizados — mientras también revisaba aplicaciones occidentales que ofrecían consejos sexuales pero sin dirección espiritual.",
   "lookedForMuslimApp": "Busqué por todas partes una aplicación hecha por mujeres musulmanas, para mujeres musulmanas — y no había nada.",
   "deserveMore": "Ahí fue cuando supe: merecemos más. Merecemos algo que refleje nuestros valores. Ya no somos una minoría — no en número, no en voz, no en brillantez. Entonces, ¿por qué no deberíamos tener nuestras propias herramientas, nuestros propios espacios, nuestros propios sistemas?",
-  "nurcycleIsThatSpace": "NurCycle es ese espacio. Es para ti. Es para nosotras.",
+  "nurcycleIsThatSpace": "Esta es nuestra luz. Este es NurCycle.",
   "endlessGratitudeToAllah": "Estoy infinitamente agradecida con Allah por darme la oportunidad de retribuir a mis hermanas — a la ummah que amo tanto.",
   "experiencesAreReal": "Tus experiencias son reales. Tus luchas son válidas. Y tu cuerpo, con toda su sabiduría y complejidad, merece ser entendido y honrado — dentro de la guía atemporal del Qur'an y la Sunnah.",
 

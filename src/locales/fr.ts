@@ -1844,7 +1844,7 @@ const fr = {
   'response.within.24.hours': 'Réponse sous 24 heures',
   'opening.email.client': 'Ouverture du client de messagerie...',
   'get.in.touch': 'Prenez contact',
-  //  'welcome.to.nurcycle': 'Bienvenue sur NurCycle — Là où la foi rencontre le bien-être féminin.',
+   'welcome.to.nurcyclee': 'Bienvenue sur NurCycle — Là où la foi rencontre le bien-être féminin.',
   'nurcycle.explanation': 'Chez NurCycle, nous croyons que comprendre votre corps est une forme d\'autonomisation — et que le véritable bien-être embrasse à la fois le physique et le spirituel. Conçu avec les femmes musulmanes en tête (et ouvert à toutes !), NurCycle est votre compagnon idéal pour naviguer dans votre cycle menstruel, votre fertilité, votre grossesse et votre santé hormonale générale — tout cela en harmonie avec les valeurs islamiques et la science moderne.',
   'browse.topics': 'Parcourir les sujets',
   'why.we.exist': 'Pourquoi nous existons',
@@ -1883,7 +1883,7 @@ const fr = {
   "patchingTogetherRulings": "J'étais fatiguée d'essayer de rassembler les rulings islamiques provenant de blogs, de clips de conférences et de livres obsolètes — tout en faisant défiler des applications occidentales qui donnaient des conseils sexuels mais aucune direction spirituelle.",
   "lookedForMuslimApp": "J'ai cherché partout une application faite par des femmes musulmanes, pour des femmes musulmanes — et il n'y en avait aucune.",
   "deserveMore": "C'est alors que j'ai su : nous méritons plus. Nous méritons quelque chose qui reflète nos valeurs. Nous ne sommes plus une minorité — ni en nombre, ni en voix, ni en brillance. Alors, pourquoi ne devrions-nous pas avoir nos propres outils, nos propres espaces, nos propres systèmes ?",
-  "nurcycleIsThatSpace": "NurCycle est cet espace. C'est pour vous. C'est pour nous.",
+  "nurcycleIsThatSpace": "C'est notre lumière. C'est NurCycle.",
   "endlessGratitudeToAllah": "Je suis infiniment reconnaissante envers Allah pour m'avoir donné l'opportunité de rendre à mes sœurs — à l'ummah que j'aime tant.",
   "experiencesAreReal": "Vos expériences sont réelles. Vos luttes sont valides. Et votre corps, avec toute sa sagesse et sa complexité, mérite d'être compris et honoré — dans la guidance intemporelle du Qur'an et de la Sunnah.",
 
