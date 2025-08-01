@@ -1,4 +1,5 @@
 const en = {
+
   'menstruation.duration.question': 'What are the minimum and maximum durations of menstruation?',
   'menstruation.duration.answer': "According to the Hanbali school as detailed in Zad Al-Mustaqni, the minimum period of menstruation is 24 hours (one day and night). The maximum duration is 15 days. If bleeding continues beyond 15 days, everything beyond the 15th day is considered istihada (irregular bleeding). However, there are scholarly differences on these limits. The Hanafi school sets the minimum at 3 days and maximum at 10 days. The Maliki school considers the minimum as the shortest amount that can be called 'hayd' in Arabic language, typically interpreted as a few hours, with a maximum of 15 days. The Shafi'i school agrees with the Hanbali view on minimum (24 hours) but sets the maximum at 15 days. If a woman's usual pattern exceeds these limits, scholars recommend she follows her established habit and consults knowledgeable authorities. The practical implication is that if bleeding stops before the minimum (i)",
   'reference.books': 'Zad Al-Mustaqni, Comparative Fiqh, Natural Blood of Women',
@@ -58,98 +59,67 @@ const en = {
   "action.logPeriod": "Log Period",
   "action.viewFullCalendar": "View Full Calendar",
   "terms.conditions": "Terms & Conditions",
-
-
   'have.read.before.bleed': 'Have a Read Before You Bleed',
   'essential.knowledge': 'Essential knowledge and preparation tips for a more comfortable period experience',
   'preparation.topics': 'Preparation Topics',
-
   'hydration': 'Hydration',
   'importance.hydration': 'Importance of Hydration',
   'hydration.tips': 'Staying well-hydrated is crucial during your pre-period phase. Water helps in reducing bloating, easing muscle cramps, and maintaining overall energy levels. Aim to drink at least 8 glasses of water daily, and include hydrating foods like cucumbers and watermelons in your diet. Herbal teas can also contribute to your fluid intake while providing soothing effects.',
-
   'nutrition': 'Nutrition',
   'nutritional.tips': 'Nutritional Tips',
   'nutrition.tips': 'Focus on consuming a balanced diet rich in iron, calcium, and fiber. Iron-rich foods like spinach and lentils can help combat fatigue. Calcium from dairy or plant-based sources aids in reducing muscle cramps. Fiber-rich foods such as whole grains and vegetables promote digestive health and prevent constipation. Limit processed foods, caffeine, and alcohol to minimize mood swings and bloating.',
-
   'cycle.tracking': 'Cycle Tracking',
   'effective.cycle.tracking': 'Effective Cycle Tracking',
   'cycle.tracking.tips': 'Tracking your menstrual cycle helps you anticipate your period and understand your body\'s patterns. Use a period tracking app or a physical calendar to note the start and end dates of your period, flow intensity, and any symptoms you experience. Consistent tracking over several months can reveal irregularities and provide insights into your hormonal health.',
-
   'symptom.management': 'Symptom Management',
   'managing.common.symptoms': 'Managing Common Symptoms',
   'symptom.management.tips': 'Common pre-period symptoms include mood swings, bloating, headaches, and fatigue. Manage these symptoms by engaging in regular exercise, practicing relaxation techniques such as yoga or meditation, and ensuring you get enough sleep. Over-the-counter pain relievers can help with headaches and cramps. If symptoms are severe, consult a healthcare provider.',
-
   'basal.body.temperature': 'Basal Body Temperature',
   'understanding.bbt': 'Understanding Basal Body Temperature',
   'bbt.tips': 'Tracking your basal body temperature (BBT) can provide valuable information about your ovulation cycle. Measure your temperature every morning before getting out of bed and record it. A slight increase in temperature usually indicates ovulation. This method can help you predict your period and identify potential fertility issues.',
-
   'community.support': 'Community Support',
   'finding.community.support': 'Finding Community Support',
   'community.support.tips': 'Connecting with others who experience similar pre-period symptoms can provide emotional support and practical advice. Join online forums, support groups, or talk to friends and family members about your experiences. Sharing and learning from others can help you feel less alone and more empowered to manage your symptoms.',
-
   'apple.cider.vinegar': 'Apple Cider Vinegar',
   'benefits.acv': 'Benefits of Apple Cider Vinegar',
   'acv.tips': 'Apple cider vinegar (ACV) is believed to help balance the body\'s pH levels and reduce bloating. Mix one to two tablespoons of ACV in a glass of water and drink it before meals. ACV may also help in controlling blood sugar levels and reducing cravings. However, it should be consumed in moderation and diluted to prevent irritation of the esophagus.',
-
-
   'popular.questions': 'Popular Questions',
-
   'question.prepare.before.period': 'How many days before my period should I start preparing?',
   'answer.prepare.before.period': 'It\'s recommended to start preparing 3-5 days before your expected period. This includes stocking up on supplies, preparing comfort items, and mentally preparing for any symptoms you typically experience.',
-
   'question.essential.supplies': 'What essential supplies should I always have ready?',
   'answer.essential.supplies': 'Keep a period kit with pads/tampons, pain relievers, heating pad, comfortable clothes, favorite snacks, and any medications you typically need. Having these ready reduces stress when your period starts.',
-
   'question.track.cycle': 'How can I track my cycle to better predict my period?',
   'answer.track.cycle': 'Use a period tracking app or calendar to log your cycle length, symptoms, and flow intensity. After 3-6 months, you\'ll start to see patterns that help you predict when your period will arrive.',
-
   'question.foods.before.period': 'What foods should I eat before my period to reduce symptoms?',
   'answer.foods.before.period': 'Focus on iron-rich foods (leafy greens, lean meats), calcium sources (dairy, fortified foods), and complex carbohydrates. Reduce caffeine, salt, and sugar to minimize bloating and mood swings.',
-
   'question.feel.emotional': 'Is it normal to feel emotional before my period?',
   'answer.feel.emotional': 'Yes, PMS (premenstrual syndrome) commonly includes mood changes due to hormonal fluctuations. Practice self-care, get enough sleep, exercise lightly, and don\'t hesitate to reach out for support if emotions feel overwhelming.',
-
   'question.manage.pain': 'How can I manage period pain naturally?',
   'answer.manage.pain': 'Try heat therapy (heating pads, warm baths), gentle exercise, staying hydrated, and eating anti-inflammatory foods. Herbal teas like chamomile or ginger can also provide relief.',
-
   'question.irregular.period': 'What should I do if my period is irregular?',
   'answer.irregular.period': 'Track your cycles for several months to identify patterns. If your periods are consistently irregular, very painful, or you miss periods frequently, consult with a healthcare provider to rule out underlying conditions.',
-
   'question.choose.products': 'How do I choose the right menstrual products?',
   'answer.choose.products': 'Consider your lifestyle, flow intensity, and comfort preferences. Pads are good for beginners, tampons offer more freedom for activities, and menstrual cups are eco-friendly long-term options. You might need different products for different days of your cycle.',
-
-
   'todays.insights': "Today's Insights",
-
   'symptoms.to.expect': 'Symptoms to Expect',
   'symptoms.to.expect.desc': 'Mild cramping and mood changes',
-
   'pregnancy.chance': 'Pregnancy Chance',
   'pregnancy.chance.desc': 'Low probability today',
-
   'marital.relations': 'Marital Relations',
   'marital.relations.desc': 'Within halal boundaries',
-
   'cycle.regularity': 'Cycle Regularity',
   'cycle.regularity.desc': 'On track this month',
-
   'hormonal.balance': 'Hormonal Balance',
   'hormonal.balance.desc': 'Stable progesterone levels',
-
   'bloating.level': 'Bloating Level',
   'bloating.level.desc': 'Minimal discomfort expected',
-
   'energy.levels': 'Energy Levels',
   'energy.levels.desc': 'Moderate energy today',
-
   'sleep.quality': 'Sleep Quality',
   'sleep.quality.desc': 'Good rest recommended',
-
   'cycle.journey.visualization': 'Cycle Journey Visualization',
   'cycle.length.journey': 'Cycle Length Journey',
   'average': 'Average',
-
   'my.cycle.overview': 'My Cycle Overview',
   'previous.cycle.length': 'Previous Cycle Length',
   'previous.cycle.length.value': 'Started June 15',
@@ -160,8 +130,6 @@ const en = {
   'average.cycle': 'Average Cycle',
   'start.tracking': 'Start Tracking',
   'last.six.months': 'Last 6 Months',
-
-
   'back.to.tracker.menu': 'Back to Tracker Menu',
   'cycle.tracker': 'Cycle Tracker',
   'cycle.tracker.desc': 'Track your health journey with Islamic guidance',
@@ -180,8 +148,6 @@ const en = {
   'islamic.reminder': 'Islamic Reminder',
   'islamic.reminder.verse': 'And Allah has brought you out from the wombs of your mothers while you know nothing.',
   'islamic.reminder.desc': 'Understanding your body is part of the knowledge Allah has blessed you with.',
-
-
   'day': 'Day',
   'islamic.period.fertility.tracking': 'Islamic Period & Fertility Tracking',
   'islamic.period.fertility.tracking.desc': 'Track your cycle with comprehensive Islamic guidance',
@@ -207,7 +173,6 @@ const en = {
   'fertility.key': 'Fertility',
   'other': 'Other',
   'log.entry': 'Log Entry',
-
   'light': 'Light',
   'medium': 'Medium',
   'heavy': 'Heavy',
@@ -223,7 +188,6 @@ const en = {
   'todays.islamic.guidance': "Today's Islamic Guidance",
   'current.status': 'Current Status: Post-Menstrual',
   'islamic.reminder.verse-t': '"When one of you is menstruating, she should not pray until she becomes pure." - Sahih Bukhari',
-
   'log.cycle.entry': 'Log Cycle Entry',
   'start.date': 'Start Date',
   'pick.start.date': 'Pick start date',
@@ -236,15 +200,12 @@ const en = {
   'fertile.window.start': 'Fertile Window - Start',
   'fertile.window.peak': 'Fertile Window - Peak',
   'fertile.window.end': 'Fertile Window - End',
-
   'flow.intensity': 'Flow Intensity',
   'save.entry': 'Save Entry',
   'cancel': 'Cancel',
-
   'prayer.fasting.not.required': 'Prayer and fasting are not required. This is Allah\'s mercy upon women.',
   'all.acts.of.worship.required': 'All acts of worship are required as normal.',
   'perform.ghusl.before.worship': 'Perform Ghusl before resuming prayer and worship.',
-
   'mild': 'Mild',
   'moderate': 'Moderate',
   'severe': 'Severe',
@@ -297,7 +258,6 @@ const en = {
   'fair': 'Fair',
   'excellent': 'Excellent',
   'headaches': 'Headaches',
-
   'symptoms.saved.for': 'Symptoms saved for',
   'selected': 'Selected',
   'symptoms.tracker': 'Symptoms Tracker',
@@ -320,11 +280,9 @@ const en = {
   'daily.hormonal': 'Daily Hormonal',
   'save.todays.symptoms': 'Save Today\'s Symptoms',
   'selected.symptoms.severity': 'Selected Symptoms & Severity',
-
   'period.related.symptoms': 'Period-Related Symptoms',
   'pregnancy.related.symptoms': 'Pregnancy-Related Symptoms',
   'daily.hormonal.general.wellness': 'Daily Hormonal & General Wellness',
-
   'pregnancy.fertility.journey': 'Pregnancy & Fertility Journey',
   'blessed.journey': 'Blessed journey guided by Islamic principles',
   'todays.islamic.inspiration': 'Today\'s Islamic Inspiration',
@@ -332,7 +290,6 @@ const en = {
   'dua': 'Our Lord, grant us from among our wives and offspring comfort to our eyes and make us an example for the righteous.',
   'allahs.timing': 'Allah\'s timing is perfect. Trust in His plan for your journey to motherhood. Every prayer, every hope is heard by the Most Merciful.',
   'fertility.tracking': 'Fertility Tracking',
-
   'ovulation.prediction': 'Ovulation Prediction',
   'today.ovulation.day': 'Today is your ovulation day!',
   'until': 'until',
@@ -355,14 +312,12 @@ const en = {
   'no.cervix.found': 'No cervix found',
   'cervix.position': 'Cervix Position',
   'record.data': 'Record Data',
-
   'high': 'High',
   'best.time.for.intimacy': 'Best time for intimacy',
   'track.your.cycle': 'Track your cycle',
   'dua.for.righteous.offspring': 'Dua for Righteous Offspring',
   'dua.text': 'My Lord, grant me [a child] from among the righteous.',
   'prophet.ibrahims.dua': 'Prophet Ibrahim\'s dua',
-
   'plum': 'Plum',
   'inches': 'inches',
   'babys.face.is.becoming.more.human.like': 'Baby\'s face is becoming more human-like',
@@ -388,7 +343,6 @@ const en = {
   'baby.has.sleep.wake.cycles': 'Baby has sleep and wake cycles',
   'taste.buds.developing': 'Taste buds are developing',
   'viability.milestone.reached': 'Viability milestone reached',
-
   'first.trimester': 'First Trimester',
   'weeks': 'Weeks',
   'foundation.building.major.organs.form': 'Foundation building - major organs form',
@@ -412,8 +366,6 @@ const en = {
   'final.checkups': 'Final check-ups',
   'increase.istighfar.prepare.spiritually': 'Increase istighfar and prepare spiritually for childbirth. Recite Surah Luqman.',
   'dua.third.trimester': 'O my Lord! Let my entry be by the Gate of Truth and Honor, and likewise my exit by the Gate of Truth and Honor; and grant me from Your Presence an authority to aid me.',
-
-
   'complications': 'Complications',
   'trimester': 'Trimester',
   'baby.development.this.week': 'Baby Development This Week',
@@ -428,14 +380,11 @@ const en = {
   'alhamdulillah': 'Alhamdulillah',
   'allahu.akbar': 'Allahu Akbar',
   'astaghfirullah': 'Astaghfirullah (frequent)',
-
   'surahs.to.recite': 'Surahs to Recite:',
   'surah.maryam': 'Surah Maryam',
   'surah.luqman': 'Surah Luqman',
   'surah.al.fatiha': 'Surah Al-Fatiha',
   'ayat.al.kursi': 'Ayat al-Kursi for protection',
-
-
   'chapter': 'Chapter',
   'babys.development.this.week': 'Baby\'s Development This Week',
   'focus.areas': 'Focus Areas:',
@@ -451,7 +400,6 @@ const en = {
   'no.kicks.count.found': 'No kicks count found',
   'todays.kicks': 'Today\'s kicks',
   'count.kicks': 'Count Kicks',
-
   'please.enter.temperature': 'Please enter a temperature',
   'please.enter.valid.temperature': 'Please enter a valid temperature',
   'temperature.logged': 'Temperature logged:',
@@ -477,7 +425,6 @@ const en = {
   'firmness': 'Firmness',
   'firm': 'Firm',
   'soft.fertile': 'Soft (Fertile)',
-
   'please.enter.your.weight': 'Please enter your weight',
   'please.enter.valid.weight': 'Please enter a valid weight',
   'weight.updated': 'Weight updated:',
@@ -494,21 +441,18 @@ const en = {
   'count.kick': 'Count Kick',
   'reset': 'Reset',
   'save.count': 'Save Count',
-
   'select.entry.type': 'Select entry type',
   'kick.count.saved': 'Kick count saved:',
   'kicks.today': 'kicks today',
   'select.mucus.type': 'Select mucus type',
   'select.position': 'Select position',
   'select.firmness': 'Select firmness',
-
   'assalamu.alaikum.sister': 'Assalamu Alaikum, Sister!',
   'welcome.to.nurcycle': 'Welcome to NurCycle - your trusted companion for tracking your cycle with Islamic guidance. We\'re here to help you understand your body while staying connected to Allah\'s wisdom.',
   'ayah': 'And Allah has brought you out from the wombs of your mothers while you know nothing. And He gave you hearing, sight, and hearts that you might give thanks.',
   'what.should.we.call.you': 'What should we call you? (Optional)',
   'skip.setup': 'Skip Setup',
   'lets.begin': 'Let\'s Begin',
-
   'enter.your.name': 'Enter your name',
   'what.would.you.like.to.track': 'What would you like to track?',
   'select.your.madhhab': 'Select your madhhab',
@@ -535,7 +479,6 @@ const en = {
   'continue': 'Continue',
   'provide.six.months.cycle.data': 'Provide six month\'s cycle data',
   'close': 'Close',
-
   'period.prediction.cycle': 'Period Prediction Cycle',
   'this.helps.us.provide.accurate.islamic.guidance': 'This helps us provide accurate Islamic guidance for your situation',
   'madhhab.definition': 'A madhhab is a school of Islamic jurisprudence. Each has slightly different rulings on issues like minimum menstruation days or nifas duration.',
@@ -550,21 +493,15 @@ const en = {
   'i.dont.know': 'I don\'t know',
   'we.will.show.rulings.from.all.major.madhhabs': 'We\'ll show rulings from all major madhhabs',
   'comparative.islamic.jurisprudence': 'Comparative Islamic jurisprudence',
-
   'choose.notifications': 'Choose which notifications you\'d like to receive',
   'adjust.preferences': 'You can adjust these notification preferences anytime in your profile settings.',
   'complete.setup': 'Complete Setup',
-
   'worship.alerts': 'Worship Alerts',
   'worship.alerts.description': 'Reminders about salah and fasting exemptions during menstruation',
   'ghusl.reminders.description': 'Gentle reminders when you need to perform ghusl',
   'fertility.window': 'Fertility Window',
   'fertility.window.description': 'Notifications about your fertile days and ovulation',
   'daily.duas.description': 'Beautiful duas and Islamic reminders throughout your cycle',
-
-
-
-
   'community.guidelines.title': 'Community Guidelines',
   'community.guidelines.respect': 'Be respectful and supportive',
   'community.guidelines.share.responsibly': 'Share experiences responsibly',
@@ -574,20 +511,17 @@ const en = {
   'community.guidelines.no.inappropriate.images': 'No inappropriate images',
   'community.guidelines.no.bullying': 'No bullying or tearing other women down',
   'community.guidelines.muslim.values': 'Avoid sharing information that does not align with our Muslim teachings and values',
-
   'verse.creation.truth': "And it is He who created the heavens and earth in truth. And the day He says, 'Be,' and it is, His word is the truth.",
   'verse.reliance': 'And whoever relies upon Allah - then He is sufficient for him. Indeed, Allah will accomplish His purpose.',
   'verse.rememberance': 'So remember Me; I will remember you. And be grateful to Me and do not deny Me',
   'verse.patience': 'And Allah is with the patient',
   'verse.amanah': 'Your body is an Amanah (trust) from Allah. Take care of it with knowledge and wisdom.',
   'verse.ease': 'Verily, with hardship comes ease.',
-
   'share.title': 'Share with the Community',
   'share.placeholder': "What's on your mind? Share your thoughts, experiences, or questions...",
   'share.add.image': 'Add an image (optional)',
   'share.loading': 'Sharing...',
   'share.button': 'Share Post',
-
   'feed.title': 'Posts & Feed',
   'feed.live.chat': 'Live Chat',
   'feed.loading': 'Loading posts...',
@@ -597,7 +531,6 @@ const en = {
   'feed.copy.success': 'Post content copied to clipboard.',
   'feed.share': 'Share',
   'feed.comment.placeholder': 'Write a comment...',
-
   'activity.loading': 'Loading your content...',
   'activity.title': 'My Posts & Activity',
   'activity.posts': 'My Posts',
@@ -607,16 +540,13 @@ const en = {
   'activity.no.likes': "You haven't liked any posts yet.",
   'activity.no.comments': "You haven't commented on any posts yet.",
   'activity.commented.on': 'You commented on:',
-
   'chat.loading': 'Loading conversations...',
   'chat.back': 'Back to Conversations',
   'chat.select.user': 'Select a user to start chatting',
   'chat.input.placeholder': 'Type a message...',
-
   'talk.title': 'Titea Talk - Topics of Discussion',
   'talk.subtitle': 'Share your experiences, ask questions, and connect with sisters on topics that matter to you',
   'talk.menstrual': 'Menstrual Health & Cycles',
-
   'topics.cycle_periods': 'Cycle and Periods',
   'topics.irregular_cycles': 'Irregular Cycles',
   'topics.heavy_periods': 'Heavy Periods',
@@ -628,9 +558,7 @@ const en = {
   'topics.ovulation': 'Ovulation',
   'topics.vaginismus': 'Vaginismus',
   'topics.yeast_infection': 'Yeast Infection',
-
   'talk.pregnancy': 'Pregnancy & Motherhood',
-
   'pregnancy.symptoms': 'Pregnancy Symptoms',
   'pregnancy.journey': 'Pregnancy Journey',
   'pregnancy.trimester1': '1st Trimester',
@@ -645,10 +573,7 @@ const en = {
   'pregnancy.chemical': 'Chemical Pregnancy',
   'pregnancy.beautifulBirths': 'Beautiful Births',
   'pregnancy.blackBirths': 'Birthing while Black',
-
-
   'talk.postpartum': 'Postpartum & Baby Care',
-
   "postpartum": "Postpartum",
   "postpartum_mental_health": "Postpartum Mental Health",
   "breastfeeding_vs_formula": "Breastfeeding vs Formula",
@@ -664,9 +589,7 @@ const en = {
   "stillbirth": "Stillbirth",
   "bonding_and_baby": "Bonding and Baby",
   "body_after_baby": "Body After Baby",
-
   'talk.mental': 'Mental Health & Wellbeing',
-
   'mental.health': 'Mental Health',
   'emotional.wellbeing': 'Emotional Wellbeing',
   'self.care.love': 'Self Care and Self Love',
@@ -677,9 +600,7 @@ const en = {
   'bipolar': 'Bipolar',
   'depression': 'Depression',
   'anxiety': 'Anxiety',
-
   'talk.medical': 'Medical & Health Conditions',
-
   'pcos': 'PCOS',
   'endometriosis': 'Endometriosis',
   'fertility.issues': 'Fertility Issues',
@@ -699,26 +620,20 @@ const en = {
   'hiv.aids': 'HIV & AIDS',
   'kidney.disease': 'Kidney Disease',
   'thalassemia': 'Thalassemia',
-
   'talk.life': 'Life Transitions & Stages',
-
   'topics.lifeTransitions.menopause': 'Menopause',
   'topics.lifeTransitions.perimenopause': 'Perimenopause',
   'topics.lifeTransitions.hormonalChanges': 'Hormonal Changes',
   'topics.lifeTransitions.weightInsights': 'Weight Insights',
   'topics.lifeTransitions.lifestyle': 'Lifestyle',
   'topics.lifeTransitions.careerStudy': 'Career & Study',
-
   'talk.relationships': 'Relationships & Islamic Guidance',
-
   'topics.relationships.marriageDeen': 'Marriage & My Deen',
   'topics.relationships.divorceDeen': 'Divorce & My Deen',
   'topics.relationships.relationships': 'Relationships',
   'topics.relationships.intimacy': 'Intimacy',
   'topics.relationships.sexualHealth': 'Sexual Health',
-
   'talk.abuse': 'Abuse & Support',
-
   'topics.survivorIssues.fgm': 'FGM Survivor',
   'topics.survivorIssues.domesticViolence': 'Domestic Violence',
   'topics.survivorIssues.racism': 'Racism',
@@ -727,14 +642,11 @@ const en = {
   'topics.survivorIssues.forcedMarriage': 'Forced Marriage',
   'topics.survivorIssues.sexualAssault': 'Surviving Sexual Assault',
   'topics.survivorIssues.bullying': 'Bullying',
-
   'talk.community': 'Community & Support',
-
   'topics.general.familyFriends': 'Family & Friends',
   'topics.general.supportSystem': 'Support System',
   'topics.general.ovulation': 'Ovulation',
   'topics.general.discussion': 'General Discussion',
-
   'discussion.shareExperience': 'Share your experiences and connect with others',
   'discussion.startNew': 'Start a New Discussion',
   'discussion.shareThoughts': 'Share your thoughts, experiences, or questions about',
@@ -742,7 +654,6 @@ const en = {
   'discussion.postButton': 'Post Discussion',
   'discussion.loading': 'Loading discussions...',
   'discussion.emptyState': 'No discussions yet. Be the first to start the conversation!',
-
   'discussion.guidelines.title': 'Discussion Guidelines',
   'discussion.guidelines.respect': 'Be respectful and supportive',
   'discussion.guidelines.responsibleSharing': 'Share experiences responsibly',
@@ -750,7 +661,6 @@ const en = {
   'discussion.guidelines.noInappropriate': 'No inappropriate content',
   'discussion.guidelines.noBullying': 'No bullying or negativity',
   'discussion.guidelines.islamicValues': 'Follow Islamic values and teachings',
-
   "profile.loading": "Loading profiles...",
   "profile.search.placeholder": "Search users by name or bio...",
   "profile.backToAll": "Back to All Profiles",
@@ -842,14 +752,12 @@ const en = {
   'faq.quran.digital': 'Digital',
   'intimate.relations.question': 'What are the detailed rulings about intimate relations during menstruation?',
   'intimate.relations.answer': 'Sexual intimacy during menstruation has specific rulings based on Quran 2:222: "So keep away from women during menstruation and do not approach them until they are pure." STRICTLY PROHIBITED: Vaginal intercourse is completely forbidden during menstruation. This prohibition is absolute and applies to the entire menstrual period. The prohibition continues until the woman sees signs of purity (qassa bayda or complete dryness) AND performs ghusl. WHAT IS PERMITTED: All other forms of physical intimacy are allowed: Kissing, embracing, caressing, Touching above the waist, Sleeping in the same bed, General marital affection and companionship. AREA OF SCHOLARLY DIFFERENCE - Between Navel and Knees: Conservative opinion: Avoid direct skin contact between navel and knees, Moderate opinion: Contact is permitted with clothing or barrier, The safest approach is to maintain some barrier in this area. HUSBAND\'S RESPONSIBILITIES: The husband should be understanding and patient, He should not pressure his wife or make her feel uncomfortable, This is a time for non-physical expressions of love and care, The Prophet ﷺ was reported to be loving and considerate during Aisha\'s periods. RESUMPTION AFTER PURITY: Relations may resume immediately after: The woman sees signs of purity (white discharge or complete dryness), AND she performs ghusl, There is no waiting period after ghusl. EXPIATION FOR VIOLATION: If vaginal intercourse occurs during menstruation, some scholars require giving charity (one dinar or half dinar) as expiation, The couple should seek forgiveness and not repeat the act. EMOTIONAL CONSIDERATIONS: This period can strengthen emotional intimacy, Focus on communication, affection, and spiritual connection, Remember this is a temporary state and part of Allah\'s wisdom in marriage.',
-
   'intimacy': 'intimacy',
   'marriage': 'marriage',
   'intercourse': 'intercourse',
   'relations': 'relations',
   'prohibited': 'prohibited',
   'intimate.references': 'Quran 2:222, Zad Al-Mustaqni, Abu Dawud (264), Natural Blood of Women',
-
   'faq.menstruation.fasting_rules': 'What are the complete rules for fasting during menstruation?',
   'faq.menstruation.rules': 'Fasting is strictly prohibited during menstruation, and this is one of the clearest rulings in Islamic law. PROHIBITION: You MUST break your fast immediately when menstruation begins, even if it\'s moments before Maghrib. Continuing to fast during menstruation is sinful and doesn\'t count as valid fasting. This applies to all types of fasts: Ramadan, voluntary, makeup, and votive fasts. EVIDENCE: Aisha (رضي الله عنها) said: "We were ordered to make up the missed fasts but not the missed prayers" (Sahih Bukhari 321). The Prophet ﷺ said: "Is it not the case that when she gets her period, she neither prays nor fasts?" (Sahih Bukhari 304). MAKING UP RAMADAN FASTS: You MUST make up all missed Ramadan fasting days. The makeup days can be done individually throughout the year before the next Ramadan. They don\'t need to be consecutive unless you\'re making up for consecutive days missed. You have until the next Ramadan begins to complete makeup fasts. If you delay beyond the next Ramadan without valid excuse, you owe makeup plus fidya (feeding a poor person for each delayed day). VOLUNTARY FASTS: Missed voluntary fasts (like Mondays/Thursdays, Arafah, Ashura) do not need to be made up. However, if you had made a vow (nadhr) to fast specific days, those must be made up. PRACTICAL GUIDANCE: Keep track of missed days during Ramadan. Begin makeup fasts as soon as possible after Ramadan. Space them out according to your ability and schedule. If you get your period while making up a fast, that day doesn\'t count and must be repeated. Pregnant and breastfeeding women follow similar rules if they can\'t fast. WISDOM BEHIND THE RULING: Recognizes the physical and emotional challenges during menstruation. Prevents potential health complications. Shows Allah\'s mercy in not overburdening His servants. Maintains the spiritual purity and focus required for fasting.',
   'faq.fasting': 'Fasting',
@@ -858,12 +766,8 @@ const en = {
   'faq.makeup': 'Makeup',
   'faq.qada': 'Qada',
   'faq.sahih_bukhari': 'Sahih Bukhari (321, 304), Zad Al-Mustaqni, Natural Blood of Women',
-
-
   'faq.menstruation.mosque.entering': 'Can I enter the mosque during menstruation?',
-
   'faq.menstruation.mosque.ruling': 'The ruling on entering mosques during menstruation has scholarly differences: MAJORITY OPINION (More Restrictive): Based on the hadith "I do not permit the mosque to anyone who is in a state of major ritual impurity" (Sunan Abu Dawud), women in menstruation should not enter the mosque for non-essential purposes. EXCEPTIONS ALLOWED BY MOST SCHOLARS: Passing through the mosque if it\'s the only route, Emergency situations (safety, seeking help), Brief entry to retrieve personal belongings, Attending crucial Islamic education if no alternative exists. ALTERNATIVE OPINION (Some Contemporary Scholars): Some scholars argue that the prohibition applies primarily to staying in the mosque for worship, Brief visits for educational purposes or community needs may be permitted, The focus should be on the intention and necessity. PRACTICAL ALTERNATIVES: Attend online Islamic lectures and classes, Listen to mosque lectures from outside or through audio systems, Engage in Islamic learning at home or other venues, Use mosque facilities (like libraries) when not in menstruation. MASJID AL-HARAM (Mecca): The majority opinion prohibits entering Masjid al-Haram during menstruation, This includes Tawaf, which is explicitly forbidden during menstruation, Women on Hajj or Umrah must wait for purity before entering. WISDOM AND CONSIDERATIONS: The mosque is primarily a place for prayer, which is forbidden during menstruation, This ruling encourages alternative forms of spiritual engagement, It prevents potential discomfort or self-consciousness during worship times, Remember that spiritual connection with Allah doesn\'t require mosque attendance. RESPECTFUL APPROACH: Follow the conservative opinion to avoid scholarly disputes, Focus on home-based worship and learning during this time, Plan mosque activities around your cycle when possible, Maintain spiritual engagement through permitted means.',
-
   'faq.worship': 'worship',
   'faq.menstruation.mosque': 'mosque',
   'faq.menstruation.masjid': 'masjid',
@@ -871,7 +775,6 @@ const en = {
   'faq.menstruation.prohibited': 'prohibited',
   'faq.menstruation.exceptions': 'exceptions',
   'faq.menstruation.sunan.abu.dawud': 'Sunan Abu Dawud, Scholarly consensus, Natural Blood of Women, Contemporary Fatwas',
-
   'categories.all': 'All Categories',
   'categories.menstruation': 'Menstruation (Hayd)',
   'categories.irregular_bleeding': 'Irregular Bleeding',
@@ -880,7 +783,6 @@ const en = {
   'categories.worship_prayer': 'Worship & Prayer',
   'categories.fasting_ramadan': 'Fasting & Ramadan',
   'categories.marriage_intimacy': 'Marriage & Intimacy',
-
   'label.search_knowledge': 'Search Knowledge',
   'label.ask_ai_assistant': 'Ask AI Assistant',
   'label.education_wellness': 'Education & Wellness',
@@ -891,10 +793,8 @@ const en = {
   'label.irregular_bleeding': 'Irregular Bleeding (Istihada)',
   'label.marital_relations': 'Marital Relations',
   'label.divorce_iddah': 'Divorce & Iddah',
-
   'label.search_islamic_guidance': 'Search Islamic guidance, ask our AI assistant, or browse by topic',
   'label.complete_content_natural_blood': 'Complete content from "Natural Blood of Women" with authentic references',
-
   'label.ask_islamic_question_womens_health': 'Ask any Islamic question about women\'s health...',
   'label.trusted_sources_references': 'Trusted Sources & References',
   'label.primary_sources': 'Primary Sources',
@@ -912,10 +812,8 @@ const en = {
   'label.sheikh_ibn_uthaymeen_works': 'Sheikh Ibn Uthaymeen\'s works',
   'label.fatwa_committee_senior_scholars': 'Fatwa Committee of Senior Scholars',
   'label.contemporary_fiqh_council': 'Contemporary Fiqh Council',
-
   'label.important_note': 'Important Note',
   'label.information_based_on_scholarship': 'This information is based on established Islamic scholarship. For specific situations or complex cases, always consult with qualified Islamic scholars who can provide guidance based on your individual circumstances. Medical consultation is also recommended for health-related concerns.',
-
   'youtube.zaad_al_mustaqni': 'Zaad Al-Mustaq\'ni #17 (2021) [The Menstrual Cycle #1] - by Ali Davis',
   'youtube.rulings_related_to_menstruation': 'Rulings Related to Menstruation || Ustadh Abdulrahman Hassan || AMAU',
   'youtube.menstruation_in_islam': 'Menstruation in Islam | How is it different from Jews and Christians? | Ustadh Muhammed Tim Humble',
@@ -927,16 +825,12 @@ const en = {
   'youtube.show_less': 'Show Less',
   'youtube.show_more': 'Show More',
   'youtube.more_videos': 'More videos',
-
   'health.insights': 'Health Insights',
   'comprehensive.health.guidance': 'Comprehensive health guidance for informed decisions',
   'your.cycles.are.very.regular': 'Your cycles are very regular',
   'overall.health.score': 'Overall Health Score',
-
   'based.on.tracking.patterns': 'Based on tracking patterns',
-
   'educational.health.guides': 'Educational Health Guides',
-
   'vaginal.discharge.guide': 'Vaginal Discharge Guide',
   'vaginal.discharge.guide.description': 'Comprehensive guide to understanding different types of vaginal discharge, what they mean for your health, and when to seek medical attention.',
   'vaginal.discharge.guide.coverage': '8 Types Covered',
@@ -946,18 +840,14 @@ const en = {
   'early.signs.of.pregnancy': 'Early Signs of Pregnancy',
   'early.signs.of.pregnancy.description': 'Comprehensive guide to early pregnancy symptoms, when to test, and how to handle the emotional journey with Islamic guidance and support.',
   'early.signs.of.pregnancy.coverage': '10 Topics Covered',
-
   'understanding.health.conditions': 'Understanding Health Conditions',
-
   'pcos.support.awareness': 'PCOS Support & Awareness',
   'pcos.support.awareness.description': 'Living with PCOS: Understanding symptoms, managing naturally, and finding confidence with faith-based support and medical guidance.',
   'pcos.support.awareness.coverage': '10 Topics',
   'endometriosis.support': 'Endometriosis Support',
   'endometriosis.support.description': 'Understanding endometriosis: pain management, emotional support, and spiritual strength for navigating this challenging condition.',
   'endometriosis.support.coverage': '10 Topics',
-
   'period.management.understanding': 'Period Management & Understanding',
-
   'what.makes.cramps.worse': 'What Makes Cramps Worse',
   'what.makes.cramps.worse.description': 'Understanding triggers that worsen period pain and how to avoid them for better menstrual comfort.',
   'what.makes.cramps.worse.coverage': '10 Triggers',
@@ -967,9 +857,7 @@ const en = {
   'period.length.changes': 'Period Length Changes',
   'period.length.changes.description': 'Why periods might be shorter or longer than usual: hormones, birth control, health conditions, and when to see a doctor.',
   'period.length.changes.coverage': '10 Topics',
-
   'family.planning.natural.remedies': 'Family Planning & Natural Remedies',
-
   'pregnancy.health.topics': 'Pregnancy & Health Topics',
   'pregnancy.health.topics.description': 'Comprehensive health topics covering pregnancy complications, mental health, working mothers, maternal care, and women\'s health conditions.',
   'pregnancy.health.topics.coverage': '17 Topics',
@@ -979,32 +867,24 @@ const en = {
   'natural.cramp.remedies': 'Natural Cramp Remedies',
   'natural.cramp.remedies.description': 'Evidence-based home remedies for period pain: heat therapy, herbs, Sunnah remedies, and natural comfort measures.',
   'natural.cramp.remedies.coverage': '10 Remedies',
-
   'cycle.patterns': 'Cycle Patterns',
   'cycle.patterns.average.length': 'Average Length:',
   'cycle.patterns.period.duration': 'Period Duration:',
   'cycle.patterns.regularity': 'Regularity:',
-
   'health.reminders': 'Health Reminders',
-
   'stay.hydrated.during.cycle': 'Stay hydrated during your cycle',
   'maintain.proper.hygiene': 'Maintain proper hygiene practices',
   'track.unusual.symptoms': 'Track any unusual symptoms',
   'consult.healthcare.providers': 'Consult healthcare providers when needed',
-
   'islamic.wellness': 'Islamic Wellness',
-
   'understanding.your.body.is.sunnah': 'Understanding your body is Sunnah',
   'seek.knowledge.about.health': 'Seek knowledge about health',
   'maintain.spiritual.and.physical.purity': 'Maintain spiritual and physical purity',
   'trust.in.allahs.wisdom': 'Trust in Allah\'s wisdom',
-
   'islamic.health.wisdom': 'Islamic Health Wisdom',
   'health.wisdom.quote': 'Allah has not created a disease without creating a cure for it, except for one disease: old age',
   'seeking.knowledge.about.health': 'Seeking knowledge about our health and bodies is part of the wisdom Allah has given us.',
-
   'vaginal.discharge.color.chart': 'Vaginal Discharge Color Chart',
-
   'white.discharge': 'White Discharge',
   'white.discharge.description': 'Usually normal, especially around ovulation',
   'white.discharge.guidance': 'Normal cervical mucus or sign of healthy vaginal environment. Monitor for any changes in odor or texture. Normal discharge does not affect wudu unless accompanied by other impurities.',
@@ -1029,9 +909,7 @@ const en = {
   'gray.discharge': 'Gray Discharge',
   'gray.discharge.description': 'Associated with bacterial vaginosis',
   'gray.discharge.guidance': 'Bacterial imbalance in vaginal environment. Consult healthcare provider promptly. Abnormal discharge may affect ritual purity - seek both medical and Islamic guidance.',
-
   'period.blood.color.chart': 'Period Blood Color Chart',
-
   'bright.red': 'Bright Red',
   'bright.red.description': 'Fresh, active menstrual flow',
   'bright.red.guidance': 'Healthy menstrual flow, usually normal in early to mid-period. This is considered valid menstruation (hayd) and requires ghusl at the end of your cycle. You should not pray or fast during this time.',
@@ -1053,9 +931,7 @@ const en = {
   'gray.blood': 'Gray Blood',
   'gray.blood.description': 'Requires immediate attention',
   'gray.blood.guidance': 'May indicate bacterial infection or miscarriage. Seek immediate medical evaluation. Gray discharge requires both medical attention and Islamic guidance due to potential complications.',
-
   'early.pregnancy.signs': 'Early Pregnancy Signs',
-
   'missed.period': 'Missed Period',
   'missed.period.description': 'Most common early sign of pregnancy',
   'missed.period.guidance': 'If your period is late by more than a week and you have a regular cycle, this could be the first sign of pregnancy. However, stress, illness, or hormonal changes can also cause delays. Take a pregnancy test if your period is significantly late.',
@@ -1085,9 +961,7 @@ const en = {
   'elevated.basal.temperature': 'Elevated Basal Temperature',
   'elevated.basal.temperature.description': 'Body temperature remains high after ovulation',
   'elevated.basal.temperature.guidance': 'If you track your basal body temperature, it typically drops before menstruation. If it remains elevated for more than 18 days after ovulation, this could indicate pregnancy.',
-
   'pcos.support.management': 'PCOS Support & Management',
-
   'irregular.periods': 'Irregular Periods',
   'irregular.periods.description': 'Unpredictable or absent menstrual cycles',
   'irregular.periods.guidance': 'PCOS often causes irregular, infrequent, or absent periods due to hormonal imbalances. You may have fewer than 8 periods per year or go months without menstruating. This affects about 70% of women with PCOS.',
@@ -1118,7 +992,6 @@ const en = {
   'exercise.movement': 'Exercise & Movement',
   'exercise.movement.description': 'Physical activity benefits for PCOS',
   'exercise.movement.guidance': 'Regular exercise can improve insulin sensitivity, help with weight management, reduce inflammation, and improve mood. Both cardio and strength training are beneficial for PCOS management.',
-
   'pelvic.pain': 'Pelvic Pain',
   'pelvic.pain.description': 'Chronic pain in the pelvic region',
   'pelvic.pain.guidance': 'Persistent pelvic pain that may worsen during menstruation. The pain can be sharp, cramping, or a dull ache, and may be felt in the lower back, abdomen, or pelvis.',
@@ -1147,9 +1020,7 @@ const en = {
   'treatment.approaches': 'Treatment Approaches',
   'treatment.approaches.description': 'Medical and surgical treatment options',
   'treatment.approaches.guidance': 'Treatment may include pain medication, hormone therapy, or surgery. Work with your healthcare provider to develop a treatment plan that addresses your specific symptoms and goals.',
-
   'cramp.triggers.to.avoid': 'Cramp Triggers to Avoid',
-
   'caffeine.intake': 'Caffeine Intake',
   'caffeine.intake.description': 'Coffee and caffeinated drinks can worsen cramps',
   'caffeine.intake.guidance': 'Caffeine can constrict blood vessels and increase muscle tension, potentially making menstrual cramps more severe. Try limiting coffee, tea, and energy drinks during your period.',
@@ -1180,7 +1051,6 @@ const en = {
   'alcohol.consumption': 'Alcohol Consumption',
   'alcohol.consumption.description': 'Alcohol can disrupt hormones and increase inflammation',
   'alcohol.consumption.guidance': 'Alcohol can disrupt hormone balance, increase inflammation, and worsen mood swings. It can also interfere with sleep quality, making you more sensitive to pain.',
-
   'stress.emotional.factors': 'Stress & Emotional Factors',
   'stress.emotional.factors.description': 'High stress can delay ovulation and periods',
   'stress.emotional.factors.guidance': 'Chronic stress increases cortisol levels, which can interfere with the hormones that regulate your menstrual cycle. Major life changes, work stress, or emotional trauma can delay or skip periods.',
@@ -1211,7 +1081,6 @@ const en = {
   'sleep.pattern.changes': 'Sleep Pattern Changes',
   'sleep.pattern.changes.description': 'Irregular sleep schedules can affect hormones',
   'sleep.pattern.changes.guidance': 'Shift work, insomnia, or major changes in sleep patterns can disrupt your circadian rhythm and the hormones that regulate your menstrual cycle.',
-
   'natural.hormone.changes': 'Natural Hormone Changes',
   'natural.hormone.changes.description': 'Normal monthly variations in hormone levels',
   'natural.hormone.changes.guidance': 'Slight variations in estrogen and progesterone levels can naturally cause your period to be a day or two shorter or longer from month to month. This is completely normal.',
@@ -1242,94 +1111,70 @@ const en = {
   'when.to.seek.help': 'When to Seek Help',
   'when.to.seek.help.description': 'Warning signs that need medical attention',
   'when.to.seek.help.guidance': 'See a healthcare provider if your periods suddenly become very short (less than 2 days), very long (more than 7 days), or if you experience severe pain, very heavy bleeding, or periods stop entirely.',
-
   'family.planning.contraception': 'Family Planning & Contraception',
-
   'islamic.views.on.family.planning': 'Islamic Views on Family Planning',
   'islamic.views.on.family.planning.description': 'Religious guidance on contraception',
   'islamic.views.on.family.planning.guidance': 'Islam permits family planning for valid reasons such as health, economic concerns, or spacing children. Most scholars allow reversible contraception, while permanent sterilization is generally discouraged unless medically necessary.',
-
   'natural.family.planning.description': 'Fertility awareness-based methods',
   'natural.family.planning.guidance': 'Tracking ovulation through basal body temperature, cervical mucus changes, or calendar methods. These methods require dedication and education but have no side effects and align with natural body rhythms.',
-
   'barrier.contraceptives': 'Barrier Contraceptives',
   'barrier.contraceptives.description': 'Physical methods that prevent sperm from reaching egg',
   'barrier.contraceptives.guidance': 'Condoms, diaphragms, and cervical caps physically block sperm. Condoms also protect against STIs. These methods are non-hormonal and can be used as needed.',
-
   'hormonal.contraceptives': 'Hormonal Contraceptives',
   'hormonal.contraceptives.description': 'Birth control pills, patches, and injections',
   'hormonal.contraceptives.guidance': 'Methods that use hormones to prevent ovulation. Include birth control pills, patches, rings, and shots. Very effective but may have side effects and aren\'t suitable for everyone.',
-
   'intrauterine.devices': 'Intrauterine Devices (IUDs)',
   'intrauterine.devices.description': 'Long-term reversible contraception',
   'intrauterine.devices.guidance': 'Small devices placed in the uterus that prevent pregnancy for 3-10 years. Available in hormonal and non-hormonal (copper) types. Highly effective but require medical insertion.',
-
   'method.effectiveness': 'Method Effectiveness',
   'method.effectiveness.description': 'Comparing success rates of different methods',
   'method.effectiveness.guidance': 'IUDs and implants are over 99% effective, birth control pills are 91-99% effective with perfect use, condoms are 85-98% effective, and natural methods vary from 76-99% depending on the method and consistency of use.',
-
   'understanding.side.effects': 'Understanding Side Effects',
   'understanding.side.effects.description': 'Potential risks and benefits of each method',
   'understanding.side.effects.guidance': 'Hormonal methods may cause mood changes, weight gain, or irregular bleeding. Copper IUDs may increase menstrual flow. Natural methods have no physical side effects but require significant commitment.',
-
   'choosing.the.right.method': 'Choosing the Right Method',
   'choosing.the.right.method.description': 'Factors to consider when selecting contraception',
   'choosing.the.right.method.guidance': 'Consider your health history, lifestyle, relationship status, desire for future pregnancy, religious beliefs, and personal preferences. Consult with healthcare providers to make an informed decision.',
-
   'emergency.contraception': 'Emergency Contraception',
   'emergency.contraception.description': 'Options after unprotected intercourse',
   'emergency.contraception.guidance': 'Emergency contraceptive pills (Plan B) or copper IUD insertion can prevent pregnancy if used within 3-5 days after unprotected intercourse. Consult Islamic scholars about emergency contraception use.',
-
   'professional.consultation': 'Professional Consultation',
   'professional.consultation.description': 'Working with healthcare providers',
   'professional.consultation.guidance': 'Always consult qualified healthcare providers when choosing contraception. They can assess your individual health needs, discuss options, and monitor for any complications or side effects.',
-
   'natural.pain.relief.methods': 'Natural Pain Relief Methods',
-
   'heat.application': 'Heat Application',
   'heat.application.description': 'Warmth helps relax uterine muscles',
   'heat.application.guidance': 'Apply heat pads, hot water bottles, or take warm baths to relax cramping muscles. Heat increases blood flow and can significantly reduce pain. Use for 15-20 minutes at a time.',
-
   'herbal.remedies': 'Herbal Remedies',
   'herbal.remedies.description': 'Chamomile, ginger, and other healing teas',
   'herbal.remedies.guidance': 'Chamomile tea has anti-inflammatory properties, ginger tea helps with nausea and pain, and raspberry leaf tea may help tone the uterus. Drink 2-3 cups daily during your period.',
-
   'aromatherapy.and.essential.oils': 'Aromatherapy & Essential Oils',
   'aromatherapy.and.essential.oils.description': 'Lavender, clary sage for pain relief',
   'aromatherapy.and.essential.oils.guidance': 'Diluted essential oils like lavender, clary sage, or marjoram can be massaged onto the lower abdomen. These oils have antispasmodic properties that may help reduce cramping.',
-
   'abdominal.massage': 'Abdominal Massage',
   'abdominal.massage.description': 'Circular motions to ease tension',
   'abdominal.massage.guidance': 'Gentle circular massage on the lower abdomen and lower back can help relieve cramping. Use light pressure and massage for 5-10 minutes, optionally with diluted essential oils.',
-
   'gentle.yoga.and.stretching': 'Gentle Yoga & Stretching',
   'gentle.yoga.and.stretching.description': 'Specific poses to relieve menstrual pain',
   'gentle.yoga.and.stretching.guidance': 'Child’s pose, cat-cow stretches, and supine twists can help relieve menstrual cramps. Gentle movement increases blood flow and releases endorphins that naturally reduce pain.',
-
   'prophetic.medicine': 'Prophetic Medicine',
   'prophetic.medicine.description': 'Islamic traditional remedies',
   'prophetic.medicine.guidance': 'Honey, black seed (Nigella sativa), dates, and figs are mentioned in Islamic tradition for their healing properties. These natural foods can provide comfort and nutrition during menstruation.',
-
   'anti.inflammatory.foods': 'Anti-inflammatory Foods',
   'anti.inflammatory.foods.description': 'Foods that reduce inflammation and pain',
   'anti.inflammatory.foods.guidance': 'Omega-3 rich foods (salmon, walnuts), leafy greens, berries, and turmeric have anti-inflammatory properties. Avoid processed foods, excess sugar, and caffeine during your period.',
-
   'proper.hydration': 'Proper Hydration',
   'proper.hydration.description': 'Water helps reduce bloating and cramping',
   'proper.hydration.guidance': 'Drinking plenty of water helps reduce bloating and can ease cramping. Warm water may be more soothing than cold. Add lemon or cucumber for flavor and additional benefits.',
-
   'magnesium.rich.foods': 'Magnesium-Rich Foods',
   'magnesium.rich.foods.description': 'Natural muscle relaxant from food sources',
   'magnesium.rich.foods.guidance': 'Dark chocolate, nuts, seeds, and leafy greens are rich in magnesium, which acts as a natural muscle relaxant. Magnesium deficiency can worsen menstrual cramps.',
-
   'rest.and.stress.management': 'Rest & Stress Management',
   'rest.and.stress.management.description': 'Adequate sleep and relaxation techniques',
   'rest.and.stress.management.guidance': 'Ensure adequate sleep and practice stress-reduction techniques like deep breathing, meditation, or reading Quran. Stress can worsen menstrual symptoms, so prioritize self-care.',
-
   'pregnancy.and.womens.health.topics': 'Pregnancy & Women\'s Health Topics',
   'understanding.period.length.changes': 'Understanding Period Length Changes',
   'common.causes.of.late.periods': 'Common Causes of Late Periods',
-
   'graphs.and.reports': 'Graphs & Reports',
   'time.period': 'Time Period',
   'avg.cycle.length': 'Avg Cycle Length',
@@ -1346,7 +1191,6 @@ const en = {
   'mood.and.energy.patterns': 'Mood & Energy Patterns',
   'menstrual': 'Menstrual',
   'luteal': 'Luteal',
-
   'avg.flow.days': 'Avg Flow Days',
   'cycle.trends': 'Cycle Trends',
   'wellness.insights': 'Wellness Insights',
@@ -1356,7 +1200,6 @@ const en = {
   'export.your.data': 'Export Your Data',
   'export.pdf.report': 'Export PDF Report',
   'export.csv.data': 'Export CSV Data',
-
   'download.cycle.data': 'Download your cycle data, symptoms, and insights for your records or to share with your healthcare provider.',
   'cycle.length': 'Cycle length',
   'cycle.and.ovulation': 'Cycle and ovulation',
@@ -1368,7 +1211,6 @@ const en = {
   'luteal.phase.description': 'The luteal phase is the time between ovulation and the beginning of your period. If you know the length of your luteal phase, log it for more accurate ovulation predictions.',
   'display.cycle.sequence': 'Display cycle sequence',
   'cycle.sequence.description': 'The cycle sequence (day 1, 2, 3, etc.) will be displayed right above the calendar dates.',
-
   'language.updated': 'Language Updated',
   'language.changed.to': 'Language changed to',
   'setting.updated': 'Setting Updated',
@@ -1378,7 +1220,6 @@ const en = {
   'late.period.alerts': 'Late Period Alerts',
   'alert.when.period.overdue': 'Alert when period is overdue',
   'health.and.wellness': 'Health & Wellness',
-
   'ovulation.alerts': 'Ovulation Alerts',
   'fertility.window.notifications': 'Fertility window notifications',
   'daily.check.ins': 'Daily Check-ins',
@@ -1386,16 +1227,13 @@ const en = {
   'reminders.for.symptom.logging': 'Reminders for symptom logging',
   'fertility.insights': 'Fertility Insights',
   'personalized.fertility.notifications': 'Personalized fertility notifications',
-
   'reminders.and.appointments': 'Reminders & Appointments',
   'medication.reminders': 'Medication Reminders',
   'birth.control.and.supplement.reminders': 'Birth control and supplement reminders',
   'appointment.reminders': 'Appointment Reminders',
   'doctor.visits.and.health.checkups': 'Doctor visits and health check-ups',
-
   'privacy.and.security': 'Privacy & Security',
   'app.security': 'App Security',
-
   'biometric.lock': 'Biometric Lock',
   'biometric.lock.description': 'Use fingerprint or face ID to unlock app',
   'passcode.required': 'Passcode Required',
@@ -1406,10 +1244,7 @@ const en = {
   'incognito.mode.description': 'Enhanced privacy mode',
   'data.encryption': 'Data Encryption',
   'data.encryption.description': 'Encrypt stored data locally',
-
-
   'data.and.sync': 'Data & Sync',
-
   'auto.backup': 'Auto Backup',
   'auto.backup.description': 'Automatically backup your data',
   'cloud.sync': 'Cloud Sync',
@@ -1418,10 +1253,8 @@ const en = {
   'offline.mode.description': 'Work without internet connection',
   'location.tracking': 'Location Tracking',
   'location.tracking.description': 'Allow location-based insights',
-
   'display.and.theme': 'Display & Theme',
   'appearance': 'Appearance',
-
   'dark.mode': 'Dark Mode',
   'dark.mode.description': 'Use dark theme for better night viewing',
   'compact.view': 'Compact View',
@@ -1432,34 +1265,24 @@ const en = {
   'colorful.theme.description': 'Use vibrant colors and gradients',
   'high.contrast': 'High Contrast',
   'high.contrast.description': 'Enhanced contrast for accessibility',
-
-
   'advanced.display': 'Advanced Display',
   'analytics': 'Analytics',
   'analytics.description': 'Help improve app with usage data',
   'beta.features': 'Beta Features',
   'beta.features.description': 'Access experimental features',
-
   'period.reminders.alerts.checkins': 'Period reminders, alerts & check-ins',
   'privacy.security': 'Privacy & Security',
   'biometric.lock.data.backup.sync': 'Biometric lock, data backup & sync',
   'display.theme': 'Display & Theme',
   'dark.mode.colors.layout.options': 'Dark mode, colors & layout options',
-
-
   'data.export.requested': 'Data Export Requested',
   'data.export.details': 'You\'ll receive a secure download link at your registered email within 24-48 hours.',
   'account.deletion': 'Account Deletion',
   'account.deletion.details': 'Please contact support@nurcycle.app to confirm account deletion.',
-
   'privacy.settings.details': 'Privacy Settings – Your Data, Your Rules',
-
   'nurcycle.commitment': 'At NurCycle, we are committed to protecting your privacy. As a women-centered, faith-based app, we take extra care in ensuring your personal health data is handled with transparency, security, and respect — in line with Islamic ethics and modern privacy standards.',
   'privacy.controls': 'Below, you can learn more about your privacy controls and how to manage your information within the app.',
-
-
   'request.information': 'Request Information',
-
   'how.export.data': 'How do I export my data from NurCycle?',
   'data.control': 'You have full control over your personal data. To request and export your information:',
   'settings.tab': 'Go to your Settings tab in the NurCycle app',
@@ -1467,8 +1290,6 @@ const en = {
   'select.export': 'Select "Request Data Export"',
   'secure.download.link': 'Once your request is received, you\'ll get a secure download link sent to your registered email within 24–48 hours. The file will contain your tracked symptoms, notes, cycle history, and any other personal logs.',
   'data.sharing': 'We only share this information with you. We do not sell, rent, or expose your data to third parties — ever.',
-
-
   'faq.title': 'Your Frequently Asked Questions (FAQs)',
   'faq.how.keep.data.safe': 'Q: How does NurCycle keep my data safe?',
   'faq.how.keep.data.safe.answer': 'A: All of your data is encrypted using industry-standard methods. We store your cycle logs, health notes, and personal entries on secure, privacy-first servers. No sensitive content is ever shared or used for marketing or profiling.',
@@ -1478,9 +1299,6 @@ const en = {
   'faq.ads.selling.data.answer': 'A: Absolutely not. We are an ad-free, Muslim-built platform. Your privacy is part of our trust and responsibility.',
   'faq.safe.for.young.users': 'Q: Is NurCycle safe for young users or reverts?',
   'faq.safe.for.young.users.answer': 'A: Yes. We provide faith-conscious education and tools that avoid the overexposure and inappropriate content seen in other apps. Users can set content sensitivity preferences and access Islamic rulings through trusted sources.',
-
-
-
   'privacy.explained': 'Privacy Explained',
   'request.data.export': 'Request Data Export',
   'delete.my.account': 'Delete My Account',
@@ -1491,10 +1309,8 @@ const en = {
   'leaving.message': 'We\'re always sad to see a sister go, but your control comes first. If you\'re leaving for a specific reason or have feedback, we\'d love to hear from you at:',
   'delete.account': 'Delete My Account',
   'contact.support': 'Contact Support',
-
   'privacy.policy.title': 'At NurCycle, privacy is not just policy — it\'s a principle.',
   'privacy.policy.content': 'Your data is sacred. Your trust is everything. And your body, your health, and your deen deserve digital protection rooted in ihsan.',
-
   'acceptance.of.terms': 'Acceptance of Terms',
   'terms.content': 'By accessing or using NurCycle, you confirm that you are at least 13 years of age and that you agree to be bound by these Terms and our Privacy Policy. If you do not agree with any part, please do not use the app.',
   'what.nurcycle.offers': 'What NurCycle Offers',
@@ -1517,7 +1333,6 @@ const en = {
   'limitation.of.liability.content': 'NurCycle is provided "as is" without warranties of any kind. We are not liable for any indirect, incidental, or consequential damages arising from your use of the app.',
   'contact.us': 'Contact Us',
   'contact.us.content': 'If you have questions or concerns about these Terms, you can reach us at support@nurcycle.app',
-
   'nurcycle.built': 'NurCycle was built with love, trust, and Islamic values.',
   'nurcycle.thank.you': 'We thank you for being part of this journey and trusting us with your wellness and worship.',
   'terms.and.conditions': 'Terms & Conditions',
@@ -1531,7 +1346,6 @@ const en = {
   'multi.language.support.content': 'Available in Arabic, French, and all supported app languages. Change your language in App Settings.',
   'legal.protection.and.ethics': 'Legal Protection & Ethics',
   'legal.protection.and.ethics.content': 'These terms are designed to protect both users and the platform while maintaining Islamic values of trust, privacy, and female empowerment.',
-
   'last.updated': 'Last updated:',
   'welcome.too.nurcycle': 'Welcome to NurCycle — your faith-conscious companion for period, fertility, and wellness tracking.',
   'terms.andd.conditions': 'By using the NurCycle app, you agree to the following Terms and Conditions. Please read them carefully.',
@@ -1544,59 +1358,46 @@ const en = {
   'get.in.touch': 'Get in Touch',
   'faq': 'Frequently Asked Questions',
   'faq.content': 'Check our comprehensive FAQ section for instant answers to common questions.',
-
   'getting.started': 'Getting Started',
   'getting.started.content': 'Learn the basics of using NurCycle',
   'how.to.track.period': 'How to track your period',
   'setting.up.notifications': 'Setting up notifications',
   'understanding.cycle.predictions': 'Understanding cycle predictions',
   'using.islamic.guidance.features': 'Using Islamic guidance features',
-
   'tracking.and.features': 'Tracking & Features',
   'tracking.and.features.content': 'Master all tracking features',
   'period.tracking.best.practices': 'Period tracking best practices',
   'symptom.logging': 'Symptom logging',
   'fertility.awareness': 'Fertility awareness',
   'pregnancy.mode.setup': 'Pregnancy mode setup',
-
-  // 'islamic.guidance': 'Islamic Guidance',
   'islamic.guidance.content': 'Understanding Islamic rulings',
   'menstruation.vs.istihadah': 'Menstruation vs Istihadah',
   'prayer.exemptions': 'Prayer exemptions',
   'fasting.guidelines': 'Fasting guidelines',
   'purity.and.worship': 'Purity and worship',
-
   'troubleshooting': 'Troubleshooting',
   'troubleshooting.content': 'Common issues and solutions',
   'app.not.syncing.data': 'App not syncing data',
   'notification.problems': 'Notification problems',
   'cycle.irregularities': 'Cycle irregularities',
   'account.management': 'Account management',
-
   'email.support': 'Email Support',
   'email.support.content': 'Send us a detailed message',
   'response.within.24.hours': 'Response within 24 hours',
   'opening.email.client': 'Opening email client...',
-
   'welcome.to.nurcyclee': 'Welcome to NurCycle — Where Faith Meets Feminine Wellness.',
   'nurcycle.explanation': 'At NurCycle, we believe that understanding your body is a form of empowerment — and that true wellness embraces both the physical and the spiritual. Designed with Muslim women in mind (and open to all!), NurCycle is your go-to companion for navigating your menstrual cycle, fertility, pregnancy, and overall hormonal health — all in line with Islamic values and modern science.',
-
   'why.we.exist': 'Why We Exist',
   'why.we.exist.content': 'Too many Muslim women have gone without a safe, respectful, and spiritually aligned space to manage their reproductive health. NurCycle was created to change that. Whether you\'re tracking your period, trying to conceive, pregnant, postpartum, or simply learning more about your body — NurCycle supports your journey with clarity, compassion, and tawakkul.',
-
   'what.makes.nurcycle.unique': 'What Makes NurCycle Unique',
   'islamic.integration': 'Islamic Integration',
   'islamic.integration.content': 'From rulings on purity, ghusl, and prayer during menstruation to fertility tips and postpartum guidance grounded in Qur\'an and Sunnah — NurCycle provides support that is medically sound and spiritually authentic.',
-
   'holistic.tracking': 'Holistic Tracking',
   'holistic.tracking.content': 'Track your symptoms, mood changes, ovulation, bleeding patterns, and sexual health — all with privacy controls that respect modesty and trust.',
-
   'pregnancy.fertility.mode': 'Pregnancy & Fertility Mode',
   'pregnancy.fertility.mode.content': 'Switch into TTC or pregnancy mode and receive symptom tracking, dua reminders, faith-centered advice, and Sunnah-based self-care tips.',
-
   'community.connection': 'Community Connection',
   'community.connection.content': 'Join a built-in, protected space for Muslim women to uplift, share, and ask questions — anonymously or openly — with no shame, just support.',
-
   "whoWeServe": "Who We Serve",
   "description": "NurCycle is built for every woman who wants to know and honor her body, including:",
   "muslimWomenSeekingFaithFriendlyHealth": "Muslim women seeking faith-friendly health solutions",
@@ -1605,7 +1406,6 @@ const en = {
   "womenWhoFeelUnseen": "Women who feel unseen, misunderstood, or exhausted by typical period apps",
   "teenagersWivesMothersStudentsDaughters": "Teenagers, wives, mothers, students, daughters — all of us",
   "womenWantingToFeelSeen": "Women who want to feel seen, supported, and safe in their feminine journey",
-
   "foundersMessage": "Founder's Message",
   "by": "by",
   "message": "As a Muslim woman who has struggled for years to understand her own body, I created NurCycle from a place of deep personal need — and deep community love.",
@@ -1620,9 +1420,6 @@ const en = {
   "nurcycleIsThatSpace": "This is our light. This is NurCycle.",
   "endlessGratitudeToAllah": "I am endlessly grateful to Allah for giving me the opportunity to give back to my sisters — to the ummah I love so dearly.",
   "experiencesAreReal": "Your experiences are real. Your struggles are valid. And your body, with all of its wisdom and complexity, deserves to be understood and honored — within the timeless guidance of Qur'an and Sunnah.",
-
-
-
   "ourName": "Our Name: NurCycle",
   "nurMeaning": "\"Nur\" (نُور) means light in Arabic — and that's what this app is about: shining divine light on your feminine health, your questions, your cycle, your life. Because you deserve clarity, not confusion. Care, not shame. Faith, not fear.",
   "quranVerse": "\"And it is He who created the heavens and earth in truth. And the day He says, 'Be,' and it is, His word is the truth.\" - Qur'an 6:73",
@@ -1636,7 +1433,6 @@ const en = {
   "noMatches": "No matches in our knowledge base. Let our AI assistant provide guidance based on authentic Islamic sources.",
   "consultingAI": "Consulting AI...",
   "getAIResponse": "Get AI Response",
-
   "aiEnhanced": "AI Enhanced",
   "knowledgeBase": "Knowledge Base",
   "more": "More",
@@ -1656,7 +1452,6 @@ const en = {
   "whatIsIstihada": "What is istihada and how to worship during it?",
   "intimacyMenstruation": "Intimacy rules during menstruation",
   "whenMenstruationIrregular": "When does menstruation become irregular bleeding?",
-
   "whatDoesSahihBukhariSayPrayer": "What does Sahih Bukhari say about prayer during menstruation?",
   "showMeAuthenticHadithGhusl": "Show me authentic hadith about performing ghusl",
   "salafiRulingsReadingQuran": "What are the Salafi rulings on reading Quran during periods?",
@@ -1665,13 +1460,10 @@ const en = {
   "authenticEvidencePostpartumBleeding": "Authentic evidence for postpartum bleeding duration",
   "sahihHadithIntimacyMenstruation": "Sahih hadith about intimacy during menstruation",
   "signsPurityAuthenticSources": "What are the signs of purity according to authentic sources?",
-
   "aiGreeting": "Bismillah ir-Rahman ir-Raheem\n\nAssalamu Alaikum wa Rahmatullahi wa Barakatuh!\n\nI am your Islamic AI assistant following the methodology of the Salaf (Ahlus-Sunnah wal-Jama'ah). I provide guidance strictly according to the Quran and authentic Sunnah as understood by the righteous predecessors.\n\nI specialize in:\n• Women's religious matters and purity rulings\n• Evidence-based Islamic jurisprudence\n• Authentic hadith references (Bukhari, Muslim, etc.)\n• Classical and contemporary Salafi scholarship\n\nAll answers are grounded in authentic Islamic sources with proper references. How may I assist you in your religious matters today?",
   "salafiGuidance": "Salafi Islamic guidance according to Quran and authentic Sunnah",
   "apology": "I apologize, but I couldn't process your request at the moment. Please try again.",
   "failedAIResponse": "Failed to get AI response. Please try again.",
-
-
   "salafiAIAssistant": "Salafi Islamic AI Assistant",
   "bismillah": "Bismillah",
   "askQuestionsSalaf": "Ask questions about Islam following the methodology of the Salaf.",
@@ -1694,7 +1486,6 @@ const en = {
   "theFourImams": "The Four Imams and early scholars",
   "note": "Note",
   "allAnswersIncludeReferences": "All answers include authentic references. For complex matters, consult qualified Salafi scholars.",
-
   "understandingYourCycle": "Understanding Your Cycle",
   "learnPhasesMenstruation": "Learn about the phases of menstruation from an Islamic perspective",
   "intimacyInIslam": "Intimacy in Islam",
@@ -1703,8 +1494,6 @@ const en = {
   "islamicGuidancePregnancy": "Islamic guidance on pregnancy and preparing for children",
   "educationWellness": "Education & Wellness",
   "learnWomensHealth": "Learn about women's health through Islamic teachings",
-
-
   "understandingMenstruationIslam": "Understanding Menstruation in Islam",
   "comprehensiveGuidance": "Comprehensive guidance from Qur'an, Hadith, and Zad Al-Mustaqni by Imam Ibn Qudamah",
   "definitionIslamicUnderstanding": "Definition & Islamic Understanding",
@@ -1752,9 +1541,6 @@ const en = {
   "exercisePhysicalActivity": "Exercise and physical activity (if comfortable)",
   "charityHelpingOthers": "Charity and helping others",
   "sourceAuthenticHadith": "Source: Various authentic hadith, scholarly consensus",
-
-
-
   "worshipExemptionsMenstruation": "Worship & Exemptions During Menstruation",
   "prayerSalah": "Prayer (Salah)",
   "prayerProhibited": "Prohibited",
@@ -1779,37 +1565,27 @@ const en = {
   "readingIslamicBooks": "Reading Islamic books and translations",
   "attendingIslamicLectures": "Attending Islamic lectures",
   "learningTeachingIslam": "Learning and teaching Islam",
-
-
   "postpartumBleeding": "Postpartum Bleeding (Nifas)",
   "durationAndNature": "Duration & Nature",
   "postpartumDefinition": "Blood that flows after childbirth. Maximum duration: 40 days according to most scholars.\nIf bleeding stops before 40 days, perform Ghusl and resume prayers.",
   "sameRulesAsMenstruation": "Same Rules as Menstruation",
   "rulesForNifas": "All prohibitions and permissions that apply to menstruation also apply to Nifas.\nThe woman is excused from prayer and fasting during this period.",
-
-
   "irregularBleeding": "Irregular Bleeding (Istihada)",
   "irregularBleedingDefinition": "Irregular bleeding outside the normal menstrual period. This could be due to illness, medication, or other medical conditions. Does not have the same rulings as menstruation.",
   "rulings": "Rulings",
   "continuePrayersAndFasting": "Woman must continue prayers and fasting. Perform Wudu before each prayer.",
   "consultScholars": "Consult scholars for specific situations and medical treatment is recommended.",
   "istihadaDefinition": "What is Istihada?",
-
   "maritalRelations": "Marital Relations",
   "duringMenstruation": "During Menstruation",
   "sexualIntercourseProhibited": "Sexual intercourse is prohibited during menstruation. However, other forms of affection and intimacy (except intercourse) are permitted according to most scholars.",
   "afterPurification": "After Purification",
   "afterMenstruationEnds": "After menstruation ends and Ghusl is performed, normal marital relations can resume. Islam encourages healthy intimacy between spouses as a blessing and protection.",
-
-
   "divorceAndIddah": "Divorce & Waiting Period (Iddah)",
   "timingOfDivorce": "Timing of Divorce",
   "divorceForbiddenDuringMenstruation": "It is forbidden to divorce a woman during her menstruation. Divorce should only be pronounced when she is in a state of purity and no intercourse has occurred.",
   "iddahCalculation": "Iddah Calculation",
   "iddahForMenstruatingWomen": "For menstruating women, Iddah is three complete menstrual cycles. This period allows for proper reflection and potential reconciliation.",
-
-
-
   "trustedSourcesAndReferences": "Trusted Sources & References",
   "whenIsGhuslRequired": "When is Ghusl Required?",
   "obligatory": "Obligatory",
@@ -1873,7 +1649,6 @@ const en = {
   "answer4": "A: Valid for ghusl if the water is pure and you ensure complete body immersion with proper intention.",
   "sourceFatawaContemporary": "Source: Contemporary fatawa and practical applications of classical rulings",
   "forHair": "For Hair",
-
   "welcomeToNurCycle": "Welcome to NurCycle",
   "joinOurCommunity": "Join our supportive community for women's health tracking",
   "signIn": "Sign In",
@@ -1902,7 +1677,6 @@ const en = {
   "videoNotVerified": "Video: ✗",
   "modelsVerified": "Models: ✓",
   "modelsNotVerified": "Models: ✗",
-
   "pleaseEnsureFaceVisible": "Please ensure your face is clearly visible",
   "videoDisplayError": "Video display error",
   "error": "Error",
@@ -1935,23 +1709,19 @@ const en = {
   "localFilesFailedUsingCDN": "Local files failed, using CDN fallback",
   "bothLocalAndCDNFailed": "Both local and CDN loading failed. Local",
   "cdnFallback": "CDN",
-
   'community.chat': 'Community Chat',
   'community.chat.description': 'Connect and chat with sisters in real-time',
   'live.community.chat': 'Live Community Chat',
   'no.messages.yet': 'No messages yet. Start the conversation!',
   'chat.guidelines': 'Chat Guidelines',
   'failed.to.send.message': 'Failed to send message. Please try again.',
-
-   "typeYourMessage": "Type your message...",
+  "typeYourMessage": "Type your message...",
   "beRespectfulAndKind": "Be respectful and kind",
   "noInappropriateLanguage": "No inappropriate language",
   "stayOnTopic": "Stay on topic",
   "supportEachOther": "Support each other",
   "followIslamicValues": "Follow Islamic values",
-  "noPersonalAttacks": "No personal attacks"
-
-
+  "noPersonalAttacks": "No personal attacks",
 }
 
 export default en;
