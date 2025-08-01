@@ -7,6 +7,11 @@ import hi from '../locales/hi';
 import gu from '../locales/gu';
 import pa from '../locales/pa';
 import ar from '../locales/ar';
+import zh from '../locales/zh';
+import zu from '../locales/zu';
+import yu from '../locales/yu';
+import sw from '../locales/sw';
+import ko from '../locales/ko';
 
 
 export interface LanguageContextType {
@@ -15,7 +20,7 @@ export interface LanguageContextType {
   getLocalizedText: (key: string, params?: Record<string, string>) => string;
 }
 
-const translations = { en, es, fr, hi, gu, pa, ar };
+const translations = { en, es, fr, hi, gu, pa, ar, zh, zu, yu, sw, ko };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
