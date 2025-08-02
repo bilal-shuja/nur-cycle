@@ -101,13 +101,17 @@ const Index = () => {
     }
   }, []);
 
+
+
+
   useEffect(() => {
+
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('userMetadata');
+      const stored = localStorage.getItem('sb-ezlwhepcpodvegoqppro-auth-token');
       if (stored) {
         try {
           const userMetadataParsed = JSON.parse(stored);
-          setUserMetadata(userMetadataParsed);
+          setUserMetadata(userMetadataParsed?.user?.user_metadata?.full_name);
         } catch (err) {
           return err;
         }
@@ -193,7 +197,7 @@ const Dashboard = ({ setActiveSection, userPreferences, userMetadata }: {
 }) => {
   const { getLocalizedText } = useLanguage();
 
-  const userName = userMetadata?.full_name || 'Sister'
+  const userName = userMetadata || 'Sister';
 
 
   const [settings, setSettings] = useState({
