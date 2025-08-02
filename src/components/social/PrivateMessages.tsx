@@ -117,7 +117,7 @@ const PrivateMessages = ({
       }));
       setConversations(conversationsWithProfiles);
     } catch (error) {
-      console.error('Error fetching conversations:', error);
+      // console.error('Error fetching conversations:', error);
       toast({
         title: "Error",
         description: "Failed to load conversations",

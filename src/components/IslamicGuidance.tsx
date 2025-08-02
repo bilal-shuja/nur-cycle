@@ -79,29 +79,19 @@ const IslamicGuidance = () => {
         } else {
           document.documentElement.classList.remove('dark');
         }
-        console.log('Settings loaded:', parsedSettings);
       } catch (error) {
         console.error('Error loading settings:', error);
       }
     }
     else {
-      // Agar kuch save nahi hai, toh default light mode lagaye:
       document.documentElement.classList.remove('dark');
     }
-
-    // Apply dark mode immediately if enabled:
-
-    // const isDarkMode = savedSettings ? JSON.parse(savedSettings).darkMode : false;
-    // if (isDarkMode) {
-    //   document.documentElement.classList.add('dark');
-    // }
 
 
   }, []);
 
   // Comprehensive knowledge base with complete content from "Natural Blood of Women"
   const knowledgeBase = [
-    // MENSTRUATION (HAYD) - Comprehensive Section
     {
       id: 1,
       question: getLocalizedText('faq.menstruation'),

@@ -58,7 +58,6 @@ const IslamicDisclaimer = () => {
         } else {
           document.documentElement.classList.remove('dark');
         }
-        console.log('Settings loaded:', parsedSettings);
       } catch (error) {
         console.error('Error loading settings:', error);
       }

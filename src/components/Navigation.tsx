@@ -24,7 +24,7 @@ const Navigation = ({ activeSection, setActiveSection, user, onAuthClick }: Navi
     { id: 'profile', label: getLocalizedText('settings'), icon: Settings },
   ];
 
-      const [settings, setSettings] = useState({
+  const [settings, setSettings] = useState({
       // Notifications
       periodReminders: true,
       ovulationAlerts: true,
@@ -63,9 +63,7 @@ const Navigation = ({ activeSection, setActiveSection, user, onAuthClick }: Navi
 
 
     useEffect(() => {
-        // Load saved language preference
-        
-        // Load saved settings with comprehensive state management
+
         const savedSettings = localStorage.getItem('nurcycle-app-settings');
         if (savedSettings) {
           try {
@@ -95,18 +93,8 @@ const Navigation = ({ activeSection, setActiveSection, user, onAuthClick }: Navi
     <>
   
       <nav className="shadow-lg bg-gradient-to-r from-lavender-600 to-lavender-800 dark:bg-slate-900 dark:from-none dark:to-none dark:bg-none dark:text-white">
-       {/* {`shadow-lg ${settings.darkMode ? 'bg-slate-900 text-white' : 'bg-gradient-to-r from-lavender-600 to-lavender-800'}`} */}
         <div className="flex items-center justify-between py-3 px-4">
    
-            {/* <Button
-            variant="ghost"
-            onClick={() => navigate('/social')}
-            className="flex flex-col items-center justify-center p-2 min-h-[50px] w-[60px] text-white hover:bg-lavender-700 ml-2"
-            size="sm"
-          >
-            <Users className="w-4 h-4 mb-1" />
-            <span className="text-[9px] leading-none">{getLocalizedText('community')}</span>
-          </Button> */}
           <div className="flex  items-center justify-center space-x-3 w-full ">
             {navItems.map((item) => {
               const Icon = item.icon;

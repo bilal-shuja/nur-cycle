@@ -46,7 +46,6 @@ const WorshipExemptions = () => {
 
   useEffect(() => {
 
-    // Load saved settings with comprehensive state management
     const savedSettings = localStorage.getItem('nurcycle-app-settings');
     if (savedSettings) {
       try {
@@ -58,7 +57,6 @@ const WorshipExemptions = () => {
         } else {
           document.documentElement.classList.remove('dark');
         }
-        console.log('Settings loaded:', parsedSettings);
       } catch (error) {
         console.error('Error loading settings:', error);
       }
