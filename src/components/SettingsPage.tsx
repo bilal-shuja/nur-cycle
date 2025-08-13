@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
-import { ChevronRight, X, BarChart3, RefreshCw, Settings, Shield, Bell, HelpCircle, Info, FileText } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { ChevronRight, X, BarChart3, RefreshCw, Settings, Shield, Bell, HelpCircle, Info, FileText, Clock, Ban, ShieldX } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -11,16 +11,38 @@ import PrivacySettings from './settings/PrivacySettings';
 import GraphsReports from './settings/GraphsReports';
 import TermsConditions from './settings/TermsConditions';
 import HelpSection from './settings/HelpSection';
-import { toast } from "@/components/ui/use-toast";
 
+import { toast } from "@/components/ui/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import StripeCheckout from './StripeCheckout';
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient('https://ezlwhepcpodvegoqppro.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6bHdoZXBjcG9kdmVnb3FwcHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NDQwMDAsImV4cCI6MjA2NjEyMDAwMH0.31nqkGx5JNUaNKS9CfBnzO8-8stK94rome3oLMja8uM');
 interface SettingsPageProps {
   onClose?: () => void;
+  isSubscribered: boolean;
+  checkSubDate: boolean;
+  activeSection: string;
+  showExpiryWarning: boolean
 }
 
-const SettingsPage = ({ onClose }: SettingsPageProps) => {
+const SettingsPage = ({ onClose, isSubscribered, checkSubDate, activeSection, showExpiryWarning }: SettingsPageProps) => {
   const [currentView, setCurrentView] = useState<'main' | 'cycle-ovulation' | 'app-settings' | 'about' | 'privacy-settings' | 'graphs-reports' | 'terms-conditions' | 'help'>('main');
   const { getLocalizedText } = useLanguage();
-  const [showAlert, setShowAlert] = useState<boolean | null>(false);
+  // const [showAlert, setShowAlert] = useState<boolean | null>(false);
+
+  const [isPaymentMethodOpen, setIsPaymentMethodOpen] = useState(false);
+
+  const [isCancelSub, setIsCancelSub] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const triggerRef = useRef(null);
+  const cancelRef = useRef(null);
+
+
+
+  // console.log('isSubscribered', isSubscribered)
+
+  // console.log("checkSubDate", checkSubDate)
 
   const [settings, setSettings] = useState({
     // Notifications
@@ -178,15 +200,64 @@ const SettingsPage = ({ onClose }: SettingsPageProps) => {
   if (currentView === 'help') {
     return <HelpSection onBack={handleBackToMain} />;
   }
-  // bg-gradient-to-br from-lavender-50 to-lavender-100
+
+  const handleOpen = () => {
+    triggerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => setIsPaymentMethodOpen(true), 300);
+  };
 
 
-  const UpgradeFeature = () => {
+  const handleOpenCancel = () => {
+    cancelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => setIsCancelSub(true), 300);
+
+  }
+
+const handleCancel = async () => {
+  try {
+    setLoading(true);
+
+    const { data: { user }, error: userErr } = await supabase.auth.getUser();
+    if (userErr || !user) throw new Error("Not authenticated");
+
+    const { error } = await supabase
+      .from("subscribers")
+      .delete()
+      .eq("user_id", user.id);
+
+    if (error) throw error;
     toast({
       title: "Heads up!",
-      description: "This feature requires premium access.",
+      description: "Your subscription has been cancelled.",
+      variant: "destructive",
+      className: "bg-green-600 text-white border border-green-700",
     });
-  };
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    console.error(e);
+    // show error toast
+    toast({
+      title: "Error",
+      description: e.message || "Something went wrong.",
+      variant: "destructive",
+      className: "bg-red-600 text-white border border-red-700",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
+  // const UpgradeFeature = () => {
+  //   toast({
+  //     title: "Heads up!",
+  //     description: "This feature requires premium access.",
+  //   });
+  // };
   return (
     <div className="min-h-screen dark:bg-slate-800">
 
@@ -210,6 +281,10 @@ const SettingsPage = ({ onClose }: SettingsPageProps) => {
             {getLocalizedText('settings')}
           </h1>
 
+          <div>
+
+          </div>
+
           <div className="w-10"></div>
         </div>
       </div>
@@ -225,22 +300,47 @@ const SettingsPage = ({ onClose }: SettingsPageProps) => {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className={`font-semibold text-sm ${settings.darkMode ? 'text-white' : 'text-black'}`}>
-                  {getLocalizedText('premium.title')}
+                  {
+                    isSubscribered === true && checkSubDate === false ? getLocalizedText('cancel.subscription.anytime') : getLocalizedText('premium.title')
+                  }
                 </h3>
                 <p className={`text-xs mt-1 ${settings.darkMode ? 'text-gray-300' : 'text-black opacity-90'}`}>
-                  {getLocalizedText('premium.desc')}
+                  {
+                    isSubscribered === true  && checkSubDate === false ? "" : getLocalizedText('premium.desc')
+                  }
+
                 </p>
               </div>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={UpgradeFeature}
-                className={`${settings.darkMode
-                  ? 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-600'
-                  : 'bg-white hover:bg-gray-100 text-black border border-gray-200'} text-xs px-3 py-1 rounded-full button-3d`}
-              >
-                {getLocalizedText('upgrade')}
-              </Button>
+
+              {
+                isSubscribered === true && checkSubDate === false ?
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleOpenCancel}
+                    ref={cancelRef}
+                    className={`${settings.darkMode
+                      ? 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-600'
+                      : 'bg-white hover:bg-gray-100 text-white border border-gray-200'} text-xs px-3 py-1 rounded-full button-3d`}
+                  >
+                    {getLocalizedText('cancel')}
+                  </Button>
+                  :
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleOpen}
+                    ref={triggerRef}
+                    className={`${settings.darkMode
+                      ? 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-600'
+                      : 'bg-white hover:bg-gray-100 text-white border border-gray-200'} text-xs px-3 py-1 rounded-full button-3d`}
+                  >
+                    {getLocalizedText('upgrade')}
+                  </Button>
+              }
+
+
+
             </div>
           </CardContent>
         </Card>
@@ -282,7 +382,102 @@ const SettingsPage = ({ onClose }: SettingsPageProps) => {
         })}
       </div>
 
+      <Dialog open={isPaymentMethodOpen} onOpenChange={setIsPaymentMethodOpen}>
 
+        <DialogContent
+          className={`sm:max-w-md p-6 rounded-xl sm:rounded-xl md:rounded-xl ${settings.darkMode ? 'bg-slate-900 text-white' : 'bg-white'
+            }`}
+          style={{ marginTop:'-20em' }}
+        >
+          <DialogHeader>
+            <DialogTitle className={`flex items-center justify-center ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+              {getLocalizedText('Subscription')}
+              <Bell className="ml-2 text-lavender-800" />
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4 pt-4">
+            {/* Subscription details */}
+            <div className="space-y-2">
+              <ul className="text-center">
+                <div className={`flex items-center justify-center mb-4  ${settings.darkMode ? 'text-white' : 'text-gray-900'} `}>
+                  <h2 className="text-3xl font-bold me-1"> £5.99 </h2> {getLocalizedText('per.month')}
+                </div>
+
+                <div className={`flex ms-3 items-center justify-center  ${settings.darkMode ? 'text-white' : 'text-gray-900'} `}>
+                  <p className="text-xs"> {getLocalizedText('cancel.subscription.anytime')} </p>
+                </div>
+
+
+              </ul>
+            </div>
+
+
+
+            <div className="flex space-x-2 pt-4">
+
+
+              <StripeCheckout isSubscribered={isSubscribered} checkSubDate={checkSubDate} showExpiryWarning={showExpiryWarning} />
+
+              <Button
+                variant="outline"
+                onClick={() => setIsPaymentMethodOpen(false)}
+                className="flex-1"
+              >
+                {getLocalizedText('cancel')}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+
+      <Dialog open={isCancelSub} onOpenChange={setIsCancelSub}>
+
+        <DialogContent
+          className={`sm:max-w-md p-6 rounded-xl sm:rounded-xl md:rounded-xl ${settings.darkMode ? 'bg-slate-900 text-white' : 'bg-white'
+            }`}
+          style={{ marginTop: '-20em' }}
+        >
+          <DialogHeader>
+            <DialogTitle className={`flex items-center justify-center ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4 pt-4">
+            {/* Subscription details */}
+            <div className="space-y-2">
+              <ul className="text-center">
+                <div className={`flex items-center justify-center mb-4  ${settings.darkMode ? 'text-white' : 'text-gray-900'} `}>
+                  <div className='flex items-center'>
+                    <span>  <strong>{getLocalizedText('are.you.sure')}</strong><br /> {getLocalizedText('you.want.to.cancel.subscription')} </span>
+                  </div>
+                </div>
+              </ul>
+            </div>
+            <div className="flex space-x-2 pt-4">
+
+
+              <Button
+                variant="outline"
+                onClick={handleCancel}
+                className="flex-1"
+                disabled={loading}
+              >
+                {getLocalizedText('cancel')}
+              </Button>
+
+              <Button
+                variant="outline"
+                onClick={() => setIsCancelSub(false)}
+                className="flex-1"
+              >
+                {getLocalizedText('close')}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Copyright Footer */}
       <div className={`text-center py-4 px-4 ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'} text-xs`}>

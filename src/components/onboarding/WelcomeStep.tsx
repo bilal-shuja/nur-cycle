@@ -79,24 +79,21 @@ const WelcomeStep = ({ data, onNext, onSkip }: WelcomeStepProps) => {
 
   return (
     <div
-      className={`space-y-6 text-center ${
-        settings.darkMode
+      className={`space-y-6 text-center ${settings.darkMode
           ? "bg-slate-900 text-white"
           : "bg-gradient-to-br from-purple-100 via-purple-50 to-white"
-      }`}
+        }`}
     >
       <div className="space-y-4">
         <h1
-          className={`text-4xl font-bold mb-2 bg-gradient-to-r ${
-            settings.darkMode
+          className={`text-4xl font-bold mb-2 bg-gradient-to-r ${settings.darkMode
               ? "from-slate-800 via-slate-600 to-slate-500"
               : "from-lavender-700 via-lavender-500 to-lavender-800"
-          } bg-clip-text text-transparent flex items-center justify-center drop-shadow-lg`}
+            } bg-clip-text text-transparent flex items-center justify-center drop-shadow-lg`}
         >
           <span
-            className={`${
-              settings.darkMode ? "text-white" : "text-lavender-700"
-            }`}
+            className={`${settings.darkMode ? "text-white" : "text-lavender-700"
+              }`}
           >
             NurCycle
           </span>
@@ -108,35 +105,30 @@ const WelcomeStep = ({ data, onNext, onSkip }: WelcomeStepProps) => {
           />
         </h1>
         <h2
-          className={`text-xl font-semibold ${
-            settings.darkMode ? "text-white" : "text-lavender-700"
-          } mb-4`}
+          className={`text-xl font-semibold ${settings.darkMode ? "text-white" : "text-lavender-700"
+            } mb-4`}
         >
-         {getLocalizedText('assalamu.alaikum.sister')} 🌸
+          {getLocalizedText('assalamu.alaikum.sister')} 🌸
         </h2>
         <p
-          className={` leading-relaxed ${
-            settings.darkMode ? "text-gray-300" : "text-gray-600"
-          }`}
+          className={` leading-relaxed ${settings.darkMode ? "text-gray-300" : "text-gray-600"
+            }`}
         >
-         {getLocalizedText('welcome.to.nurcycle')}
+          {getLocalizedText('welcome.to.nurcycle')}
         </p>
         <div
-          className={`bg-teal-50 border border-teal-200 rounded-lg p-4 ${
-            settings.darkMode ? "bg-teal-800 border-teal-600" : "bg-teal-50"
-          }`}
+          className={`bg-teal-50 border border-teal-200 rounded-lg p-4 ${settings.darkMode ? "bg-teal-800 border-teal-600" : "bg-teal-50"
+            }`}
         >
           <p
-            className={`text-sm ${
-              settings.darkMode ? "text-teal-200" : "text-teal-800"
-            }`}
+            className={`text-sm ${settings.darkMode ? "text-teal-200" : "text-teal-800"
+              }`}
           >
-           {getLocalizedText('ayah')}
+            {getLocalizedText('ayah')}
           </p>
           <p
-            className={`text-teal-600 text-xs mt-2 ${
-              settings.darkMode ? "text-teal-400" : "text-teal-600"
-            }`}
+            className={`text-teal-600 text-xs mt-2 ${settings.darkMode ? "text-teal-400" : "text-teal-600"
+              }`}
           >
             - Quran 16:78
           </p>
@@ -147,28 +139,26 @@ const WelcomeStep = ({ data, onNext, onSkip }: WelcomeStepProps) => {
         <div className="text-left max-w-md mx-auto">
           <Label
             htmlFor="name"
-            className={`${
-              settings.darkMode ? "text-gray-300" : "text-gray-700"
-            }`}
+            className={`${settings.darkMode ? "text-gray-300" : "text-gray-700"
+              }`}
           >
-          {getLocalizedText('what.should.we.call.you')}
+            {getLocalizedText('what.should.we.call.you')}
           </Label>
           <Input
             id="name"
             type="text"
-            placeholder= {getLocalizedText('enter.your.name')}
+            placeholder={getLocalizedText('enter.your.name')}
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className={`mt-1 ${
-              settings.darkMode ? " text-black" : "bg-white text-gray-800"
-            }`}
+            className={`mt-1 ${settings.darkMode ? " text-black" : "bg-white text-gray-800"
+              }`}
           />
         </div>
       </div>
 
       <div className="flex gap-3 justify-center">
         <Button variant="outline" onClick={onSkip}>
-        {getLocalizedText('skip.setup')}
+          {getLocalizedText('skip.setup')}
         </Button>
         <Button
           onClick={handleNext}

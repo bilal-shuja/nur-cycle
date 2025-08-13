@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, MessageCircle, Book, Video, Mail, Phone, Clock, Users, Heart } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ChevronLeft, MessageCircle, Book, Mail, Users, Heart } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -15,56 +15,87 @@ const HelpSection = ({ onBack }: HelpSectionProps) => {
   const { getLocalizedText } = useLanguage();
   const { toast } = useToast();
 
-const helpCategories = [
-  {
-    id: 'getting-started',
-    title: getLocalizedText('getting.started'),
-    icon: Book,
-    description: getLocalizedText('getting.started.content'),
-    items: [
-      getLocalizedText('how.to.track.period'),
-      getLocalizedText('setting.up.notifications'),
-      getLocalizedText('understanding.cycle.predictions'),
-      getLocalizedText('using.islamic.guidance.features')
-    ]
-  },
-  {
-    id: 'tracking',
-    title: getLocalizedText('tracking.and.features'),
-    icon: Heart,
-    description: getLocalizedText('tracking.and.features.content'),
-    items: [
-      getLocalizedText('period.tracking.best.practices'),
-      getLocalizedText('symptom.logging'),
-      getLocalizedText('fertility.awareness'),
-      getLocalizedText('pregnancy.mode.setup')
-    ]
-  },
-  {
-    id: 'islamic-guidance',
-    title: getLocalizedText('islamic.guidance'),
-    icon: MessageCircle,
-    description: getLocalizedText('islamic.guidance.content'),
-    items: [
-      getLocalizedText('menstruation.vs.istihadah'),
-      getLocalizedText('prayer.exemptions'),
-      getLocalizedText('fasting.guidelines'),
-      getLocalizedText('purity.and.worship')
-    ]
-  },
-  {
-    id: 'troubleshooting',
-    title: getLocalizedText('troubleshooting'),
-    icon: Users,
-    description: getLocalizedText('troubleshooting.content'),
-    items: [
-      getLocalizedText('app.not.syncing.data'),
-      getLocalizedText('notification.problems'),
-      getLocalizedText('cycle.irregularities'),
-      getLocalizedText('account.management')
-    ]
-  }
-];
+  const helpCategories = [
+    {
+      id: 'getting-started',
+      title: getLocalizedText('getting.started'),
+      icon: Book,
+      description: getLocalizedText('getting.started.content'),
+      items: [
+
+        getLocalizedText('creating.your.account.and.profile.setup'),
+        getLocalizedText('recording.your.first.period.date'),
+        getLocalizedText('understanding.the.main.dashboard'),
+        getLocalizedText('setting.up.period.and.ovulation.reminders'),
+        getLocalizedText('choosing.your.islamic.madhab.preferences'),
+        getLocalizedText('customizing.notification.preferences'),
+        getLocalizedText('understanding.cycle.predictions.and.calendar'),
+        getLocalizedText('accessing.islamic.guidance.features'),
+        getLocalizedText('tracking.symptoms.and.mood'),
+        getLocalizedText('using.the.pregnancy.mode'),
+        getLocalizedText('navigating.the.social.community.features'),
+        getLocalizedText('understanding.privacy.and.data.settings'),
+
+        getLocalizedText('how.to.track.period'),
+        getLocalizedText('setting.up.notifications'),
+        getLocalizedText('understanding.cycle.predictions'),
+        getLocalizedText('using.islamic.guidance.features'),
+      ]
+    },
+    {
+      id: 'tracking',
+      title: getLocalizedText('tracking.and.features'),
+      icon: Heart,
+      description: getLocalizedText('tracking.and.features.content'),
+      items: [
+        getLocalizedText('period.tracking.best.practices'),
+        getLocalizedText('symptom.logging'),
+        getLocalizedText('fertility.awareness'),
+        getLocalizedText('pregnancy.mode.setup')
+      ]
+    },
+    {
+      id: 'islamic-guidance',
+      title: getLocalizedText('islamic.guidance'),
+      icon: MessageCircle,
+      description: getLocalizedText('islamic.guidance.content'),
+      items: [
+
+        getLocalizedText('understanding.the.difference.between.hayd.and.istihadah'),
+        getLocalizedText('prayer.exemptions.during.menstruation'),
+        getLocalizedText('fasting.guidelines.for.ramadan.and.voluntary.fasts'),
+        getLocalizedText('purity.requirements.and.ghusl.after.menstruation'),
+        getLocalizedText('reading.quran.and.touching.mushaf'),
+        getLocalizedText('entering.the.mosque.and.participating.in.gatherings'),
+        getLocalizedText('intimacy.guidelines.during.menstruation'),
+        getLocalizedText('nifas.rules.and.duration'),
+        getLocalizedText('different.madhab.perspectives.on.menstruation'),
+        getLocalizedText('pregnancy.and.nursing.considerations'),
+        getLocalizedText('making.up.missed.prayers.and.fasts'),
+        getLocalizedText('spiritual.practices.and.dhikr.during.menstruation'),
+        getLocalizedText('divorce.and.waiting.period.considerations'),
+        getLocalizedText('cleanliness.and.hygiene.islamic.perspective'),
+        getLocalizedText('seeking.islamic.knowledge.during.periods'),
+
+        getLocalizedText('menstruation.vs.istihadah'),
+        getLocalizedText('prayer.exemptions'),
+        getLocalizedText('fasting.guidelines'),
+        getLocalizedText('purity.and.worship')
+      ]
+    },
+    {
+      id: 'troubleshooting',
+      title: getLocalizedText('troubleshooting'),
+      icon: Users,
+      description: getLocalizedText('troubleshooting.content'),
+      items: [
+        getLocalizedText('app.not.syncing.data'),
+        getLocalizedText('notification.problems'),
+        getLocalizedText('cycle.irregularities'),
+        getLocalizedText('account.management')
+      ]
+    }
+  ];
   const contactOptions = [
     // {
     //   id: 'live-chat',
@@ -79,19 +110,19 @@ const helpCategories = [
     //     });
     //   }
     // },
-  {
-  id: 'email',
-  title: getLocalizedText('email.support'),
-  icon: Mail,
-  description: getLocalizedText('email.support.content'),
-  availability: getLocalizedText('response.within.24.hours'),
-  action: () => {
-    toast({
+    {
+      id: 'email',
       title: getLocalizedText('email.support'),
-      description: getLocalizedText('opening.email.client'),
-    });
-  }
-}
+      icon: Mail,
+      description: getLocalizedText('email.support.content'),
+      availability: getLocalizedText('response.within.24.hours'),
+      action: () => {
+        toast({
+          title: getLocalizedText('email.support'),
+          description: getLocalizedText('opening.email.client'),
+        });
+      }
+    }
     // {
     //   id: 'video-guides',
     //   title: 'Video Tutorials',
@@ -168,7 +199,7 @@ const helpCategories = [
       document.documentElement.classList.remove('dark');
     }
 
- 
+
 
 
   }, []);
@@ -179,50 +210,46 @@ const helpCategories = [
 
     return (
       <div className={`min-h-screen ${settings.darkMode ? 'bg-slate-800' : 'bg-gradient-to-br from-lavender-50 to-lavender-100'}`}>
-  
-        
-          <div className="bg-white shadow-sm sticky top-0 z-10 card-3d">
-  <div className={`flex items-center justify-between p-4 ${settings.darkMode ? 'bg-slate-900' : 'bg-white'}`}>
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={() => setSelectedCategory(null)}
-      className="rounded-full button-3d"
-    >
-      <ChevronLeft className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-black'}`} />
-    </Button>
-    <h1 className={`text-lg font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>{category?.title}</h1>
-    <div className="w-10" />
-  </div>
-</div>
+        <div className="bg-white shadow-sm sticky top-0 z-10 card-3d">
+          <div className={`flex items-center justify-between p-4 ${settings.darkMode ? 'bg-slate-900' : 'bg-white'}`}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSelectedCategory(null)}
+              className="rounded-full button-3d"
+            >
+              <ChevronLeft className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-black'}`} />
+            </Button>
+            <h1 className={`text-lg font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>{category?.title}</h1>
+            <div className="w-10" />
+          </div>
+        </div>
 
 
 
         <div className="px-4 py-6">
-
-  
           <Card className="relative overflow-hidden card-3d">
-  <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'}`}></div>
-  <CardContent className="relative z-10 p-6">
-    <CardHeader>
-      <CardTitle className={`flex items-center gap-3 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-        <div className={`w-10 h-10 rounded-full ${settings.darkMode ? 'bg-gray-700' : 'bg-lavender-100'} flex items-center justify-center circular-3d`}>
-          <IconComponent className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-lavender-100'}`} />
-        </div>
-        {category?.title}
-      </CardTitle>
-    </CardHeader>
-    <CardContent>
-      <div className="space-y-3">
-        {category?.items.map((item, index) => (
-          <div key={index} className={`p-3 rounded-lg ${settings.darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-lavender-50 hover:bg-lavender-100'}  cursor-pointer transition-colors`}>
-            <p className={`font-medium ${settings.darkMode ? 'text-gray-300' : 'text-gray-800'}`}>{item}</p>
-          </div>
-        ))}
-      </div>
-    </CardContent>
-  </CardContent>
-</Card>
+            <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'}`}></div>
+            <CardContent className="relative z-10 p-6">
+              <CardHeader>
+                <CardTitle className={`flex items-center gap-3 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <div className={`w-10 h-10 rounded-full ${settings.darkMode ? 'bg-gray-700' : 'bg-lavender-100'} flex items-center justify-center circular-3d`}>
+                    <IconComponent className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-lavender-100'}`} />
+                  </div>
+                  {category?.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {category?.items.map((item, index) => (
+                    <div key={index} className={`p-3 rounded-lg ${settings.darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-lavender-50 hover:bg-lavender-100'}  cursor-pointer transition-colors`}>
+                      <p className={`font-medium ${settings.darkMode ? 'text-gray-300' : 'text-gray-800'}`}>{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </CardContent>
+          </Card>
 
 
 
@@ -233,8 +260,6 @@ const helpCategories = [
 
   return (
     <div className={`min-h-screen ${settings.darkMode ? 'bg-slate-800' : 'bg-gradient-to-br from-lavender-50 to-lavender-100'}`}>
-   
-
       <div className="relative overflow-hidden card-3d">
         <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'}`}></div>
         <div className={` shadow-sm sticky top-0 z-10 p-4 ${settings.darkMode ? 'bg-slate-900' : 'bg-white'}`}>
@@ -259,8 +284,6 @@ const helpCategories = [
       {/* Help Content */}
       <div className="px-4 py-4 space-y-4">
         {/* Welcome Card */}
-
-
         <Card className="relative overflow-hidden card-3d bg-lavender-600 text-white shadow-lg">
           <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'}`}></div>
           <CardContent className="relative z-10 p-6">
@@ -268,7 +291,7 @@ const helpCategories = [
               <Heart className={`w-8 h-8 flex-shrink-0 mt-1 ${settings.darkMode ? 'text-purple-300' : 'text-purple-500'}`} />
               <div>
                 <h3 className={`font-semibold text-lg ${settings.darkMode ? 'text-white' : 'text-gray-900'} mb-2`}>
-                 {getLocalizedText('how.can.we.help')}
+                  {getLocalizedText('how.can.we.help')}
                 </h3>
                 <p className={`text-sm opacity-90 ${settings.darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
                   {getLocalizedText('how.can.we.help')}
@@ -282,12 +305,12 @@ const helpCategories = [
         {/* Help Categories */}
         <div className="space-y-2">
           <h3 className={`font-semibold text-sm mb-3 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-           {getLocalizedText('browse.topics')}
+            {getLocalizedText('browse.topics')}
           </h3>
           {helpCategories.map((category) => {
             const IconComponent = category.icon;
             return (
-      
+
               <Card
                 key={category.id}
                 className="relative overflow-hidden card-3d cursor-pointer"
@@ -319,9 +342,9 @@ const helpCategories = [
 
         {/* Contact Options */}
         <div className="space-y-2">
-       
+
           <h3 className={`font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-900'} text-sm mb-3`}>
-           {getLocalizedText('get.in.touch')}
+            {getLocalizedText('get.in.touch')}
           </h3>
           {contactOptions.map((option) => {
             const IconComponent = option.icon;
@@ -358,7 +381,7 @@ const helpCategories = [
         </div>
 
         {/* FAQ Notice */}
-   
+
         <Card className="relative overflow-hidden card-3d bg-blue-50">
           <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-blue-500 to-blue-700'}`}></div>
           <CardContent className="relative z-10 p-4">
@@ -366,7 +389,7 @@ const helpCategories = [
               <Book className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-blue-600'}`} />
               <div>
                 <h4 className={`font-medium ${settings.darkMode ? 'text-white' : 'text-blue-900'} text-sm`}>
-                 {getLocalizedText('faq')}
+                  {getLocalizedText('faq')}
                 </h4>
                 <p className={`text-xs mt-1 ${settings.darkMode ? 'text-gray-300' : 'text-blue-700'}`}>
                   {getLocalizedText('faq.content')}

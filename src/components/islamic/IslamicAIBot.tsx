@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
-import { Bot, Send, User, BookOpen, Loader2 } from 'lucide-react';
+import { Bot, Send, User, BookOpen, Loader2 , Lock } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -17,7 +17,7 @@ interface Message {
   timestamp: Date;
 }
 
-const IslamicAIBot = () => {
+const IslamicAIBot = ({setActiveSection ,isSubscribered , checkSubDate , freeDayTrial}) => {
   const { getLocalizedText } = useLanguage();
 
   const [messages, setMessages] = useState<Message[]>([
@@ -90,7 +90,9 @@ const IslamicAIBot = () => {
           document.documentElement.classList.remove('dark');
         }
       } catch (error) {
+        return error;
       }
+
     }
     else {
 
@@ -185,7 +187,7 @@ const IslamicAIBot = () => {
         </CardHeader>
       </Card>
 
-      <Card className={`relative overflow-hidden h-[600px] flex flex-col`}>
+      {/* <Card className={`relative overflow-hidden h-[600px] flex flex-col`}>
         <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : ' from-green-50 to-teal-50 border-green-200'}`}></div>
 
         <CardHeader className="pb-2 relative z-10">
@@ -264,9 +266,129 @@ const IslamicAIBot = () => {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
+      <Card 
+  className={`relative overflow-hidden h-[600px] flex flex-col ${
+   ((isSubscribered === false || isSubscribered === null) && freeDayTrial === true) || checkSubDate === true  ? 'opacity-100 cursor-not-allowed' : 'cursor-default'
+  }`}
+  onClick={() => {
+    if (((isSubscribered === false || isSubscribered === null) && freeDayTrial === true) || checkSubDate === true ) {
+            setActiveSection('profile')
 
-      <Card className="relative overflow-hidden card-3d">
+    }
+  }}
+>
+  <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : ' from-green-50 to-teal-50 border-green-200'}`}></div>
+
+  { (((isSubscribered === false || isSubscribered === null) && freeDayTrial === true) || checkSubDate === true ) && (
+    <Lock className="w-6 h-8 m-2 text-gray-500 absolute top-0 right-0 z-30" />
+  )}
+
+  <CardHeader className="pb-2 relative z-10">
+    <CardTitle className={`${settings.darkMode ? 'text-white' : 'text-green-800'} text-lg`}>
+      {getLocalizedText('chatWithAI')}
+    </CardTitle>
+  </CardHeader>
+
+  <CardContent className="flex-1 flex flex-col p-0 overflow-hidden relative z-10">
+    <ScrollArea className="flex-1 p-4">
+      <div className="space-y-4">
+        {messages.map((message) => (
+          <div key={message.id} className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            {message.role === 'assistant' && (
+              <div className={`w-8 h-8 rounded-full ${settings.darkMode ? 'bg-slate-700' : 'bg-green-100'} flex items-center justify-center flex-shrink-0`}>
+                <Bot className={`${settings.darkMode ? 'text-green-400' : 'text-green-600'} w-5 h-5`} />
+              </div>
+            )}
+            <div className={`max-w-[80%] p-3 rounded-lg ${message.role === 'user'
+              ? `${settings.darkMode ? 'bg-green-700 text-white' : 'bg-green-600 text-white'}`
+              : `${settings.darkMode ? 'bg-slate-700 text-gray-300' : 'bg-gray-100 text-gray-800'}`
+              }`}>
+              <p className="text-sm leading-relaxed whitespace-pre-wrap font-medium">
+                {message.content}
+              </p>
+              <p className={`text-xs mt-2 ${message.role === 'user'
+                ? `${settings.darkMode ? 'text-green-200' : 'text-green-200'}`
+                : `${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`
+                }`}>
+                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </p>
+            </div>
+            {message.role === 'user' && (
+              <div className={`w-8 h-8 rounded-full ${settings.darkMode ? 'bg-green-700' : 'bg-green-600'} flex items-center justify-center flex-shrink-0`}>
+                <User className="w-5 h-5 text-white" />
+              </div>
+            )}
+          </div>
+        ))}
+        {isLoading && (
+          <div className="flex gap-3 justify-start">
+            <div className={`w-8 h-8 rounded-full ${settings.darkMode ? 'bg-slate-700' : 'bg-green-100'} flex items-center justify-center flex-shrink-0`}>
+              <Bot className={`${settings.darkMode ? 'text-green-400' : 'text-green-600'} w-5 h-5`} />
+            </div>
+            <div className={`${settings.darkMode ? 'bg-slate-700 text-gray-300' : 'bg-gray-100'} p-3 rounded-lg`}>
+              <div className="flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm`}>
+                  {getLocalizedText('searchingAuthenticSources')}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+    </ScrollArea>
+
+    <div className={`${settings.darkMode ? 'border-t border-slate-700 bg-slate-800' : 'border-t bg-white'} p-4`}>
+      <div className="flex gap-2">
+        <Input
+          value={input}
+          onChange={(e) => {
+            if (((isSubscribered === false || isSubscribered === null) && freeDayTrial === true) || checkSubDate === true ) {
+              setActiveSection('profile')
+
+              return;
+            }
+            setInput(e.target.value);
+          }}
+          // onKeyPress={(e) => {
+          //   if (isSubscribered === false || checkSubDate === true) {
+          //     e.preventDefault();
+          //     return;
+          //   }
+          //   handleKeyPress(e);
+          // }}
+          placeholder={getLocalizedText('askForAuthenticGuidance')}
+          disabled={isLoading }
+          className={`${settings.darkMode ? 'bg-slate-700 text-white border-slate-600' : ''} flex-1`}
+        />
+        <Button
+          onClick={() => {
+            if (((isSubscribered === false || isSubscribered === null) && freeDayTrial === true) || checkSubDate === true  ) {
+              // toast({
+              //   title: "Subscription",
+              //   description: "Please purchase subscription to unlock!",
+              //   variant: "destructive",
+              //   className: "bg-yellow-600 text-white border border-yellow-700",
+              // });
+                    setActiveSection('profile')
+
+              return;
+            }
+            handleSendMessage();
+          }}
+          disabled={!input.trim() || isLoading }
+          className={`${settings.darkMode ? 'bg-green-700 hover:bg-green-800' : 'bg-green-600 hover:bg-green-700'}`}
+        >
+          <Send className="w-4 h-4" />
+        </Button>
+      </div>
+    </div>
+  </CardContent>
+  </Card>
+
+      {/* <Card className="relative overflow-hidden card-3d">
         <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : ' from-green-50 to-teal-50 border-green-200'}`}></div>
 
         <CardHeader className="relative z-10">
@@ -290,7 +412,70 @@ const IslamicAIBot = () => {
             ))}
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
+
+      <Card 
+  className={`relative overflow-hidden card-3d ${
+   ((isSubscribered === false || isSubscribered === null) && freeDayTrial === true)  || checkSubDate === true  ? 'cursor-not-allowed' : 'cursor-default '
+  }`}
+  onClick={() => {
+    if (((isSubscribered === false || isSubscribered === null) && freeDayTrial === true) || checkSubDate === true ) {
+      // toast({
+      //   title: "Subscription",
+      //   description: "Please purchase subscription to unlock!",
+      //   variant: "destructive",
+      //   className: "bg-yellow-600 text-white border border-yellow-700",
+      // });
+
+            setActiveSection('profile')
+
+    }
+  }}
+>
+  <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : ' from-green-50 to-teal-50 border-green-200'}`}></div>
+  { ((isSubscribered === false || isSubscribered === null) && freeDayTrial === true || checkSubDate === true ) && (
+    <Lock className="w-6 h-8 m-2 text-gray-500 absolute top-0 right-0 z-30" />
+  )}
+
+  <CardHeader className="relative z-10">
+    <CardTitle className={`text-lg flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-gray-700'}`}>
+      <BookOpen className={`w-5 h-5 ${settings.darkMode ? 'text-green-400' : 'text-gray-700'}`} />
+      {getLocalizedText('suggestedQuestions')}
+    </CardTitle>
+  </CardHeader>
+
+  <CardContent className="relative z-10">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+      {suggestedQuestions.map((question, index) => (
+        <Button
+          key={index}
+          variant="outline"
+          className={`text-left h-auto p-4 justify-start text-sm text-wrap transition-all duration-300 ${
+            settings.darkMode ? 'bg-slate-800 border-slate-600 text-gray-200 hover:bg-slate-700' : 'bg-white border-green-200 text-gray-700 hover:bg-green-50'
+          }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (((isSubscribered === false || isSubscribered === null) && freeDayTrial === true) || checkSubDate === true ) {
+              // toast({
+              //   title: "Subscription",
+              //   description: "Please purchase subscription to unlock!",
+              //   variant: "destructive",
+              //   className: "bg-yellow-600 text-white border border-yellow-700",
+              // });
+                    setActiveSection('profile')
+
+              return;
+            }
+            setInput(question);
+          }}
+          disabled={((isSubscribered === false || isSubscribered === null) && freeDayTrial === true) || checkSubDate === true }
+        >
+          {question}
+        </Button>
+      ))}
+    </div>
+  </CardContent>
+</Card>
 
       <Card className="relative overflow-hidden card-3d">
         <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : ' from-amber-50 to-yellow-50 border-amber-200'}`}></div>

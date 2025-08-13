@@ -1,4 +1,4 @@
-
+ 
 import { useState, useEffect } from 'react';
 import { Calendar, Plus } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -297,7 +297,6 @@ const CalendarWidget = ({ onNavigateToTracker, onNavigateToCalendar }: CalendarW
             <Button
               onClick={() => {
                 // Here you would typically save the log entry
-                console.log('Logging period entry:', { logDate, logType, logIntensity });
                 setIsLogModalOpen(false);
                 setLogType('');
                 setLogIntensity('');

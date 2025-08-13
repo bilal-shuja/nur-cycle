@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Moon, Baby, Heart, Utensils, Home, Scale, BookOpen, Search, Filter, Bot } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,7 +20,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from '@/contexts/LanguageContext';
 
-const IslamicGuidance = () => {
+const IslamicGuidance = ({isSubscribered , checkSubDate , freeDayTrial, setActiveSection}) => {
   const [activeTab, setActiveTab] = useState('search');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -240,7 +240,7 @@ const IslamicGuidance = () => {
 
     switch (activeTab) {
       case 'ai-bot':
-        return <IslamicAIBot />;
+        return <IslamicAIBot setActiveSection={setActiveSection} isSubscribered ={isSubscribered} checkSubDate = {checkSubDate}  freeDayTrial = {freeDayTrial}/>;
       case 'education':
         return <EducationTopics />;
       case 'menstruation':

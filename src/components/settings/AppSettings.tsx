@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, Globe, Check, Bell, Moon, Smartphone, Lock, Calendar, Heart, Droplets } from 'lucide-react';
+import  { useState, useEffect } from 'react';
+import { ChevronLeft, Globe, Check, Bell, Moon, Smartphone, Lock, Calendar, Heart, Droplets, Droplet } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
+import { PredictionCalendar } from "../PredictionCalendar";
 
 interface AppSettingsProps {
   onBack: () => void;
@@ -28,7 +29,7 @@ const languages = [
 ];
 
 const AppSettings = ({ onBack }: AppSettingsProps) => {
-  const [currentView, setCurrentView] = useState<'main' | 'languages' | 'notifications' | 'privacy' | 'display'>('main');
+  const [currentView, setCurrentView] = useState<'main' | 'languages' | 'notifications' | 'privacy' | 'display' | 'periods'>('main');
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const { getLocalizedText, setLanguage } = useLanguage();
   const { toast } = useToast();
@@ -639,6 +640,81 @@ const AppSettings = ({ onBack }: AppSettingsProps) => {
     );
   }
 
+
+  if ( currentView === 'periods'){
+    return(
+      <>
+           <div className={`min-h-screen ${settings.darkMode ? 'bg-slate-800' : 'bg-gray-50'}`}>
+
+
+        <div className={`relative overflow-hidden card-3d`}>
+          <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border-b border-slate-700' : 'bg-white border-b border-gray-200'}`}></div>
+
+          <div className="relative z-10 flex items-center justify-between p-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setCurrentView('main')}
+              className={`rounded-full ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}
+            >
+              <ChevronLeft className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`} />
+            </Button>
+            <h1 className={`text-lg font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+              {getLocalizedText('Periods Timeline')}
+            </h1>
+            <div className="w-10" />
+          </div>
+        </div>
+
+
+        <div className="px-4 py-4 space-y-4 ">
+
+          <Card className="relative overflow-hidden card-3d">
+            <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : 'bg-white border border-gray-200'} `}></div>
+
+            <CardHeader className="relative z-10">
+              <CardTitle className={`flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                <Droplet className="w-6 h-6 text-red-600" />
+                {getLocalizedText('Periods')}
+              </CardTitle>
+            </CardHeader>
+
+            <CardContent className="relative z-10 space-y-4 w-100">
+              {[
+                {
+                  label: getLocalizedText('Period Cycle '),
+                  desc: getLocalizedText('Modify period calendar according to your cycle'),
+                  key: 'darkMode'
+                },
+              ].map((item) => (
+                <>
+                <div key={item.key} className="flex  flex-column">
+                  <div>
+                    <h4 className={`font-medium ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>{item.label}</h4>
+                    <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{item.desc}</p>
+                  </div>
+
+                  
+                </div>
+                <div className="mr-72 z-10">
+                  <PredictionCalendar/>
+                  </div>
+                </>
+                
+              ))}
+            </CardContent>
+          </Card>
+
+
+
+
+        </div>
+      </div>
+      </>
+    )
+
+  }
+
   return (
     <div className={`min-h-screen ${settings.darkMode ? 'bg-slate-800' : 'bg-gray-50'}`}>
 
@@ -762,6 +838,27 @@ const AppSettings = ({ onBack }: AppSettingsProps) => {
           </CardContent>
         </Card>
 
+        <Card
+          className="relative overflow-hidden card-3d cursor-pointer transition-colors"
+          onClick={() => setCurrentView('periods')}
+        >
+          <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : 'bg-white border-0 shadow-sm hover:bg-gray-50'} `}></div>
+
+          <CardContent className="relative z-10 p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${settings.darkMode ? 'bg-slate-700' : 'bg-pink-100'}`}>
+                  <Droplet className={`w-4 h-4 ${settings.darkMode ? 'text-white' : 'text-red-600'}`} />
+                </div>
+                <div>
+                  <h3 className={`font-medium text-sm ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>{getLocalizedText('Period Calendar Cycle')}</h3>
+                  <p className={`text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{getLocalizedText('Adjust period dates accordingly')}</p>
+                </div>
+              </div>
+              <ChevronLeft className={`w-4 h-4 rotate-180 ${settings.darkMode ? 'text-gray-400' : 'text-gray-400'}`} />
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

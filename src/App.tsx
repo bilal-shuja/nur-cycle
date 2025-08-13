@@ -8,6 +8,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import PrivateRoute from "./components/PrivateRoute";
 
+import { createClient } from '@supabase/supabase-js';
+
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Social from "./pages/Social";
@@ -35,7 +37,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         <TooltipProvider>
-          <Toaster />
+          <Toaster  />
           <Sonner />
           <BrowserRouter>
             <Routes>

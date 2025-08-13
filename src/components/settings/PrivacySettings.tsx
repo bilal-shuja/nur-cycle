@@ -84,7 +84,7 @@ const PrivacySettings = ({ onBack }: PrivacySettingsProps) => {
 
   const handleDataExport = () => {
     toast({
-      title: getLocalizedText('data.export.requested') ,
+      title: getLocalizedText('data.export.requested'),
       description: getLocalizedText('data.export.details'),
     });
   };
@@ -123,29 +123,19 @@ const PrivacySettings = ({ onBack }: PrivacySettingsProps) => {
 
         <Card className="relative overflow-hidden card-3d">
           <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : ' from-purple-600 to-purple-800 border-0'} `}></div>
-          {/* <CardContent className="relative z-10 p-6">
-            <h2 className={`text-xl font-bold mb-4 flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-gray-700'}`}>
-              🔒 Privacy Settings – Your Data, Your Rules
-            </h2>
-            <p className={`${settings.darkMode ? 'text-gray-300' : 'text-purple-800'} leading-relaxed mb-4`}>
-              At NurCycle, we are committed to protecting your privacy. As a women-centered, faith-based app, we take extra care in ensuring your personal health data is handled with transparency, security, and respect — in line with Islamic ethics and modern privacy standards.
-            </p>
-            <p className={`${settings.darkMode ? 'text-gray-400' : 'text-purple-800'} text-sm`}>
-              Below, you can learn more about your privacy controls and how to manage your information within the app.
-            </p>
-          </CardContent> */}
+
 
           <CardContent className="relative z-10 p-6">
-  <h2 className={`text-xl font-bold mb-4 flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-gray-700'}`}>
-    🔒 {getLocalizedText('privacy.settings.details')}
-  </h2>
-  <p className={`${settings.darkMode ? 'text-gray-300' : 'text-purple-800'} leading-relaxed mb-4`}>
-    {getLocalizedText('nurcycle.commitment')}
-  </p>
-  <p className={`${settings.darkMode ? 'text-gray-400' : 'text-purple-800'} text-sm`}>
-    {getLocalizedText('privacy.controls')}
-  </p>
-</CardContent>
+            <h2 className={`text-xl font-bold mb-4 flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-gray-700'}`}>
+              🔒 {getLocalizedText('privacy.settings.details')}
+            </h2>
+            <p className={`${settings.darkMode ? 'text-gray-300' : 'text-purple-800'} leading-relaxed mb-4`}>
+              {getLocalizedText('nurcycle.commitment')}
+            </p>
+            <p className={`${settings.darkMode ? 'text-gray-400' : 'text-purple-800'} text-sm`}>
+              {getLocalizedText('privacy.controls')}
+            </p>
+          </CardContent>
         </Card>
 
 
@@ -173,41 +163,24 @@ const PrivacySettings = ({ onBack }: PrivacySettingsProps) => {
             {expandedSection === 'request-info' && (
               <div className={`px-4 pb-4 border-t ${settings.darkMode ? 'bg-slate-900 border-slate-700' : 'bg-gray-50'}`}>
                 <div className="pt-4 space-y-4">
-                  {/* <h4 className={`font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-                    How do I export my data from NurCycle?
+          
+                  <h4 className={`font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    {getLocalizedText('how.export.data')}
                   </h4>
                   <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-                    You have full control over your personal data. To request and export your information:
+                    {getLocalizedText('data.control')}
                   </p>
                   <ul className={`list-decimal list-inside space-y-2 ml-4 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    <li>Go to your Settings tab in the NurCycle app</li>
-                    <li>Tap on Privacy Settings</li>
-                    <li>Select "Request Data Export"</li>
+                    <li>{getLocalizedText('settings.tab')}</li>
+                    <li>{getLocalizedText('tap.privacy.settings')}</li>
+                    <li>{getLocalizedText('select.export')}</li>
                   </ul>
                   <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-                    Once your request is received, you'll get a secure download link sent to your registered email within 24–48 hours. The file will contain your tracked symptoms, notes, cycle history, and any other personal logs.
+                    {getLocalizedText('secure.download.link')}
                   </p>
                   <p className={`font-semibold ${settings.darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-                    We only share this information with you. We do not sell, rent, or expose your data to third parties — ever.
-                  </p> */}
-
-                  <h4 className={`font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-  {getLocalizedText('how.export.data')}
-</h4>
-<p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-  {getLocalizedText('data.control')}
-</p>
-<ul className={`list-decimal list-inside space-y-2 ml-4 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-  <li>{getLocalizedText('settings.tab')}</li>
-  <li>{getLocalizedText('tap.privacy.settings')}</li>
-  <li>{getLocalizedText('select.export')}</li>
-</ul>
-<p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-  {getLocalizedText('secure.download.link')}
-</p>
-<p className={`font-semibold ${settings.darkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-  {getLocalizedText('data.sharing')}
-</p>
+                    {getLocalizedText('data.sharing')}
+                  </p>
 
                   <Button
                     onClick={handleDataExport}
@@ -217,7 +190,7 @@ const PrivacySettings = ({ onBack }: PrivacySettingsProps) => {
                     {getLocalizedText('request.data.export')}
                   </Button>
                 </div>
-                
+
               </div>
             )}
           </CardContent>
@@ -247,87 +220,53 @@ const PrivacySettings = ({ onBack }: PrivacySettingsProps) => {
             </div>
 
             {expandedSection === 'privacy-explained' && (
-              // <div className={`px-4 pb-4 border-t ${settings.darkMode ? 'bg-slate-900 border-slate-700' : 'bg-gray-50'}`}>
-              //   <div className="pt-4 space-y-6">
-              //     <h4 className={`font-semibold text-lg ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>Your Frequently Asked Questions (FAQs)</h4>
 
-              //     <div className="space-y-4">
-              //       <div>
-              //         <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>Q: How does NurCycle keep my data safe?</h5>
-              //         <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-              //           A: All of your data is encrypted using industry-standard methods. We store your cycle logs, health notes, and personal entries on secure, privacy-first servers. No sensitive content is ever shared or used for marketing or profiling.
-              //         </p>
-              //       </div>
-
-              //       <div>
-              //         <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>Q: Will my period or fertility data be seen by anyone else?</h5>
-              //         <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-              //           A: No. Your information stays between you and NurCycle. Only you have access to your full cycle history. We may use anonymized data (completely disconnected from your identity) to improve the app experience — but never in a way that reveals who you are.
-              //         </p>
-              //       </div>
-
-              //       <div>
-              //         <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>Q: Does NurCycle show ads or sell my data?</h5>
-              //         <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-              //           A: Absolutely not. We are an ad-free, Muslim-built platform. Your privacy is part of our trust and responsibility.
-              //         </p>
-              //       </div>
-
-              //       <div>
-              //         <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>Q: Is NurCycle safe for young users or reverts?</h5>
-              //         <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-              //           A: Yes. We provide faith-conscious education and tools that avoid the overexposure and inappropriate content seen in other apps. Users can set content sensitivity preferences and access Islamic rulings through trusted sources.
-              //         </p>
-              //       </div>
-              //     </div>
-              //   </div>
-              // </div>
 
               <div className={`px-4 pb-4 border-t ${settings.darkMode ? 'bg-slate-900 border-slate-700' : 'bg-gray-50'}`}>
-  <div className="pt-4 space-y-6">
-    <h4 className={`font-semibold text-lg ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-      {getLocalizedText('faq.title')}
-    </h4>
+                <div className="pt-4 space-y-6">
+                  <h4 className={`font-semibold text-lg ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    {getLocalizedText('faq.title')}
+                  </h4>
 
-    <div className="space-y-4">
-      <div>
-        <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>
-          {getLocalizedText('faq.how.keep.data.safe')}
-        </h5>
-        <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-          {getLocalizedText('faq.how.keep.data.safe.answer')}
-        </p>
-      </div>
+                  <div className="space-y-4">
+                    <div>
+                      <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>
+                        {getLocalizedText('faq.how.keep.data.safe')}
+                      </h5>
+                      <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                        {getLocalizedText('faq.how.keep.data.safe.answer')}
+                      </p>
+                    </div>
 
-      <div>
-        <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>
-          {getLocalizedText('faq.see.data.answer')}
-        </h5>
-        <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-          {getLocalizedText('faq.see.data.answer.details')}
-        </p>
-      </div>
+                    <div>
+                      <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>
+                        {getLocalizedText('faq.see.data.answer')}
+                      </h5>
+                      <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                        {getLocalizedText('faq.see.data.answer.details')}
+                      </p>
+                    </div>
 
-      <div>
-        <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>
-          {getLocalizedText('faq.ads.selling.data')}
-        </h5>
-        <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-          {getLocalizedText('faq.ads.selling.data.answer')}
-        </p>
-      </div>
+                    <div>
+                      <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>
+                        {getLocalizedText('faq.ads.selling.data')}
+                      </h5>
+                      <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                        {getLocalizedText('faq.ads.selling.data.answer')}
+                      </p>
+                    </div>
 
-      <div>
-        <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>
-          {getLocalizedText('faq.safe.for.young.users')}
-        </h5>
-        <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-          {getLocalizedText('faq.safe.for.young.users.answer')}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+                    <div>
+                      <h5 className={`font-semibold mb-2 ${settings.darkMode ? 'text-purple-400' : 'text-purple-700'}`}>
+                        {getLocalizedText('faq.safe.for.young.users')}
+                      </h5>
+                      <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
+                        {getLocalizedText('faq.safe.for.young.users.answer')}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             )}
           </CardContent>
@@ -360,17 +299,14 @@ const PrivacySettings = ({ onBack }: PrivacySettingsProps) => {
               <div className={`px-4 pb-4 border-t ${settings.darkMode ? 'bg-slate-900 border-slate-700' : 'bg-gray-50'}`}>
                 <div className="pt-4 space-y-4">
                   <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-                   {getLocalizedText('need.to.leave')}
+                    {getLocalizedText('need.to.leave')}
                   </p>
                   <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                     {getLocalizedText('permanent.deletion')}
                   </p>
                   <ul className={`list-decimal list-inside space-y-2 ml-4 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     <li>{getLocalizedText('steps.to.delete.account')}</li>
-                    {/* <li>Go to Settings</li>
-                    <li>Tap on Privacy Settings</li>
-                    <li>Select "Delete My Account"</li>
-                    <li>Confirm your email and final decision</li> */}
+
                   </ul>
                   <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                     {getLocalizedText('account.deleted')}
@@ -389,7 +325,7 @@ const PrivacySettings = ({ onBack }: PrivacySettingsProps) => {
                       className="flex items-center gap-2"
                     >
                       <Trash2 className="w-4 h-4" />
-                     {getLocalizedText('delete.account')}
+                      {getLocalizedText('delete.account')}
                     </Button>
                     <Button
                       variant="outline"
@@ -410,21 +346,19 @@ const PrivacySettings = ({ onBack }: PrivacySettingsProps) => {
         {/* Closing Message */}
 
         <Card className="relative overflow-hidden card-3d">
-  <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-purple-500 to-purple-700'} `}></div>
-  <CardContent className="relative z-10 p-6 text-center">
-    <div className="space-y-3">
-      <p className={`${settings.darkMode ? 'text-white' : 'text-purple-800'} font-semibold`}>
-        💜 {getLocalizedText('privacy.policy.title')}
-      </p>
-      <p className={`${settings.darkMode ? 'text-gray-300' : 'text-purple-800'}`}>
-       {getLocalizedText('privacy.policy.content')}
-      </p>
-      {/* <p className={`${settings.darkMode ? 'text-gray-300' : 'text-purple-800'}`}>
-        And your body, your health, and your deen deserve digital protection rooted in ihsan.
-      </p> */}
-    </div>
-  </CardContent>
-</Card>
+          <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-purple-500 to-purple-700'} `}></div>
+          <CardContent className="relative z-10 p-6 text-center">
+            <div className="space-y-3">
+              <p className={`${settings.darkMode ? 'text-white' : 'text-purple-800'} font-semibold`}>
+                💜 {getLocalizedText('privacy.policy.title')}
+              </p>
+              <p className={`${settings.darkMode ? 'text-gray-300' : 'text-purple-800'}`}>
+                {getLocalizedText('privacy.policy.content')}
+              </p>
+   
+            </div>
+          </CardContent>
+        </Card>
 
 
 

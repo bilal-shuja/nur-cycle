@@ -1064,7 +1064,7 @@ const Auth = () => {
                       )}
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {getLocalizedText('verificationMessage')}
+                      *{getLocalizedText('verificationMessage')}
                     </p>
                   </div>
                 )}
@@ -1077,7 +1077,7 @@ const Auth = () => {
                       type="button"
                       variant="outline"
                       size="sm"
-                      disabled={isFemale === true }
+                      // disabled={isFemale === true }
                       onClick={async () => {
                         if (videoRef.current && modelsLoaded) {
 
@@ -1128,7 +1128,6 @@ const Auth = () => {
                     </Button>
                   </div>
                 )}
-                {/* || !faceDescriptorWhileSignIn */}
                 <Button
                   type="submit"
                   className={`w-full bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}
