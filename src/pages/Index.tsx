@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Card, CardContent} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from '@/contexts/LanguageContext';
 import Navigation from '@/components/Navigation';
 import Tracker from '@/components/Tracker';
@@ -15,16 +15,220 @@ import OnboardingFlow, { OnboardingData } from '@/components/onboarding/Onboardi
 import ProfileSettings from '@/components/ProfileSettings';
 import PrePeriodPreparation from '@/components/PrePeriodPreparation';
 import PeriodTracker from '@/components/PeriodTracker';
+import { Button } from "@/components/ui/button";
+
+import { TriangleAlert, Lock, CalendarDays } from 'lucide-react'
+
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient('https://ezlwhepcpodvegoqppro.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6bHdoZXBjcG9kdmVnb3FwcHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NDQwMDAsImV4cCI6MjA2NjEyMDAwMH0.31nqkGx5JNUaNKS9CfBnzO8-8stK94rome3oLMja8uM');
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
-  
+
   const [userPreferences, setUserPreferences] = useState<OnboardingData | null>(null);
   const [userMetadata, setUserMetadata] = useState<null>(null);
+
+  const [serverTime, setServerTime] = useState(null);
+  const [showExpiryWarning, setShowExpiryWarning] = useState(false);
+
+  const [checkSubDate, setCheckSubDate] = useState(null);
   const { getLocalizedText } = useLanguage();
+
+
+  const [subscribers, setSubscribers] = useState([]);
+
+  const [userProfile, setUserProfile] = useState<any>(null);
+
+  const [freeDayTrial, setFreeDayTrial] = useState(null);
+
+  useEffect(() => {
+    async function fetchServerTime() {
+      const { data, error } = await supabase.rpc('get_server_time');
+      if (!error) setServerTime(data);
+    }
+    fetchServerTime();
+  }, []);
+
+
+
+  useEffect(() => {
+    const fetchSubscribers = async () => {
+      const { data, error } = await supabase
+        .from('subscribers')
+        .select('*');
+
+      if (error) {
+        console.error('Error fetching subscribers:', error.message);
+      } else {
+        setSubscribers(data);
+      }
+
+    };
+
+    fetchSubscribers();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchMyProfile = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (error) console.error(error.message);
+      else setUserProfile(data);
+    };
+
+    fetchMyProfile();
+  }, []);
+
+
+
+  const userRegisterDateTime = userProfile && userProfile?.created_at;
+
+  const isSubscribered: boolean | null = Array.isArray(subscribers)
+  ? (subscribers.length === 0
+      ? null
+      : subscribers.some(sub => sub.subscribed))
+  : null;
+
+
+  const getSubscriptionDate = subscribers && subscribers?.map((sub) => sub.subscription_end)
+
+  const getSubDateOnly = getSubscriptionDate && getSubscriptionDate[0]?.split('T')[0];
+
+
+  const getServerDateOnly = serverTime ? serverTime.split('T')[0] : "";
+
+
+  const getSubscriptionDateAndTime = getSubscriptionDate[0];
+  const getServerDateAndTime = serverTime;
+
+
+  // console.log('userRegisterDateTime', userRegisterDateTime)
+  // console.log('getServerDateAndTime', getServerDateAndTime)
+
+
+  useEffect(() => {
+    if (!userRegisterDateTime || !getServerDateAndTime) return;
+
+    const toJsDate = (s: string) => new Date(s.replace(/(\.\d{3})\d+/, '$1'));
+
+    const userDate = toJsDate(userRegisterDateTime);
+    const serverDate = toJsDate(getServerDateAndTime);
+    const diffMs = serverDate.getTime() - userDate.getTime();
+
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+    if (diffDays >= 3) {
+      setFreeDayTrial(true);
+    } else {
+      setFreeDayTrial(false);
+    }
+  }, [userRegisterDateTime, getServerDateAndTime]);
+
+
+
+  function parseISO(iso?: string | null): Date | null {
+    if (!iso) return null;
+    const d = new Date(iso);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function addMonthsUTC(date: Date, months: number): Date {
+    const y = date.getUTCFullYear();
+    const m = date.getUTCMonth();
+    const day = date.getUTCDate();
+    const h = date.getUTCHours(), mi = date.getUTCMinutes(), s = date.getUTCSeconds(), ms = date.getUTCMilliseconds();
+
+    // first of target month
+    const tmp = new Date(Date.UTC(y, m + months, 1, h, mi, s, ms));
+    // clamp day
+    const daysInTarget = new Date(Date.UTC(tmp.getUTCFullYear(), tmp.getUTCMonth() + 1, 0)).getUTCDate();
+    tmp.setUTCDate(Math.min(day, daysInTarget));
+    return tmp;
+  }
+
+  function shouldDisable(subscriptionISO?: string | null, serverISO?: string | null): boolean {
+    const sub = parseISO(subscriptionISO);
+    const now = parseISO(serverISO);
+    if (!sub || !now) {
+      console.warn('Invalid/empty dates', { subscriptionISO, serverISO });
+      return false; // ya jo tumhara default ho
+    }
+    const renewal = addMonthsUTC(sub, 1);
+    // Compare in UTC (milliseconds)
+    return now.getTime() >= renewal.getTime();
+  }
+
+  // --- React usage ---
+  useEffect(() => {
+    if (!getSubscriptionDateAndTime || !getServerDateAndTime) return;
+
+    const disable = shouldDisable(getSubscriptionDateAndTime, getServerDateAndTime);
+    setCheckSubDate(disable);
+
+    // Debug in UTC to avoid "local display" confusion
+
+  }, [getSubscriptionDateAndTime, getServerDateAndTime]);
+
+
+
+
+  useEffect(() => {
+    // Ensure both dates exist
+    if (!getSubDateOnly || !getServerDateOnly) return;
+
+    // Convert subscription start date to renewal date (add 30 days)
+    const subscriptionStartDate = new Date(getSubDateOnly);
+
+    // Calculate renewal date (assuming 30-day subscription cycle)
+    const renewalDate = new Date(subscriptionStartDate);
+    renewalDate.setDate(subscriptionStartDate.getDate() + 30);
+
+    const serverDate = new Date(getServerDateOnly);
+
+
+
+    // Calculate difference between renewal date and current date
+    const timeDifference = renewalDate.getTime() - serverDate.getTime();
+    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    // console.log("Days until renewal:", daysDifference);
+
+
+    if (daysDifference < 0) {
+      // Subscription has already expired
+      const expiredDays = Math.abs(daysDifference);
+      // console.log(`Subscription expired ${expiredDays} day(s) ago`);
+      setShowExpiryWarning(true);
+      // Optional: You might want to redirect to payment page or show different message
+    } else if (daysDifference === 0) {
+      // Subscription expires today
+      // console.log('Subscription expires today!');
+      setShowExpiryWarning(true);
+    } else if (daysDifference <= 3) {
+      // Subscription expires within 3 days
+      // console.log(`Subscription expires in ${daysDifference} day(s)`);
+      setShowExpiryWarning(true);
+    } else {
+      // Subscription is active and safe (more than 3 days remaining)
+      // console.log(`Subscription is active - ${daysDifference} days remaining`);
+      setShowExpiryWarning(false);
+    }
+
+  }, [getSubDateOnly, getServerDateOnly]);
+
+
 
 
   const [settings, setSettings] = useState({
@@ -89,7 +293,6 @@ const Index = () => {
 
   }, []);
 
-  // Check if user has completed onboarding
   useEffect(() => {
     const hasCompletedOnboarding = localStorage.getItem('nurcycle-onboarding-completed');
     const storedPreferences = localStorage.getItem('nurcycle-user-preferences');
@@ -134,7 +337,6 @@ const Index = () => {
   };
 
 
-  // !userMetadata && showOnboarding
   if (!userMetadata && showOnboarding) {
     return (
       <OnboardingFlow
@@ -148,19 +350,21 @@ const Index = () => {
 
 
   const renderActiveSection = () => {
+
+
     switch (activeSection) {
       case 'tracker':
-        return <Tracker />;
+        return <Tracker setActiveSection={setActiveSection} isSubscribered={isSubscribered} checkSubDate={checkSubDate} freeDayTrial={freeDayTrial} />;
       case 'insights':
-        return <HealthInsights />;
+        return <HealthInsights setActiveSection={setActiveSection} isSubscribered={isSubscribered} checkSubDate={checkSubDate} freeDayTrial = {freeDayTrial} />;
       case 'ask-the-deen':
-        return <IslamicGuidance />;
+        return <IslamicGuidance setActiveSection={setActiveSection} isSubscribered={isSubscribered} checkSubDate={checkSubDate} freeDayTrial ={freeDayTrial} />;
       case 'profile':
-        return <ProfileSettings userPreferences={userPreferences} onUpdatePreferences={setUserPreferences} />;
+        return <ProfileSettings userPreferences={userPreferences} onUpdatePreferences={setUserPreferences} isSubscribered={isSubscribered} checkSubDate={checkSubDate} activeSection={activeSection} showExpiryWarning={showExpiryWarning} />;
       case 'calendar':
         return <PeriodTracker />;
       default:
-        return <Dashboard setActiveSection={setActiveSection} userPreferences={userPreferences} userMetadata={userMetadata} />;
+        return <Dashboard setActiveSection={setActiveSection} userPreferences={userPreferences} userMetadata={userMetadata} isSubscribered={isSubscribered} showExpiryWarning={showExpiryWarning} checkSubDate={checkSubDate} freeDayTrial={freeDayTrial} />;
     }
   };
 
@@ -178,6 +382,11 @@ const Index = () => {
           setActiveSection={setActiveSection}
           user={user}
           onAuthClick={() => setIsAuthModalOpen(true)}
+          checkSubDate={checkSubDate}
+          isSubscribered={isSubscribered}
+
+          freeDayTrial={freeDayTrial}
+
         />
       </div>
 
@@ -190,10 +399,14 @@ const Index = () => {
   );
 };
 
-const Dashboard = ({ setActiveSection, userPreferences, userMetadata }: {
+const Dashboard = ({ setActiveSection, userPreferences, userMetadata, isSubscribered, showExpiryWarning, checkSubDate, freeDayTrial }: {
   setActiveSection: (section: string) => void;
   userPreferences: OnboardingData | null;
   userMetadata: any;
+  isSubscribered: boolean;
+  showExpiryWarning: boolean;
+  checkSubDate: boolean;
+  freeDayTrial: boolean;
 }) => {
   const { getLocalizedText } = useLanguage();
 
@@ -262,11 +475,8 @@ const Dashboard = ({ setActiveSection, userPreferences, userMetadata }: {
   }, []);
 
 
-
   return (
     <div className="space-y-6">
-
-
 
       <div className={`text-center relative overflow-hidden ${settings.darkMode ? 'bg-slate-900 text-white' : ''}`}>
         {/* Animated background */}
@@ -301,8 +511,166 @@ const Dashboard = ({ setActiveSection, userPreferences, userMetadata }: {
         </div>
       </div>
 
+
+
       {/* Calendar Widget */}
       <CalendarWidget onNavigateToTracker={() => setActiveSection('tracker')} onNavigateToCalendar={() => setActiveSection('calendar')} />
+
+      {
+        freeDayTrial === true && (isSubscribered === false || isSubscribered === null)?
+          <Card className="relative overflow-hidden card-3d">
+            {/* Light mode bg */}
+            <div className="absolute inset-0 bg-lavender-100 dark:hidden"></div>
+            {/* Dark mode bg */}
+            <div className="absolute inset-0 hidden dark:block bg-slate-800"></div>
+
+            {/* Yellow animated circles for light mode */}
+            <div className="absolute inset-0 opacity-20 ">
+              <div className="animate-pulse absolute top-0 right-0 w-16 h-16 bg-lavender-300 rounded-full"></div>
+              <div className="animate-pulse absolute bottom-0 left-0 w-12 h-12 bg-lavender-400 rounded-full animation-delay-700"></div>
+            </div>
+
+
+
+            <CardContent className="p-6 flex  items-center justify-center gap-2 relative z-10">
+              <TriangleAlert className='h-10 w-20 text-red-500' />
+              <h2 className={`text-xs font-bold text-deep-lavender ${settings.darkMode ? 'text-white' : 'text-slate-700'}`}>
+                {getLocalizedText('your.3.days.trial.ended.subscribe.now')}
+              </h2>
+              <Button
+                onClick={() => {
+                  setActiveSection('profile')
+                }}
+                className="bg-gradient-to-r from-purple-500 to-purple-600 text-white"
+              >
+               {getLocalizedText('subscribe.now')}
+              </Button>
+            </CardContent>
+
+          </Card>
+          :
+          ""
+      }
+
+
+      {
+        freeDayTrial === false && (isSubscribered === false || isSubscribered === null) ?
+
+          <Card className="relative overflow-hidden card-3d">
+            {/* Light mode bg */}
+            <div className="absolute inset-0 bg-lavender-100 dark:hidden"></div>
+            {/* Dark mode bg */}
+            <div className="absolute inset-0 hidden dark:block bg-slate-800"></div>
+
+            {/* Yellow animated circles for light mode */}
+            <div className="absolute inset-0 opacity-20 dark:hidden">
+              <div className="animate-pulse absolute top-0 right-0 w-16 h-16 bg-lavender-300 rounded-full"></div>
+              <div className="animate-pulse absolute bottom-0 left-0 w-12 h-12 bg-lavender-400 rounded-full animation-delay-700"></div>
+            </div>
+
+
+
+            <CardContent className="p-6 flex  items-center justify-center gap-2 relative z-10">
+              <CalendarDays className='h-10 w-11 text-yellow-500' />
+              <h2 className={`text-xs font-bold text-deep-lavender ${settings.darkMode ? 'text-white' : 'text-slate-700'}`}>
+                {getLocalizedText(`youre.on.3.days.free.trial.subscribe.before.end`)}
+              </h2>
+              <Button
+                onClick={() => {
+                  setActiveSection('profile')
+                }}
+                className="bg-gradient-to-r from-purple-500 to-purple-600 text-white"
+              >
+                {getLocalizedText('subscribe.now')}
+              </Button>
+            </CardContent>
+
+          </Card>
+
+          :
+          ""
+      }
+
+
+      {showExpiryWarning === true && checkSubDate === false ?
+
+        (
+          <Card className="relative overflow-hidden card-3d">
+            {/* Light mode bg */}
+            <div className="absolute inset-0 bg-lavender-100 dark:hidden"></div>
+            {/* Dark mode bg */}
+            <div className="absolute inset-0 hidden dark:block bg-slate-800"></div>
+
+            {/* Yellow animated circles for light mode */}
+            <div className="absolute inset-0 opacity-20 dark:hidden">
+              <div className="animate-pulse absolute top-0 right-0 w-16 h-16 bg-lavender-300 rounded-full"></div>
+              <div className="animate-pulse absolute bottom-0 left-0 w-12 h-12 bg-lavender-400 rounded-full animation-delay-700"></div>
+            </div>
+
+
+
+            <CardContent className="p-6 flex  items-center justify-center gap-2 relative z-10">
+              <TriangleAlert className='h-10 w-11 text-yellow-500' />
+              <h2 className={`text-xs font-bold text-deep-lavender ${settings.darkMode ? 'text-white' : 'text-slate-700'}`}>
+                {getLocalizedText('your.subscription.will.expire.soon.renew.now')}
+              </h2>
+              <Button
+                onClick={() => {
+                  setActiveSection('profile')
+                }}
+                className="bg-gradient-to-r from-purple-500 to-purple-600 "
+              >
+                {getLocalizedText('renew')}
+              </Button>
+            </CardContent>
+
+          </Card>
+
+        )
+        :
+        ""
+      }
+
+      {
+        checkSubDate === true ?
+          (
+            <Card className="relative overflow-hidden card-3d">
+              {/* Light mode bg */}
+              <div className="absolute inset-0 bg-lavender-100 dark:hidden"></div>
+              {/* Dark mode bg */}
+              <div className="absolute inset-0 hidden dark:block bg-slate-800"></div>
+
+              {/* Yellow animated circles for light mode */}
+              <div className="absolute inset-0 opacity-20 dark:hidden">
+                <div className="animate-pulse absolute top-0 right-0 w-16 h-16 bg-lavender-300 rounded-full"></div>
+                <div className="animate-pulse absolute bottom-0 left-0 w-12 h-12 bg-lavender-400 rounded-full animation-delay-700"></div>
+              </div>
+
+
+
+              <CardContent className="p-6 flex  items-center justify-center gap-2 relative z-10">
+                <Lock className='h-10 w-11 text-red-500' />
+                <h2 className={`text-xs font-bold text-deep-lavender ${settings.darkMode ? 'text-white' : 'text-slate-700'}`}>
+                  {getLocalizedText('your.subscription.expired.please.renew')}
+                </h2>
+                <Button
+                  onClick={() => {
+                    setActiveSection('profile')
+                  }}
+                  className="bg-gradient-to-r from-purple-500 to-purple-600 "
+                >
+                  {getLocalizedText('renew')}
+                </Button>
+              </CardContent>
+
+            </Card>
+          )
+
+          :
+          ""
+
+      }
+
 
       {/* Have a Read Before You Bleed - Using PrePeriodPreparation */}
       <PrePeriodPreparation />
@@ -317,7 +685,7 @@ const Dashboard = ({ setActiveSection, userPreferences, userMetadata }: {
       <CycleStats />
 
       {/* Islamic Reminder Card */}
-    
+
       <Card className="relative overflow-hidden card-3d">
         <div className="absolute inset-0  dark:hidden"></div>
         <div className="absolute inset-0 hidden dark:block bg-slate-800"></div>

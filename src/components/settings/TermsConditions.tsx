@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { ChevronLeft, Download, Globe, FileText, Calendar, Shield, Heart, ShieldEllipsis } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+// import { Separator } from "@/components/ui/separator";
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import { jsPDF } from "jspdf";
@@ -136,74 +136,74 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
     effectiveDate: "January 1, 2024",
     lastUpdated: "December 27, 2024",
     version: "1.2",
-    sections : [
-  {
-    id: 'acceptance',
-    title: getLocalizedText('acceptance.of.terms'),
-    icon: FileText,
-    content: getLocalizedText('terms.content')
-  },
-  {
-    id: 'services',
-    title: getLocalizedText('what.nurcycle.offers'),
-    icon: Heart,
-    content: getLocalizedText('nurcycle.offers.content')
-  },
-  {
-    id: 'accounts',
-    title: getLocalizedText('user.accounts'),
-    icon: Shield,
-    content: getLocalizedText('user.accounts.content')
-  },
-  {
-    id: 'privacy',
-    title: getLocalizedText('user.data.and.privacy'),
-    icon: Shield,
-    content: getLocalizedText('user.data.and.privacy.content')
-  },
-  {
-    id: 'health',
-    title: getLocalizedText('health.disclaimer'),
-    icon: Heart,
-    content: getLocalizedText('health.disclaimer.content')
-  },
-  {
-    id: 'conduct',
-    title: getLocalizedText('community.conduct'),
-    icon: Globe,
-    content: getLocalizedText('community.conduct.content')
-  },
-  {
-    id: 'Intellectual',
-    title: getLocalizedText('intellectual.property'),
-    icon: Globe,
-    content: getLocalizedText('intellectual.property.content')
-  },
-  {
-    id: 'Changes',
-    title: getLocalizedText('changes.to.app.or.terms'),
-    icon: Globe,
-    content: getLocalizedText('changes.to.app.or.terms.content')
-  },
-  {
-    id: 'Termination',
-    title: getLocalizedText('termination'),
-    icon: Globe,
-    content: getLocalizedText('termination.content')
-  },
-  {
-    id: 'Limitation',
-    title: getLocalizedText('limitation.of.liability'),
-    icon: Globe,
-    content: getLocalizedText('limitation.of.liability.content')
-  },
-  {
-    id: 'Contact',
-    title: getLocalizedText('contact.us'),
-    icon: Globe,
-    content: getLocalizedText('contact.us.content')
-  }
-]
+    sections: [
+      {
+        id: 'acceptance',
+        title: getLocalizedText('acceptance.of.terms'),
+        icon: FileText,
+        content: getLocalizedText('terms.content')
+      },
+      {
+        id: 'services',
+        title: getLocalizedText('what.nurcycle.offers'),
+        icon: Heart,
+        content: getLocalizedText('nurcycle.offers.content')
+      },
+      {
+        id: 'accounts',
+        title: getLocalizedText('user.accounts'),
+        icon: Shield,
+        content: getLocalizedText('user.accounts.content')
+      },
+      {
+        id: 'privacy',
+        title: getLocalizedText('user.data.and.privacy'),
+        icon: Shield,
+        content: getLocalizedText('user.data.and.privacy.content')
+      },
+      {
+        id: 'health',
+        title: getLocalizedText('health.disclaimer'),
+        icon: Heart,
+        content: getLocalizedText('health.disclaimer.content')
+      },
+      {
+        id: 'conduct',
+        title: getLocalizedText('community.conduct'),
+        icon: Globe,
+        content: getLocalizedText('community.conduct.content')
+      },
+      {
+        id: 'Intellectual',
+        title: getLocalizedText('intellectual.property'),
+        icon: Globe,
+        content: getLocalizedText('intellectual.property.content')
+      },
+      {
+        id: 'Changes',
+        title: getLocalizedText('changes.to.app.or.terms'),
+        icon: Globe,
+        content: getLocalizedText('changes.to.app.or.terms.content')
+      },
+      {
+        id: 'Termination',
+        title: getLocalizedText('termination'),
+        icon: Globe,
+        content: getLocalizedText('termination.content')
+      },
+      {
+        id: 'Limitation',
+        title: getLocalizedText('limitation.of.liability'),
+        icon: Globe,
+        content: getLocalizedText('limitation.of.liability.content')
+      },
+      {
+        id: 'Contact',
+        title: getLocalizedText('contact.us'),
+        icon: Globe,
+        content: getLocalizedText('contact.us.content')
+      }
+    ]
   };
 
   const handleSectionClick = (sectionId: string) => {
@@ -218,7 +218,7 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
     return (
       <div className={`min-h-screen ${settings.darkMode ? 'bg-slate-800' : 'bg-gradient-to-br from-lavender-50 to-lavender-100'}`}>
         {/* Header */}
-  
+
 
         <div className="bg-white shadow-sm sticky top-0 z-10 card-3d">
           <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'} `}></div>
@@ -241,7 +241,7 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
 
         {/* Section Content */}
         <div className="px-4 py-6">
-       
+
 
           <Card className="relative overflow-hidden card-3d">
             <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'} `}></div>
@@ -333,156 +333,99 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
 
             {/* Detailed Sections */}
             {
-            // [
-            //   {
-            //     number: '1',
-            //     title: 'Acceptance of Terms',
-            //     content: 'By accessing or using NurCycle, you confirm that you are at least 13 years of age and that you agree to be bound by these Terms and our Privacy Policy. If you do not agree with any part, please do not use the app.'
-            //   },
-            //   {
-            //     number: '2',
-            //     title: 'What NurCycle Offers',
-            //     content: 'NurCycle provides health and wellness tools including:\n• Period, ovulation, and fertility tracking\n• Pregnancy support and body changes logging\n• Personalized reminders and Islamic guidance\n• Community interaction and content sharing\n\nThis app is built with Muslim women in mind but is open to all women who want to track their health with dignity and privacy.'
-            //   },
-            //   {
-            //     number: '3',
-            //     title: 'User Accounts',
-            //     content: 'You may create a personal account to store your data securely. You are responsible for keeping your login information confidential and for all activity that occurs under your account.\n\nPlease do not impersonate others or use false information.'
-            //   },
-            //   {
-            //     number: '4',
-            //     title: 'User Data and Privacy',
-            //     content: 'Your personal data is stored securely and never sold or shared with third parties. See our full Privacy Policy for how we protect your information.\n\nYou can export or delete your data at any time from the app settings.'
-            //   },
-            //   {
-            //     number: '5',
-            //     title: 'Health Disclaimer',
-            //     content: 'NurCycle does not offer medical advice. All content and tools are for informational purposes only. Please consult a qualified healthcare provider for any medical concerns.\n\nIslamic rulings presented in the app are based on verified scholarly sources, but you are encouraged to consult your local scholars for personal rulings.'
-            //   },
-            //   {
-            //     number: '6',
-            //     title: 'Community Conduct',
-            //     content: 'Users may engage with one another respectfully through community features (if enabled). By participating, you agree not to:\n• Post inappropriate, offensive, or harmful content\n• Share false health information\n• Harass or bully other users\n\nWe reserve the right to remove accounts that violate these standards.'
-            //   },
-            //   {
-            //     number: '7',
-            //     title: 'Intellectual Property',
-            //     content: 'All content, branding, and designs within NurCycle are the property of the company and protected by applicable intellectual property laws. You may not copy, reuse, or modify any part of the app without written permission.'
-            //   },
-            //   {
-            //     number: '8',
-            //     title: 'Changes to the App or Terms',
-            //     content: 'We may occasionally update these Terms or make changes to the app. By continuing to use NurCycle, you accept the updated terms. You will be notified of any major changes within the app.'
-            //   },
-            //   {
-            //     number: '9',
-            //     title: 'Termination',
-            //     content: 'You may delete your account at any time. We also reserve the right to terminate accounts that violate our terms, pose security risks, or disrupt other users\' experiences.'
-            //   },
-            //   {
-            //     number: '10',
-            //     title: 'Limitation of Liability',
-            //     content: 'NurCycle is provided "as is" without warranties of any kind. We are not liable for any indirect, incidental, or consequential damages arising from your use of the app.'
-            //   },
-            
-            //   {
-            //     number: '12',
-            //     title: 'Contact Us',
-            //     content: 'If you have questions or concerns about these Terms, you can reach us at:\n📧 support@nurcycle.app'
-            //   }
-            // ]
-            
-            [
-  {
-    number: '1',
-    title: getLocalizedText('acceptance.of.terms'),
-    content: getLocalizedText('terms.content')
-  },
-  {
-    number: '2',
-    title: getLocalizedText('what.nurcycle.offers'),
-    content: getLocalizedText('nurcycle.offers.content')
-  },
-  {
-    number: '3',
-    title: getLocalizedText('user.accounts'),
-    content: getLocalizedText('user.accounts.content')
-  },
-  {
-    number: '4',
-    title: getLocalizedText('user.data.and.privacy'),
-    content: getLocalizedText('user.data.and.privacy.content')
-  },
-  {
-    number: '5',
-    title: getLocalizedText('health.disclaimer'),
-    content: getLocalizedText('health.disclaimer.content')
-  },
-  {
-    number: '6',
-    title: getLocalizedText('community.conduct'),
-    content: getLocalizedText('community.conduct.content')
-  },
-  {
-    number: '7',
-    title: getLocalizedText('intellectual.property'),
-    content: getLocalizedText('intellectual.property.content')
-  },
-  {
-    number: '8',
-    title: getLocalizedText('changes.to.app.or.terms'),
-    content: getLocalizedText('changes.to.app.or.terms.content')
-  },
-  {
-    number: '9',
-    title: getLocalizedText('termination'),
-    content: getLocalizedText('termination.content')
-  },
-  {
-    number: '10',
-    title: getLocalizedText('limitation.of.liability'),
-    content: getLocalizedText('limitation.of.liability.content')
-  },
-  {
-    number: '12',
-    title: getLocalizedText('contact.us'),
-    content: getLocalizedText('contact.us.content')
-  }
-].map((section, index) => (
-     
-              <Card key={index} className="relative overflow-hidden card-3d">
-                <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'}`}></div>
-                <CardContent className="relative z-10 p-6">
-                  <CardHeader>
-                    <CardTitle className={`text-base flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-                      <span className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
-                        {section.number}
-                      </span>
-                      {section.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className={`text-gray-700 leading-relaxed whitespace-pre-line ${settings.darkMode ? 'text-gray-100' : 'text-gray-700'}`}>
-                      {section.content}
-                    </p>
-                  </CardContent>
-                </CardContent>
-              </Card>
 
-            ))}
+
+              [
+                {
+                  number: '1',
+                  title: getLocalizedText('acceptance.of.terms'),
+                  content: getLocalizedText('terms.content')
+                },
+                {
+                  number: '2',
+                  title: getLocalizedText('what.nurcycle.offers'),
+                  content: getLocalizedText('nurcycle.offers.content')
+                },
+                {
+                  number: '3',
+                  title: getLocalizedText('user.accounts'),
+                  content: getLocalizedText('user.accounts.content')
+                },
+                {
+                  number: '4',
+                  title: getLocalizedText('user.data.and.privacy'),
+                  content: getLocalizedText('user.data.and.privacy.content')
+                },
+                {
+                  number: '5',
+                  title: getLocalizedText('health.disclaimer'),
+                  content: getLocalizedText('health.disclaimer.content')
+                },
+                {
+                  number: '6',
+                  title: getLocalizedText('community.conduct'),
+                  content: getLocalizedText('community.conduct.content')
+                },
+                {
+                  number: '7',
+                  title: getLocalizedText('intellectual.property'),
+                  content: getLocalizedText('intellectual.property.content')
+                },
+                {
+                  number: '8',
+                  title: getLocalizedText('changes.to.app.or.terms'),
+                  content: getLocalizedText('changes.to.app.or.terms.content')
+                },
+                {
+                  number: '9',
+                  title: getLocalizedText('termination'),
+                  content: getLocalizedText('termination.content')
+                },
+                {
+                  number: '10',
+                  title: getLocalizedText('limitation.of.liability'),
+                  content: getLocalizedText('limitation.of.liability.content')
+                },
+                {
+                  number: '12',
+                  title: getLocalizedText('contact.us'),
+                  content: getLocalizedText('contact.us.content')
+                }
+              ].map((section, index) => (
+
+                <Card key={index} className="relative overflow-hidden card-3d">
+                  <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'}`}></div>
+                  <CardContent className="relative z-10 p-6">
+                    <CardHeader>
+                      <CardTitle className={`text-base flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        <span className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                          {section.number}
+                        </span>
+                        {section.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className={`text-gray-700 leading-relaxed whitespace-pre-line ${settings.darkMode ? 'text-gray-100' : 'text-gray-700'}`}>
+                        {section.content}
+                      </p>
+                    </CardContent>
+                  </CardContent>
+                </Card>
+
+              ))}
 
             {/* Footer Message */}
-          
+
 
             <Card className="relative overflow-hidden card-3d">
               <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-purple-500 to-purple-700'}`}></div>
               <CardContent className="relative z-10 p-6 text-center">
                 <Heart className={`w-8 h-8 ${settings.darkMode ? 'text-gray-300' : 'text-purple-600'} mx-auto mb-3`} />
                 <p className={`font-medium mb-2 ${settings.darkMode ? 'text-white' : 'text-purple-800'}`}>
-                 {getLocalizedText('nurcycle.built')}
+                  {getLocalizedText('nurcycle.built')}
                 </p>
                 <p className={`text-sm ${settings.darkMode ? 'text-gray-300' : 'text-purple-700'}`}>
-                 {getLocalizedText('nurcycle.thank.you')}
+                  {getLocalizedText('nurcycle.thank.you')}
                 </p>
               </CardContent>
             </Card>
@@ -529,10 +472,10 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
               <FileText className="w-8 h-8 flex-shrink-0 mt-1 text-lavender-800" />
               <div>
                 <h3 className={`${settings.darkMode ? 'text-white' : 'text-gray-900'} font-semibold text-lg mb-2`}>
-                 {getLocalizedText('terms.and.conditions')}
+                  {getLocalizedText('terms.and.conditions')}
                 </h3>
                 <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm opacity-90 mb-3`}>
-                 {getLocalizedText('professional.terms')}
+                  {getLocalizedText('professional.terms')}
                 </p>
                 <div className="flex flex-wrap gap-2 text-xs">
                   <span className={`bg-white/20 px-2 py-1 rounded-full ${settings.darkMode ? 'text-gray-200' : 'text-gray-500'}`}>
@@ -572,13 +515,13 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
         <div className="space-y-2">
 
           <h3 className={`font-semibold text-sm mb-3 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-           {getLocalizedText('key.sections')}
+            {getLocalizedText('key.sections')}
           </h3>
 
           {termsData?.sections.map((section, index) => {
             const IconComponent = section.icon;
             return (
-    
+
               <Card
                 key={section.id}
                 className="relative overflow-hidden card-3d cursor-pointer"
@@ -611,49 +554,49 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
 
         {/* Multi-language Notice */}
         <Card className="relative overflow-hidden card-3d bg-blue-50 border-blue-200">
-  <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-blue-500 to-blue-700'}`}></div>
-  <CardContent className="relative z-10 p-4">
-    <div className="flex items-center space-x-3">
-      <Globe className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-blue-600'}`} />
-      <div>
-        <h4 className={`font-medium text-sm ${settings.darkMode ? 'text-white' : 'text-blue-900'}`}>{getLocalizedText('multi.language.support')}</h4>
-        <p className={`text-xs mt-1 ${settings.darkMode ? 'text-gray-300' : 'text-blue-700'}`}>
-         {getLocalizedText('multi.language.support.content')}
-        </p>
-      </div>
-    </div>
-  </CardContent>
-</Card>
+          <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-blue-500 to-blue-700'}`}></div>
+          <CardContent className="relative z-10 p-4">
+            <div className="flex items-center space-x-3">
+              <Globe className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-blue-600'}`} />
+              <div>
+                <h4 className={`font-medium text-sm ${settings.darkMode ? 'text-white' : 'text-blue-900'}`}>{getLocalizedText('multi.language.support')}</h4>
+                <p className={`text-xs mt-1 ${settings.darkMode ? 'text-gray-300' : 'text-blue-700'}`}>
+                  {getLocalizedText('multi.language.support.content')}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
 
         {/* Legal Notice */}
         <Card className="relative overflow-hidden card-3d bg-gray-50 border-gray-200">
-  <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-gray-500 to-gray-700'}`}></div>
-  <CardContent className="relative z-10 p-4">
-    <div className="flex items-start space-x-3">
-      <Shield className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-gray-600'} mt-0.5`} />
-      <div>
-        <h4 className={`font-medium text-sm ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-          {getLocalizedText('legal.protection.and.ethics')}
-        </h4>
-        <p className={`text-xs mt-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-          {getLocalizedText('legal.protection.and.ethics.content')}
-        </p>
-      </div>
-    </div>
-  </CardContent>
-</Card>
+          <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-gray-500 to-gray-700'}`}></div>
+          <CardContent className="relative z-10 p-4">
+            <div className="flex items-start space-x-3">
+              <Shield className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-gray-600'} mt-0.5`} />
+              <div>
+                <h4 className={`font-medium text-sm ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  {getLocalizedText('legal.protection.and.ethics')}
+                </h4>
+                <p className={`text-xs mt-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  {getLocalizedText('legal.protection.and.ethics.content')}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
 
         {/* Last Updated */}
         <div className="text-center pt-4">
 
           <div className={`flex items-center justify-center space-x-2 text-xs ${settings.darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
-  <Calendar className={`w-3 h-3 ${settings.darkMode ? 'text-white' : 'text-gray-500'}`} />
-  <span className={settings.darkMode ? 'text-gray-300' : 'text-gray-500'}>
-   {getLocalizedText('last.updated')} {termsData.lastUpdated}
-  </span>
-</div>
+            <Calendar className={`w-3 h-3 ${settings.darkMode ? 'text-white' : 'text-gray-500'}`} />
+            <span className={settings.darkMode ? 'text-gray-300' : 'text-gray-500'}>
+              {getLocalizedText('last.updated')} {termsData.lastUpdated}
+            </span>
+          </div>
         </div>
       </div>
     </div>

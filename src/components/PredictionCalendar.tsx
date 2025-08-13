@@ -44,12 +44,14 @@ export function PredictionCalendar() {
             const monthKey = format(selectedDate, "LLLL yyyy") // e.g., "June 2025"
             const existing = JSON.parse(localStorage.getItem("savedDatesByMonth") || "{}")
 
-            if (!existing[monthKey]) {
-                existing[monthKey] = []
-            }
+            // if (!existing[monthKey]) {
+            //     existing[monthKey] = []
+            // }
 
-            const updatedMonthDates = Array.from(new Set([...existing[monthKey], ...formattedDates]))
-            existing[monthKey] = updatedMonthDates
+            existing[monthKey] = formattedDates;
+
+            // const updatedMonthDates = Array.from(new Set([...existing[monthKey], ...formattedDates]))
+            // existing[monthKey] = updatedMonthDates
 
             localStorage.setItem("savedDatesByMonth", JSON.stringify(existing))
 
@@ -69,17 +71,13 @@ export function PredictionCalendar() {
                     className="flex items-center  gap-1 px-2 py-1 text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white"
                 >
                     <CalendarIcon className="w-4 h-4 text-xs  text-slate-800 dark:text-white" />
-                    {/* selectedDate ? format(selectedDate, "PPP") :  */}
                     <span className="text-xs text-slate-800 dark:text-white">{getLocalizedText('period.prediction.cycle')}</span>
                 </Button>
             </PopoverTrigger>
             <PopoverContent
-                // side="bottom"
-                // align="start"
                 avoidCollisions={false}
                 style={{ marginTop: "-14em" }}
-                // marginTop: "-14em"
-            // mr-32
+
                 className="z-50 ml-28  w-auto p-2 rounded-xl shadow-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                 <div className="space-y-2">
                     <h3 className="text-lg font-bold text-center text-lavender-600">
@@ -93,7 +91,7 @@ export function PredictionCalendar() {
                         }}
                         defaultMonth={subMonths(new Date(), 6)}
                         disabled={{
-                            after: endOfMonth(new Date()), // Disable all dates after this month
+                            after: endOfMonth(new Date()), 
                         }}
 
                         className="dark:text-white "

@@ -1,5 +1,5 @@
 
-import React, { useRef, useState, cloneElement, isValidElement, useEffect } from 'react';
+import  { useRef, useState, cloneElement, isValidElement, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -130,7 +130,7 @@ export const WeightTrackingModal =({
   return (
   
 
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+<Dialog open={isOpen} onOpenChange={setIsOpen}>
   <DialogTrigger asChild>
     {isValidElement(children)
       ? cloneElement(children as React.ReactElement, {

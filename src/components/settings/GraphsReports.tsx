@@ -32,6 +32,7 @@ const GraphsReports = ({ onBack }: GraphsReportsProps) => {
   const { getLocalizedText } = useLanguage();
   const [selectedTimeframe, setSelectedTimeframe] = useState<'1M' | '3M' | '6M' | '1Y'>('3M');
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const cycleData = [
     { month: 'Jan', cycleLength: 28, flowDays: 5, symptoms: 3 },
     { month: 'Feb', cycleLength: 30, flowDays: 4, symptoms: 2 },

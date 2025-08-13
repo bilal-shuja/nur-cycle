@@ -1,0 +1,4 @@
+[functions.createCheckout]
+verify_jwt = false
+# (optional) agar import map use karte hain:
+# import_map = "./import_map.json"

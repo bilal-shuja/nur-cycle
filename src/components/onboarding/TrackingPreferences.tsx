@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Heart, Baby, Activity } from "lucide-react";
 import { OnboardingData } from "./OnboardingFlow";
 import { PredictionCalendar } from "../PredictionCalendar";
-
 import { useLanguage } from '@/contexts/LanguageContext';
 
 
@@ -24,58 +23,58 @@ const TrackingPreferences = ({
     data.trackingType || []
   );
 
-    const { getLocalizedText } = useLanguage();
+  const { getLocalizedText } = useLanguage();
 
-const trackingOptions = [
-  {
-    id: "period",
-    title: getLocalizedText('period.tracking'),
-    description: getLocalizedText('track.menstruation.purity.periods.and.ghus'),
-    icon: Calendar,
-    color: "bg-red-100 text-red-600",
-    benefits: [
-      getLocalizedText('worship.exemptions'),
-      getLocalizedText('ghusl.reminders'),
-      getLocalizedText('cycle.predictions'),
-    ],
-  },
-  {
-    id: "fertility",
-    title: getLocalizedText('fertility.tracking'),
-    description: getLocalizedText('monitor.fertile.windows.and.ovulation'),
-    icon: Heart,
-    color: "bg-green-100 text-green-600",
-    benefits: [
-      getLocalizedText('conception.planning'),
-      getLocalizedText('natural.family.planning'),
-      getLocalizedText('cycle.awareness'),
-    ],
-  },
-  {
-    id: "pregnancy",
-    title: getLocalizedText('pregnancy.journey'),
-    description: getLocalizedText('track.pregnancy.and.postpartum'),
-    icon: Baby,
-    color: "bg-blue-100 text-blue-600",
-    benefits: [
-      getLocalizedText('trimester.tracking'),
-      getLocalizedText('nifas.calculations'),
-      getLocalizedText('daily.duas'),
-    ],
-  },
-  {
-    id: "all",
-    title: getLocalizedText('complete.wellness'),
-    description: getLocalizedText('all.features.for.comprehensive.tracking'),
-    icon: Activity,
-    color: "bg-purple-100 text-purple-600",
-    benefits: [
-      getLocalizedText('full.cycle.management'),
-      getLocalizedText('islamic.guidance'),
-      getLocalizedText('holistic.health'),
-    ],
-  },
-];
+  const trackingOptions = [
+    {
+      id: "period",
+      title: getLocalizedText('period.tracking'),
+      description: getLocalizedText('track.menstruation.purity.periods.and.ghus'),
+      icon: Calendar,
+      color: "bg-red-100 text-red-600",
+      benefits: [
+        getLocalizedText('worship.exemptions'),
+        getLocalizedText('ghusl.reminders'),
+        getLocalizedText('cycle.predictions'),
+      ],
+    },
+    {
+      id: "fertility",
+      title: getLocalizedText('fertility.tracking'),
+      description: getLocalizedText('monitor.fertile.windows.and.ovulation'),
+      icon: Heart,
+      color: "bg-green-100 text-green-600",
+      benefits: [
+        getLocalizedText('conception.planning'),
+        getLocalizedText('natural.family.planning'),
+        getLocalizedText('cycle.awareness'),
+      ],
+    },
+    {
+      id: "pregnancy",
+      title: getLocalizedText('pregnancy.journey'),
+      description: getLocalizedText('track.pregnancy.and.postpartum'),
+      icon: Baby,
+      color: "bg-blue-100 text-blue-600",
+      benefits: [
+        getLocalizedText('trimester.tracking'),
+        getLocalizedText('nifas.calculations'),
+        getLocalizedText('daily.duas'),
+      ],
+    },
+    {
+      id: "all",
+      title: getLocalizedText('complete.wellness'),
+      description: getLocalizedText('all.features.for.comprehensive.tracking'),
+      icon: Activity,
+      color: "bg-purple-100 text-purple-600",
+      benefits: [
+        getLocalizedText('full.cycle.management'),
+        getLocalizedText('islamic.guidance'),
+        getLocalizedText('holistic.health'),
+      ],
+    },
+  ];
   const [settings, setSettings] = useState({
     // Notifications
     periodReminders: true,
@@ -170,11 +169,10 @@ const trackingOptions = [
     <div className="space-y-6">
       <div className="text-center space-y-2">
         <p
-          className={` ${
-            settings.darkMode ? "text-gray-300" : "text-gray-600"
-          }`}
+          className={` ${settings.darkMode ? "text-gray-300" : "text-gray-600"
+            }`}
         >
-         {getLocalizedText('choose.what.youd.like.to.track')} 
+          {getLocalizedText('choose.what.youd.like.to.track')}
         </p>
       </div>
 
@@ -186,31 +184,27 @@ const trackingOptions = [
           return (
             <Card
               key={option.id}
-              className={`cursor-pointer transition-all duration-200 ${
-                selected
+              className={`cursor-pointer transition-all duration-200 ${selected
                   ? "ring-2 ring-purple-500 border-purple-200"
                   : "hover:border-purple-200"
-              } `}
+                } `}
               onClick={() => toggleSelection(option.id)}
             >
               <div
-                className={`absolute inset-0 rounded-2xl  ${
-                  settings.darkMode ? "bg-slate-900 " : ""
-                }`}
+                className={`absolute inset-0 rounded-2xl  ${settings.darkMode ? "bg-slate-900 " : ""
+                  }`}
               />
 
               <CardContent className="p-4 relative z-10">
                 <div className="flex items-start space-x-4">
 
                   <div
-                    className={`w-12 h-12 rounded-full ${
-                      settings.darkMode ? "bg-gray-800" : option.color
-                    } flex items-center justify-center flex-shrink-0`}
+                    className={`w-12 h-12 rounded-full ${settings.darkMode ? "bg-gray-800" : option.color
+                      } flex items-center justify-center flex-shrink-0`}
                   >
                     <Icon
-                      className={`w-6 h-6 ${
-                        settings.darkMode ? "text-white" : "text-gray-900"
-                      }`}
+                      className={`w-6 h-6 ${settings.darkMode ? "text-white" : "text-gray-900"
+                        }`}
                     />
                   </div>
 
@@ -241,11 +235,10 @@ const trackingOptions = [
                         <Badge
                           key={index}
                           variant="outline"
-                          className={`text-xs ${
-                            settings.darkMode
+                          className={`text-xs ${settings.darkMode
                               ? "border-white text-white"
                               : "border-gray-500 text-gray-800"
-                          }`}
+                            }`}
                         >
                           {benefit}
                         </Badge>
@@ -268,7 +261,7 @@ const trackingOptions = [
       <div className="flex gap-3 justify-between">
         {onPrevious && (
           <Button variant="outline" onClick={onPrevious}>
-           {getLocalizedText('previous')}
+            {getLocalizedText('previous')}
           </Button>
         )}
         <Button

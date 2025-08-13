@@ -1,7 +1,7 @@
 
 import type React from "react"
-import { useState, useEffect, useRef, useCallback } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState, useEffect, useRef } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,6 +15,10 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 
 const Auth = () => {
+
+  const location = useLocation();
+  const showSignin = location.state?.showSignin;
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [fullName, setFullName] = useState("")
@@ -26,7 +30,6 @@ const Auth = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [registeredFaceDescriptor, setRegisteredFaceDescriptor] = useState<any | null>(null);
 
-
   const [isFemale, setIsFemale] = useState<boolean | null>(null)
   const [modelsLoaded, setModelsLoaded] = useState(false)
   const streamRef = useRef<MediaStream | null>(null)
@@ -34,6 +37,13 @@ const Auth = () => {
   const navigate = useNavigate()
   const { toast } = useToast();
   const activeTabRef = useRef(activeTab);
+
+
+  useEffect(() => {
+    if (showSignin) {
+      setActiveTab('signin');
+    }
+  }, [showSignin]);
 
 
   useEffect(() => {
@@ -363,7 +373,8 @@ const Auth = () => {
   }
 
 
-  const [initialNoseX, setInitialNoseX] = useState(null);
+// State variables
+ const [initialNoseX, setInitialNoseX] = useState(null);
   const [blinkDetected, setBlinkDetected] = useState(false);
   const blinkDetectedRef = useRef(false);
   const blinkCountRef = useRef(0);
@@ -500,10 +511,10 @@ const Auth = () => {
             const stabilityWarningCooldown = 5000;
             if (now - lastStabilityWarningRef.current > stabilityWarningCooldown) {
 
-             // ✅ FIXED: Check if liveness is already verified
-      if (blinkDetected || blinkDetectedRef.current || blinkCountRef.current >= 2) {
-        return; // Don't show warning if liveness is verified
-      }
+              // ✅ FIXED: Check if liveness is already verified
+              if (blinkDetected || blinkDetectedRef.current || blinkCountRef.current >= 2) {
+                return; // Don't show warning if liveness is verified
+              }
               toast({
                 title: "Stay Still",
                 description: "Please keep your face steady during verification",
@@ -511,7 +522,7 @@ const Auth = () => {
               });
               lastStabilityWarningRef.current = now;
 
-             
+
             }
             return;
           }
@@ -563,8 +574,8 @@ const Auth = () => {
 
                 if (finalStabilityCheck && finalPatternCheck) {
                   setBlinkDetected(true);
-                    blinkDetectedRef.current = true;
-             
+                  blinkDetectedRef.current = true;
+
                   toast({
                     title: "Liveness Verified!",
                     description: "Authentic blink pattern detected - you're a real person!",
@@ -654,7 +665,6 @@ const Auth = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modelsLoaded, activeTab, toast]);
-
 
 
 
@@ -801,6 +811,7 @@ const Auth = () => {
   }
 
 
+  // console.log('setIsFemale', isFemale)
 
 
   function euclideanDistance(vec1: number[] | Float32Array, vec2: number[] | Float32Array): number {
@@ -867,6 +878,8 @@ const Auth = () => {
           className: "bg-red-600 text-white border border-red-700",
         });
         setLoading(false);
+        setIsFemale(null)
+        // setRegisteredFaceDescriptor(null)
         return;
       }
 
@@ -895,6 +908,8 @@ const Auth = () => {
       setLoading(false);
     }
   };
+
+  // console.log('registeredFaceDescriptor', registeredFaceDescriptor)
 
   return (
     <div
@@ -1044,12 +1059,12 @@ const Auth = () => {
                           className={`absolute bottom-2 right-2 px-2 py-1 rounded-full text-xs font-medium ${registeredFaceDescriptor ? "bg-green-500 text-white" : "bg-red-500 text-white"
                             }`}
                         >
-                          {/* {registeredFaceDescriptor ? `${getLocalizedText('Face Descriptor Detected')}` : `${getLocalizedText('No Face Descriptor Detected')}`} */}
+                          {registeredFaceDescriptor ? `${getLocalizedText('Face Descriptor Detected')}` : `${getLocalizedText('No Face Descriptor Detected')}`}
                         </div>
                       )}
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {getLocalizedText('verificationMessage')}
+                      *{getLocalizedText('verificationMessage')}
                     </p>
                   </div>
                 )}
@@ -1057,11 +1072,12 @@ const Auth = () => {
 
                 {modelsLoaded && (
                   <div className="flex justify-center mt-2">
+                  
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
-                      disabled={ isFemale === true}
+                      // disabled={isFemale === true }
                       onClick={async () => {
                         if (videoRef.current && modelsLoaded) {
 
@@ -1090,9 +1106,9 @@ const Auth = () => {
                             setIsFemale(isFemaleDetected);
 
                             toast({
-                              title: getLocalizedText('faceDetected'),
+                              title: getLocalizedText('Face description detected'),
                               description: `${getLocalizedText('gender')}: ${gender} (${(genderProbability * 100).toFixed(0)}% ${getLocalizedText('confidence')})`,
-                              className: isFemaleDetected ?  "bg-green-600 text-white border border-green-700": "bg-red-600 text-white border border-red-700"
+                              className: isFemaleDetected ? "bg-green-600 text-white border border-green-700" : "bg-red-600 text-white border border-red-700"
 
                             });
 
@@ -1112,11 +1128,10 @@ const Auth = () => {
                     </Button>
                   </div>
                 )}
-                {/* || !faceDescriptorWhileSignIn */}
                 <Button
                   type="submit"
                   className={`w-full bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}
-                  disabled={ !registeredFaceDescriptor  ||  isFemale === false}
+                  disabled={!registeredFaceDescriptor || isFemale === false }
                 >
                   {loading ? `${getLocalizedText('signingIn')}` : `${getLocalizedText('signInButton')}`}
                 </Button>
@@ -1268,6 +1283,8 @@ const Auth = () => {
                       type="button"
                       variant="outline"
                       size="sm"
+                      // disabled={isFemale === true }
+
                       onClick={async () => {
                         if (videoRef.current && modelsLoaded) {
                           toast({
@@ -1300,7 +1317,7 @@ const Auth = () => {
                             toast({
                               title: getLocalizedText('faceDetected'),
                               description: `${getLocalizedText('gender')}: ${gender} (${(genderProbability * 100).toFixed(0)}% ${getLocalizedText('confidence')})`,
-                              className: isFemaleDetected?  "bg-green-600 text-white border border-green-700" : "bg-red-600 text-white border border-red-700",
+                              className: isFemaleDetected ? "bg-green-600 text-white border border-green-700" : "bg-red-600 text-white border border-red-700",
                             });
 
                             setRegisteredFaceDescriptor(descriptor);
