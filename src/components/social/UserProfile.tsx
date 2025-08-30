@@ -406,7 +406,6 @@ const { getLocalizedText } = useLanguage();
             )}
           </CardContent>
 
-          {/* Sign Out Section - Only show for own profile */}
           {isOwnProfile && (
             <div className="mt-6 pt-6 border-t border-gray-200 dark:border-slate-600">
               <Button

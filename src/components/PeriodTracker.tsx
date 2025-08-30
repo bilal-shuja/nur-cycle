@@ -457,9 +457,9 @@ const PeriodTracker = () => {
           },
           {
             gradient: "from-purple-500 to-purple-600",
-            title: `${getLocalizedText('cycle.day')} ${getLocalizedText('day')}}`,
-            value: `$${getLocalizedText('day')} 6}`,
-            note:  `${getLocalizedText('of')} 28 ${getLocalizedText('day')}}`,
+            title: `${getLocalizedText('cycle.day')} ${getLocalizedText('day')}`,
+            value: `$${getLocalizedText('day')} 6`,
+            note:  `${getLocalizedText('of')} 28 ${getLocalizedText('day')}`,
             icon: <Calendar className="w-6 h-6 text-purple-400" />,
             color: "text-purple-500",
           },

@@ -879,7 +879,6 @@ const Auth = () => {
         });
         setLoading(false);
         setIsFemale(null)
-        // setRegisteredFaceDescriptor(null)
         return;
       }
 
@@ -909,8 +908,6 @@ const Auth = () => {
     }
   };
 
-  // console.log('registeredFaceDescriptor', registeredFaceDescriptor)
-
   return (
     <div
       className={`min-h-screen flex items-center justify-center p-4 ${settings.darkMode ? "bg-gradient-to-br from-slate-900 via-slate-900 to-slate-900" : "bg-gradient-to-br from-purple-100 via-purple-50 to-purple-100"}`}
@@ -919,11 +916,11 @@ const Auth = () => {
         <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-purple-500 to-purple-700'}`}></div>
         <CardHeader className="relative z-10 text-center">
           <div className="flex justify-center mb-4">
-            <div className="bg-gradient-to-r from-purple-500 to-purple-700 p-3 rounded-full">
+            <div className="bg-gradient-to-r from-lavender-500 to-lavender-700 p-3 rounded-full">
               <Heart className="w-8 h-8 text-white" />
             </div>
           </div>
-          <CardTitle className={`text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent ${settings.darkMode ? 'text-white' : 'text-lavender-900'}`}>
+          <CardTitle className={`text-2xl font-bold bg-gradient-to-r from-lavender-600 to-lavender-800 bg-clip-text text-transparent ${settings.darkMode ? 'text-white' : 'text-lavender-900'}`}>
             {getLocalizedText('welcomeToNurCycle')}
           </CardTitle>
           <CardDescription className={settings.darkMode ? 'text-gray-300' : 'text-lavender-900'}>
@@ -937,14 +934,14 @@ const Auth = () => {
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger
                 value="signin"
-                className={`py-2 rounded-xl transition-all data-[state=active]:bg-purple-600 data-[state=active]:text-white rou ${settings.darkMode ? 'text-white' : 'text-lavender-900'
+                className={`py-2 rounded-xl transition-all data-[state=active]:bg-lavender-700 data-[state=active]:text-white rou ${settings.darkMode ? 'text-white' : 'text-lavender-900'
                   }`}
               >
                 {getLocalizedText('signIn')}
               </TabsTrigger>
               <TabsTrigger
                 value="signup"
-                className={`py-2 rounded-xl  transition-all data-[state=active]:bg-purple-600 data-[state=active]:text-white ${settings.darkMode ? 'text-white' : 'text-lavender-900'
+                className={`py-2 rounded-xl  transition-all data-[state=active]:bg-lavender-700 data-[state=active]:text-white ${settings.darkMode ? 'text-white' : 'text-lavender-900'
                   }`}
               >
                 {getLocalizedText('signUp')}

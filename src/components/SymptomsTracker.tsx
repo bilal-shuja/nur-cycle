@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import {
-  Calendar, Heart, Baby, Zap,
+  Calendar, Heart, Baby,
   Droplet, Waves, Flame, Zap as Lightning,
   Moon, Activity, HeartHandshake, Brain,
   Eye, Utensils, Bed, Target,
-  Wind, Coffee, Smile, TrendingUp
+  Wind, Smile, TrendingUp
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, BarChart, Bar } from 'recharts';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -88,79 +88,6 @@ const SymptomsTracker = () => {
 
   }, []);
 
-  // Sample historical data for visualization
-  // const symptomHistoryData = [
-  //   {
-  //     date: 'Jun 15',
-  //     [getLocalizedText('light.cramping')]: 2,
-  //     'Heavy Cramping': 0,
-  //     'Bloating': 1,
-  //     'Mood Swings': 3,
-  //     'Fatigue': 2,
-  //     'Headaches': 1,
-  //     'Energy Level': 4
-  //   },
-  //   {
-  //     date: 'Jun 16',
-  //     'Light Cramping': 3,
-  //     'Heavy Cramping': 2,
-  //     'Bloating': 2,
-  //     'Mood Swings': 4,
-  //     'Fatigue': 3,
-  //     'Headaches': 2,
-  //     'Energy Level': 3
-  //   },
-  //   {
-  //     date: 'Jun 17',
-  //     'Light Cramping': 2,
-  //     'Heavy Cramping': 1,
-  //     'Bloating': 3,
-  //     'Mood Swings': 2,
-  //     'Fatigue': 2,
-  //     'Headaches': 0,
-  //     'Energy Level': 5
-  //   },
-  //   {
-  //     date: 'Jun 18',
-  //     'Light Cramping': 1,
-  //     'Heavy Cramping': 0,
-  //     'Bloating': 2,
-  //     'Mood Swings': 1,
-  //     'Fatigue': 1,
-  //     'Headaches': 0,
-  //     'Energy Level': 6
-  //   },
-  //   {
-  //     date: 'Jun 19',
-  //     'Light Cramping': 0,
-  //     'Heavy Cramping': 0,
-  //     'Bloating': 1,
-  //     'Mood Swings': 2,
-  //     'Fatigue': 1,
-  //     'Headaches': 1,
-  //     'Energy Level': 7
-  //   },
-  //   {
-  //     date: 'Jun 20',
-  //     'Light Cramping': 0,
-  //     'Heavy Cramping': 0,
-  //     'Bloating': 0,
-  //     'Mood Swings': 1,
-  //     'Fatigue': 0,
-  //     'Headaches': 0,
-  //     'Energy Level': 8
-  //   },
-  //   {
-  //     date: 'Jun 21',
-  //     'Light Cramping': 1,
-  //     'Heavy Cramping': 0,
-  //     'Bloating': 1,
-  //     'Mood Swings': 2,
-  //     'Fatigue': 1,
-  //     'Headaches': 0,
-  //     'Energy Level': 7
-  //   }
-  // ];
 
   const symptomHistoryData = [
     {
@@ -235,107 +162,58 @@ const SymptomsTracker = () => {
     }
   ];
 
-
-  // const periodSymptoms = [
-  //   { name: 'Light Cramping', severity: ['Mild', 'Moderate', 'Severe'], icon: Lightning },
-  //   { name: 'Heavy Cramping', severity: ['Mild', 'Moderate', 'Severe'], icon: Flame },
-  //   { name: 'Bloating', severity: ['Mild', 'Moderate', 'Severe'], icon: Wind },
-  //   { name: 'Breakouts/Acne', severity: ['Few spots', 'Moderate', 'Severe'], icon: Eye },
-  //   { name: 'Heavy Flow', severity: ['Light', 'Medium', 'Heavy', 'Very Heavy'], icon: Waves },
-  //   { name: 'Medium Flow', severity: ['Light', 'Medium', 'Heavy'], icon: Droplet },
-  //   { name: 'Light Flow', severity: ['Very Light', 'Light', 'Medium'], icon: Droplet },
-  //   { name: 'Clotting', severity: ['Small', 'Medium', 'Large'], icon: Droplet },
-  //   { name: 'Back Pain', severity: ['Mild', 'Moderate', 'Severe'], icon: Lightning },
-  //   { name: 'Headaches', severity: ['Mild', 'Moderate', 'Severe'], icon: Brain },
-  //   { name: 'Mood Swings', severity: ['Mild', 'Noticeable', 'Intense'], icon: Smile },
-  //   { name: 'Fatigue', severity: ['Mild', 'Moderate', 'Exhausted'], icon: Bed },
-  //   { name: 'Breast Tenderness', severity: ['Mild', 'Moderate', 'Painful'], icon: HeartHandshake },
-  //   { name: 'Bowel Changes', severity: ['Constipation', 'Diarrhea', 'Irregular'], icon: Activity },
-  //   { name: 'Food Cravings', severity: ['Mild', 'Strong', 'Intense'], icon: Utensils },
-  //   { name: 'Sleep Issues', severity: ['Mild', 'Difficulty sleeping', 'Insomnia'], icon: Moon }
-  // ];
-
   const periodSymptoms = [
-    { name: 'Light Cramping', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Lightning },
-    { name: 'Heavy Cramping', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Flame },
-    { name: 'Bloating', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Wind },
-    { name: 'Breakouts/Acne', severity: [getLocalizedText('few.spots'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Eye },
-    { name: 'Heavy Flow', severity: [getLocalizedText('light'), getLocalizedText('medium'), getLocalizedText('heavy'), getLocalizedText('very.heavy')], icon: Waves },
-    { name: 'Medium Flow', severity: [getLocalizedText('light'), getLocalizedText('medium'), getLocalizedText('heavy')], icon: Droplet },
-    { name: 'Light Flow', severity: [getLocalizedText('very.light'), getLocalizedText('light'), getLocalizedText('medium')], icon: Droplet },
-    { name: 'Clotting', severity: [getLocalizedText('small'), getLocalizedText('medium'), getLocalizedText('large')], icon: Droplet },
-    { name: 'Back Pain', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Lightning },
-    { name: 'Headaches', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Brain },
-    { name: 'Mood Swings', severity: [getLocalizedText('mild'), getLocalizedText('noticeable'), getLocalizedText('intense')], icon: Smile },
-    { name: 'Fatigue', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('exhausted')], icon: Bed },
-    { name: 'Breast Tenderness', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('painful')], icon: HeartHandshake },
-    { name: 'Bowel Changes', severity: [getLocalizedText('constipation'), getLocalizedText('diarrhea'), getLocalizedText('irregular')], icon: Activity },
-    { name: 'Food Cravings', severity: [getLocalizedText('mild'), getLocalizedText('strong'), getLocalizedText('intense')], icon: Utensils },
-    { name: 'Sleep Issues', severity: [getLocalizedText('mild'), getLocalizedText('difficulty.sleeping'), getLocalizedText('insomnia')], icon: Moon }
+    { name: getLocalizedText('light.cramping'), severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Lightning },
+    { name: getLocalizedText('heavy.cramping'), severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Flame },
+    { name: getLocalizedText('bloating'), severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Wind },
+    { name: getLocalizedText('breakouts'), severity: [getLocalizedText('few.spots'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Eye },
+    { name: getLocalizedText('heavy.flow'), severity: [getLocalizedText('light'), getLocalizedText('medium'), getLocalizedText('heavy'), getLocalizedText('very.heavy')], icon: Waves },
+    { name: getLocalizedText('medium.flow'), severity: [getLocalizedText('light'), getLocalizedText('medium'), getLocalizedText('heavy')], icon: Droplet },
+    { name: getLocalizedText("light.flow"), severity: [getLocalizedText('very.light'), getLocalizedText('light'), getLocalizedText('medium')], icon: Droplet },
+    { name: getLocalizedText('clotting'), severity: [getLocalizedText('small'), getLocalizedText('medium'), getLocalizedText('large')], icon: Droplet },
+    { name: getLocalizedText('back.pain'), severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Lightning },
+    { name: getLocalizedText('headaches'), severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Brain },
+    { name: getLocalizedText('mood.swings'), severity: [getLocalizedText('mild'), getLocalizedText('noticeable'), getLocalizedText('intense')], icon: Smile },
+    { name: getLocalizedText('fatigue'), severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('exhausted')], icon: Bed },
+    { name: getLocalizedText('breast.tenderness'), severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('painful')], icon: HeartHandshake },
+    { name: getLocalizedText('bowel.changes'), severity: [getLocalizedText('constipation'), getLocalizedText('diarrhea'), getLocalizedText('irregular')], icon: Activity },
+    { name: getLocalizedText('food.cravings'), severity: [getLocalizedText('mild'), getLocalizedText('strong'), getLocalizedText('intense')], icon: Utensils },
+    { name: getLocalizedText('sleep.issues'), severity: [getLocalizedText('mild'), getLocalizedText('difficulty.sleeping'), getLocalizedText('insomnia')], icon: Moon }
   ];
-
-  // const pregnancySymptoms = [
-  //   { name: 'Spotting', severity: ['Light', 'Moderate', 'Heavy'], icon: Droplet },
-  //   { name: 'Baby Movements', severity: ['Flutter', 'Gentle kicks', 'Strong kicks'], icon: Baby },
-  //   { name: 'Morning Sickness', severity: ['Mild nausea', 'Moderate', 'Severe vomiting'], icon: Activity },
-  //   { name: 'Breast Changes', severity: ['Tender', 'Swollen', 'Very painful'], icon: HeartHandshake },
-  //   { name: 'Fatigue', severity: ['Mild', 'Moderate', 'Exhausted'], icon: Bed },
-  //   { name: 'Food Aversions', severity: ['Mild', 'Strong', 'Severe'], icon: Utensils },
-  //   { name: 'Frequent Urination', severity: ['Occasional', 'Frequent', 'Very frequent'], icon: Droplet },
-  //   { name: 'Heartburn', severity: ['Mild', 'Moderate', 'Severe'], icon: Flame },
-  //   { name: 'Back Pain', severity: ['Mild', 'Moderate', 'Severe'], icon: Lightning },
-  //   { name: 'Swelling', severity: ['Feet', 'Hands', 'Face/all over'], icon: Wind },
-  //   { name: 'Braxton Hicks', severity: ['Mild', 'Noticeable', 'Strong'], icon: Lightning },
-  //   { name: 'Mood Changes', severity: ['Mild', 'Moderate', 'Intense'], icon: Smile },
-  //   { name: 'Skin Changes', severity: ['Darkening', 'Stretch marks', 'Acne'], icon: Eye },
-  //   { name: 'Constipation', severity: ['Mild', 'Moderate', 'Severe'], icon: Activity },
-  //   { name: 'Dizziness', severity: ['Occasional', 'Frequent', 'Severe'], icon: Brain }
-  // ];
 
   const pregnancySymptoms = [
-    { name: 'Spotting', severity: [getLocalizedText('light'), getLocalizedText('moderate'), getLocalizedText('heavy')], icon: Droplet },
-    { name: 'Baby Movements', severity: [getLocalizedText('flutter'), getLocalizedText('gentle.kicks'), getLocalizedText('strong.kicks')], icon: Baby },
-    { name: 'Morning Sickness', severity: [getLocalizedText('mild.nausea'), getLocalizedText('moderate'), getLocalizedText('severe.vomiting')], icon: Activity },
-    { name: 'Breast Changes', severity: [getLocalizedText('tender'), getLocalizedText('swollen'), getLocalizedText('very.painful')], icon: HeartHandshake },
-    { name: 'Fatigue', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('exhausted')], icon: Bed },
-    { name: 'Food Aversions', severity: [getLocalizedText('mild'), getLocalizedText('strong'), getLocalizedText('severe')], icon: Utensils },
-    { name: 'Frequent Urination', severity: [getLocalizedText('occasional'), getLocalizedText('frequent'), getLocalizedText('very.frequent')], icon: Droplet },
-    { name: 'Heartburn', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Flame },
-    { name: 'Back Pain', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Lightning },
-    { name: 'Swelling', severity: [getLocalizedText('feet'), getLocalizedText('hands'), getLocalizedText('face.all.over')], icon: Wind },
-    { name: 'Braxton Hicks', severity: [getLocalizedText('mild'), getLocalizedText('noticeable'), getLocalizedText('strong')], icon: Lightning },
-    { name: 'Mood Changes', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('intense')], icon: Smile },
-    { name: 'Skin Changes', severity: [getLocalizedText('darkening'), getLocalizedText('stretch.marks'), getLocalizedText('acne')], icon: Eye },
-    { name: 'Constipation', severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Activity },
-    { name: 'Dizziness', severity: [getLocalizedText('occasional'), getLocalizedText('frequent'), getLocalizedText('severe')], icon: Brain }
+
+    { name: getLocalizedText('spotting') , severity: [getLocalizedText('light'), getLocalizedText('moderate'), getLocalizedText('heavy')], icon: Droplet },
+    { name: getLocalizedText('baby.movements'), severity: [getLocalizedText('flutter'), getLocalizedText('gentle.kicks'), getLocalizedText('strong.kicks')], icon: Baby },
+    { name: getLocalizedText('morning.sickness'), severity: [getLocalizedText('mild.nausea'), getLocalizedText('moderate'), getLocalizedText('severe.vomiting')], icon: Activity },
+    { name: getLocalizedText('breast.changes'), severity: [getLocalizedText('tender'), getLocalizedText('swollen'), getLocalizedText('very.painful')], icon: HeartHandshake },
+    { name:  getLocalizedText('fatigue'), severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('exhausted')], icon: Bed },
+    { name: getLocalizedText('food.aversions'), severity: [getLocalizedText('mild'), getLocalizedText('strong'), getLocalizedText('severe')], icon: Utensils },
+    { name: getLocalizedText('frequent.urination'), severity: [getLocalizedText('occasional'), getLocalizedText('frequent'), getLocalizedText('very.frequent')], icon: Droplet },
+    { name: getLocalizedText('heartburn'), severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Flame },
+    { name:  getLocalizedText('back.pain'), severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Lightning },
+    { name: getLocalizedText('swelling'), severity: [getLocalizedText('feet'), getLocalizedText('hands'), getLocalizedText('face.all.over')], icon: Wind },
+    { name: getLocalizedText('braxton.hicks'), severity: [getLocalizedText('mild'), getLocalizedText('noticeable'), getLocalizedText('strong')], icon: Lightning },
+    { name: getLocalizedText('mood.changes') , severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('intense')], icon: Smile },
+    { name: getLocalizedText('skin.changes'), severity: [getLocalizedText('darkening'), getLocalizedText('stretch.marks'), getLocalizedText('acne')], icon: Eye },
+    { name: getLocalizedText('constipation'), severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Activity },
+    { name: getLocalizedText('dizziness'), severity: [getLocalizedText('occasional'), getLocalizedText('frequent'), getLocalizedText('severe')], icon: Brain }
+
   ];
 
 
 
-  // const hormonalSymptoms = [
-  //   { name: 'Energy Level', severity: ['Low', 'Normal', 'High'], icon: Lightning },
-  //   { name: 'Mood', severity: ['Down', 'Neutral', 'Happy', 'Anxious', 'Irritable'], icon: Smile },
-  //   { name: 'Skin Condition', severity: ['Clear', 'Oily', 'Dry', 'Breakouts'], icon: Eye },
-  //   { name: 'Hair Changes', severity: ['Normal', 'Oily', 'Dry', 'Thinning'], icon: Wind },
-  //   { name: 'Appetite', severity: ['Low', 'Normal', 'Increased', 'Cravings'], icon: Utensils },
-  //   { name: 'Sleep Quality', severity: ['Poor', 'Fair', 'Good', 'Excellent'], icon: Moon },
-  //   { name: 'Stress Level', severity: ['Low', 'Moderate', 'High', 'Very High'], icon: Brain },
-  //   { name: 'Concentration', severity: ['Poor', 'Fair', 'Good', 'Excellent'], icon: Target },
-  //   { name: 'Water Retention', severity: ['None', 'Mild', 'Moderate', 'Severe'], icon: Droplet },
-  //   { name: 'Libido', severity: ['Low', 'Normal', 'High'], icon: Heart }
-  // ];
-
   const hormonalSymptoms = [
-    { name: 'Energy Level', severity: [getLocalizedText('low'), getLocalizedText('normal'), getLocalizedText('high')], icon: Lightning },
-    { name: 'Mood', severity: [getLocalizedText('down'), getLocalizedText('neutral'), getLocalizedText('happy'), getLocalizedText('anxious'), getLocalizedText('irritable')], icon: Smile },
-    { name: 'Skin Condition', severity: [getLocalizedText('clear'), getLocalizedText('oily'), getLocalizedText('dry'), getLocalizedText('breakouts')], icon: Eye },
-    { name: 'Hair Changes', severity: [getLocalizedText('normal'), getLocalizedText('oily'), getLocalizedText('dry'), getLocalizedText('thinning')], icon: Wind },
-    { name: 'Appetite', severity: [getLocalizedText('low'), getLocalizedText('normal'), getLocalizedText('increased'), getLocalizedText('cravings')], icon: Utensils },
-    { name: 'Sleep Quality', severity: [getLocalizedText('poor'), getLocalizedText('fair'), getLocalizedText('good'), getLocalizedText('excellent')], icon: Moon },
-    { name: 'Stress Level', severity: [getLocalizedText('low'), getLocalizedText('moderate'), getLocalizedText('high'), getLocalizedText('very.high')], icon: Brain },
-    { name: 'Concentration', severity: [getLocalizedText('poor'), getLocalizedText('fair'), getLocalizedText('good'), getLocalizedText('excellent')], icon: Target },
-    { name: 'Water Retention', severity: [getLocalizedText('none'), getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Droplet },
-    { name: 'Libido', severity: [getLocalizedText('low'), getLocalizedText('normal'), getLocalizedText('high')], icon: Heart }
+    { name: getLocalizedText('energy.level'), severity: [getLocalizedText('low'), getLocalizedText('normal'), getLocalizedText('high')], icon: Lightning },
+    { name: getLocalizedText("mood"), severity: [getLocalizedText('down'), getLocalizedText('neutral'), getLocalizedText('happy'), getLocalizedText('anxious'), getLocalizedText('irritable')], icon: Smile },
+    { name: getLocalizedText('skin.changes'), severity: [getLocalizedText('clear'), getLocalizedText('oily'), getLocalizedText('dry'), getLocalizedText('breakouts')], icon: Eye },
+    { name: getLocalizedText("hair.changes"), severity: [getLocalizedText('normal'), getLocalizedText('oily'), getLocalizedText('dry'), getLocalizedText('thinning')], icon: Wind },
+    { name: getLocalizedText('appetite'), severity: [getLocalizedText('low'), getLocalizedText('normal'), getLocalizedText('increased'), getLocalizedText('cravings')], icon: Utensils },
+    { name: getLocalizedText('sleep.quality'), severity: [getLocalizedText('poor'), getLocalizedText('fair'), getLocalizedText('good'), getLocalizedText('excellent')], icon: Moon },
+    { name: getLocalizedText('stress.level'), severity: [getLocalizedText('low'), getLocalizedText('moderate'), getLocalizedText('high'), getLocalizedText('level.very_high')], icon: Brain },
+    { name: getLocalizedText('concentration'), severity: [getLocalizedText('poor'), getLocalizedText('fair'), getLocalizedText('good'), getLocalizedText('excellent')], icon: Target },
+    { name: getLocalizedText('water.retention'), severity: [getLocalizedText('none'), getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')], icon: Droplet },
+    { name: getLocalizedText('libido'), severity: [getLocalizedText('low'), getLocalizedText('normal'), getLocalizedText('high')], icon: Heart }
   ];
 
   const toggleSymptom = (symptom: string) => {

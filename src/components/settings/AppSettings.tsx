@@ -660,7 +660,7 @@ const AppSettings = ({ onBack }: AppSettingsProps) => {
               <ChevronLeft className={`w-5 h-5 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`} />
             </Button>
             <h1 className={`text-lg font-semibold ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-              {getLocalizedText('Periods Timeline')}
+              {getLocalizedText('period.timeline')}
             </h1>
             <div className="w-10" />
           </div>
@@ -682,8 +682,8 @@ const AppSettings = ({ onBack }: AppSettingsProps) => {
             <CardContent className="relative z-10 space-y-4 w-100">
               {[
                 {
-                  label: getLocalizedText('Period Cycle '),
-                  desc: getLocalizedText('Modify period calendar according to your cycle'),
+                  label: getLocalizedText('period.cycle'),
+                  desc: getLocalizedText('period.modify'),
                   key: 'darkMode'
                 },
               ].map((item) => (
@@ -851,8 +851,8 @@ const AppSettings = ({ onBack }: AppSettingsProps) => {
                   <Droplet className={`w-4 h-4 ${settings.darkMode ? 'text-white' : 'text-red-600'}`} />
                 </div>
                 <div>
-                  <h3 className={`font-medium text-sm ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>{getLocalizedText('Period Calendar Cycle')}</h3>
-                  <p className={`text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{getLocalizedText('Adjust period dates accordingly')}</p>
+                  <h3 className={`font-medium text-sm ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>{getLocalizedText('period.calendar')}</h3>
+                  <p className={`text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>{getLocalizedText('period.adjust')}</p>
                 </div>
               </div>
               <ChevronLeft className={`w-4 h-4 rotate-180 ${settings.darkMode ? 'text-gray-400' : 'text-gray-400'}`} />

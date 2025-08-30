@@ -83,7 +83,7 @@ Always encourage following authentic Islam and consulting with knowledgeable Sal
     });
 
     const data = await response.json();
-    
+
     if (!response.ok) {
       throw new Error(data.error?.message || 'Failed to get AI response');
     }

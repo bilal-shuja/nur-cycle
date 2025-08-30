@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -8,6 +8,11 @@ import MadhabSelection from './MadhabSelection';
 import UIPreferences from './UIPreferences';
 import NotificationSettings from './NotificationSettings';
 import WelcomeStep from './WelcomeStep';
+import PersonalInfo from './PersonalInfo';
+import EthnicitySelection from './EthnicitySelection';
+import HormonalExperiences from './HormonalExperiences';
+import SpiritualGuidance from './SpiritualGuidance';
+import ReferralSource from './ReferralSource';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export interface OnboardingData {
@@ -21,7 +26,17 @@ export interface OnboardingData {
     duaPrompts: boolean;
   };
   name: string;
+  birthMonth?: string;
+  birthYear?: string;
+  country?: string;
+  ethnicity?: string;
+  otherEthnicity?: string;
+  hormonalExperiences?: string[];
+  physicalExperiences?: string[];
+  spiritualGuidance?: string[];
+  referralSource?: string;
 }
+
 
 interface OnboardingFlowProps {
   onComplete: (data: OnboardingData) => void;
@@ -44,6 +59,7 @@ const OnboardingFlow = ({ onComplete, onSkip }: OnboardingFlowProps) => {
     },
     name: ''
   });
+
 
 
   const [settings, setSettings] = useState({
@@ -110,10 +126,16 @@ const OnboardingFlow = ({ onComplete, onSkip }: OnboardingFlowProps) => {
 
   const steps = [
     { component: WelcomeStep, title: getLocalizedText('welcome.to.nurcycle') },
+    { component: PersonalInfo, title: 'Personal Information' },
+    { component: EthnicitySelection, title: 'Ethnicity (Optional)' },
+    { component: HormonalExperiences, title: 'Health Experiences' },
+    { component: SpiritualGuidance, title: 'Spiritual Guidance' },
     { component: TrackingPreferences, title: getLocalizedText('what.would.you.like.to.track') },
     { component: MadhabSelection, title: getLocalizedText('select.your.madhhab') },
     // { component: UIPreferences, title: 'Personalize your experience' },
     { component: NotificationSettings, title: getLocalizedText('notification.preferences') },
+    { component: ReferralSource, title: 'Where did you hear about us?' },
+
   ];
 
   const CurrentStepComponent = steps[currentStep].component;

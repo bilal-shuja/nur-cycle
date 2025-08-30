@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  AlertTriangle, Heart, Droplet, Activity, 
+import {
+  AlertTriangle, Heart, Droplet, Activity,
   Thermometer, Zap, Wind, Brain,
-  Calendar, Clock, FileText, Baby,
+  Calendar, Baby,
   Flower, Star, Moon
 } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useLanguage } from '@/contexts/LanguageContext';
+
 
 interface ComplicationData {
   [complicationName: string]: string;
@@ -36,11 +37,46 @@ const PregnancyComplications = () => {
     notes: ''
   });
   const [savedLosses, setSavedLosses] = useState<LossData[]>([]);
+  const { getLocalizedText } = useLanguage();
+
 
   const [settings, setSettings] = useState({
+    // Notifications
+    periodReminders: true,
+    ovulationAlerts: true,
+    symptomsTracking: false,
+    dailyCheckIns: true,
+    latePerodAlerts: true,
+    fertilityInsights: true,
+    medicationReminders: false,
+    appointmentReminders: true,
+    cycleAnalysis: true,
+    // Privacy
+    biometricLock: false,
+    passcodeRequired: false,
+    hideFromRecents: false,
+    incognitoMode: false,
+    dataEncryption: true,
+    locationTracking: false,
+    crashReporting: true,
+    // Display
     darkMode: false,
-    // ... other settings
+    compactView: false,
+    showEmojis: true,
+    colorfulTheme: true,
+    highContrast: false,
+    fontSize: 'medium',
+    // Data
+    autoBackup: true,
+    syncEnabled: true,
+    offlineMode: false,
+    dataExport: true,
+    // Advanced
+    developerMode: false,
+    betaFeatures: false,
+    analytics: true
   });
+
 
   useEffect(() => {
     const savedSettings = localStorage.getItem('nurcycle-app-settings');
@@ -48,7 +84,7 @@ const PregnancyComplications = () => {
       try {
         const parsedSettings = JSON.parse(savedSettings);
         setSettings(prev => ({ ...prev, ...parsedSettings }));
-        
+
         if (parsedSettings.darkMode) {
           document.documentElement.classList.add('dark');
         } else {
@@ -68,52 +104,115 @@ const PregnancyComplications = () => {
     }
   }, []);
 
+
   const pregnancyComplications = [
-    { name: 'Bleeding/Spotting', severity: ['Light', 'Moderate', 'Heavy'], icon: Droplet },
-    { name: 'Severe Cramping', severity: ['Mild', 'Moderate', 'Severe'], icon: Zap },
-    { name: 'High Blood Pressure', severity: ['Mild', 'Moderate', 'Severe'], icon: Heart },
-    { name: 'Gestational Diabetes', severity: ['Controlled', 'Uncontrolled'], icon: Activity },
-    { name: 'Preeclampsia Signs', severity: ['Mild', 'Moderate', 'Severe'], icon: AlertTriangle },
-    { name: 'Severe Headaches', severity: ['Mild', 'Moderate', 'Severe'], icon: Brain },
-    { name: 'Vision Changes', severity: ['Blurry', 'Spots', 'Loss'], icon: AlertTriangle },
-    { name: 'Fever', severity: ['Low', 'Moderate', 'High'], icon: Thermometer },
-    { name: 'Severe Nausea/Vomiting', severity: ['Frequent', 'Continuous', 'Unable to keep fluids'], icon: Wind },
-    { name: 'Decreased Baby Movement', severity: ['Less active', 'Very little', 'No movement'], icon: Baby },
-    { name: 'Contractions (Early)', severity: ['Irregular', 'Regular', 'Frequent'], icon: Zap },
-    { name: 'Fluid Leakage', severity: ['Small amount', 'Moderate', 'Gushing'], icon: Droplet },
-    { name: 'Swelling (Sudden)', severity: ['Hands', 'Face', 'All over'], icon: Wind },
-    { name: 'Chest Pain', severity: ['Mild', 'Moderate', 'Severe'], icon: Heart },
-    { name: 'Difficulty Breathing', severity: ['Mild', 'Moderate', 'Severe'], icon: Wind }
+    {
+      name: getLocalizedText('symptom.bleeding'),
+      severity: [getLocalizedText('very.light'), getLocalizedText('moderate'), getLocalizedText('very.heavy')],
+      icon: Droplet
+    },
+    {
+      name: getLocalizedText('symptom.cramping'),
+      severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')],
+      icon: Zap
+    },
+    {
+      name: getLocalizedText('symptom.bp'),
+      severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')],
+      icon: Heart
+    },
+    {
+      name: getLocalizedText('symptom.diabetes'),
+      severity: [getLocalizedText('good'), getLocalizedText('poor')],
+      icon: Activity
+    },
+    {
+      name: getLocalizedText('symptom.preeclampsia'),
+      severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')],
+      icon: AlertTriangle
+    },
+    {
+      name: getLocalizedText('symptom.headache'),
+      severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')],
+      icon: Brain
+    },
+    {
+      name: getLocalizedText('symptom.vision'),
+      severity: [getLocalizedText('clear'), getLocalizedText('few.spots'), getLocalizedText('loss')],
+      icon: AlertTriangle
+    },
+    {
+      name: getLocalizedText('symptom.fever'),
+      severity: [getLocalizedText('low'), getLocalizedText('moderate'), getLocalizedText('high')],
+      icon: Thermometer
+    },
+    {
+      name: getLocalizedText('symptom.nausea'),
+      severity: [getLocalizedText('occasional'), getLocalizedText('frequent'), getLocalizedText('very.frequent')],
+      icon: Wind
+    },
+    {
+      name: getLocalizedText('symptom.movement'),
+      severity: [getLocalizedText('flutter'), getLocalizedText('gentle.kicks'), getLocalizedText('strong.kicks')],
+      icon: Baby
+    },
+    {
+      name: getLocalizedText('symptom.contractions'),
+      severity: [getLocalizedText('irregular'), getLocalizedText('moderate'), getLocalizedText('very.frequent')],
+      icon: Zap
+    },
+    {
+      name: getLocalizedText('symptom.fluid'),
+      severity: [getLocalizedText('very.light'), getLocalizedText('moderate'), getLocalizedText('large')],
+      icon: Droplet
+    },
+    {
+      name: getLocalizedText('symptom.swelling'),
+      severity: [getLocalizedText('hands'), getLocalizedText('feet'), getLocalizedText('face.all.over')],
+      icon: Wind
+    },
+    {
+      name: getLocalizedText('symptom.chest'),
+      severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')],
+      icon: Heart
+    },
+    {
+      name: getLocalizedText('symptom.breathing'),
+      severity: [getLocalizedText('mild'), getLocalizedText('moderate'), getLocalizedText('severe')],
+      icon: Wind
+    }
   ];
 
+
   const lossTypes = [
+
     {
-      type: 'Miscarriage (Spontaneous Abortion)',
-      description: 'Loss of pregnancy before 20 weeks due to natural causes'
+      type: getLocalizedText('pregnancy.loss.miscarriage'),
+      description: getLocalizedText('pregnancy.loss.miscarriage.desc')
     },
     {
-      type: 'Neonatal Death',
-      description: 'Death of a baby within the first 28 days after birth'
+      type: getLocalizedText('pregnancy.loss.neonatal'),
+      description: getLocalizedText('pregnancy.loss.neonatal.desc')
     },
     {
-      type: 'Ectopic Pregnancy',
-      description: 'Pregnancy that develops outside the uterus, usually in fallopian tubes'
+      type: getLocalizedText('pregnancy.loss.ectopic'),
+      description: getLocalizedText('pregnancy.loss.ectopic.desc')
     },
     {
-      type: 'Molar Pregnancy',
-      description: 'Abnormal tissue growth instead of normal embryo development'
+      type: getLocalizedText('pregnancy.loss.molar'),
+      description: getLocalizedText('pregnancy.loss.molar.desc')
     },
     {
-      type: 'Chemical Pregnancy',
-      description: 'Very early pregnancy loss, usually before 5 weeks'
+      type: getLocalizedText('pregnancy.loss.chemical'),
+      description: getLocalizedText('pregnancy.loss.chemical.desc')
     },
     {
-      type: 'Blighted Ovum (Anembryonic Pregnancy)',
-      description: 'Fertilized egg implants but embryo does not develop'
+      type: getLocalizedText('pregnancy.loss.blighted'),
+      description: getLocalizedText('pregnancy.loss.blighted.desc')
     },
     {
-      type: 'Stillbirth',
-      description: 'Loss of baby after 20 weeks of pregnancy or during delivery'
+      type: getLocalizedText('pregnancy.loss.stillbirth'),
+      description: getLocalizedText('pregnancy.loss.stillbirth.desc')
     }
   ];
 
@@ -154,11 +253,11 @@ const PregnancyComplications = () => {
         severity: complicationSeverity[complication] || 'Not specified'
       }))
     };
-    
+
     const existingComplications = JSON.parse(localStorage.getItem("complicationsHistory") || "{}");
     existingComplications[selectedDate] = complicationsData.complications;
     localStorage.setItem("complicationsHistory", JSON.stringify(existingComplications));
-    
+
     alert(`Complications saved for ${selectedDate}!`);
   };
 
@@ -190,15 +289,14 @@ const PregnancyComplications = () => {
         {complications.map((complication) => (
           <Card
             key={complication.name}
-            className={`relative cursor-pointer transition-all hover:shadow-md ${
-              selectedComplications.includes(complication.name)
-                ? settings.darkMode
-                  ? 'bg-slate-800 border-slate-600'
-                  : 'bg-red-50 border-red-300'
-                : settings.darkMode
+            className={`relative cursor-pointer transition-all hover:shadow-md ${selectedComplications.includes(complication.name)
+              ? settings.darkMode
+                ? 'bg-slate-800 border-slate-600'
+                : 'bg-red-50 border-red-300'
+              : settings.darkMode
                 ? 'bg-slate-900 border-slate-700'
                 : 'bg-white'
-            }`}
+              }`}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-red-50 to-white dark:hidden rounded-lg" />
             <div className="absolute inset-0 hidden dark:block bg-slate-900 rounded-lg" />
@@ -218,13 +316,12 @@ const PregnancyComplications = () => {
 
                 <button
                   onClick={() => toggleComplication(complication.name)}
-                  className={`w-5 h-5 rounded-full border-2 ${
-                    selectedComplications.includes(complication.name)
-                      ? 'bg-red-500 border-red-500'
-                      : settings.darkMode
+                  className={`w-5 h-5 rounded-full border-2 ${selectedComplications.includes(complication.name)
+                    ? 'bg-red-500 border-red-500'
+                    : settings.darkMode
                       ? 'border-slate-600'
                       : 'border-gray-300'
-                  }`}
+                    }`}
                 >
                   {selectedComplications.includes(complication.name) && (
                     <span className="text-white text-xs">✓</span>
@@ -237,13 +334,12 @@ const PregnancyComplications = () => {
                   <Badge
                     key={level}
                     variant={complicationSeverity[complication.name] === level ? 'default' : 'outline'}
-                    className={`text-xs cursor-pointer transition-all ${
-                      complicationSeverity[complication.name] === level
-                        ? 'bg-red-500 text-white hover:bg-red-600'
-                        : settings.darkMode
+                    className={`text-xs cursor-pointer transition-all ${complicationSeverity[complication.name] === level
+                      ? 'bg-red-500 text-white hover:bg-red-600'
+                      : settings.darkMode
                         ? 'hover:bg-slate-700 border-slate-600 text-white'
                         : 'hover:bg-red-100'
-                    }`}
+                      }`}
                     onClick={() => handleSeveritySelect(complication.name, level)}
                   >
                     {level}
@@ -253,11 +349,10 @@ const PregnancyComplications = () => {
 
               {complicationSeverity[complication.name] && (
                 <div
-                  className={`mt-2 text-xs font-medium ${
-                    settings.darkMode ? 'text-gray-300' : 'text-red-600'
-                  }`}
+                  className={`mt-2 text-xs font-medium ${settings.darkMode ? 'text-gray-300' : 'text-red-600'
+                    }`}
                 >
-                  Selected: {complicationSeverity[complication.name]}
+                  {getLocalizedText('selected')}: {complicationSeverity[complication.name]}
                 </div>
               )}
             </CardContent>
@@ -273,7 +368,7 @@ const PregnancyComplications = () => {
     if (storedComplications[selectedDate]) {
       const savedComplications = storedComplications[selectedDate];
       setSelectedComplications(savedComplications.map(item => item.name));
-      
+
       const severityObj = {};
       savedComplications.forEach(item => {
         severityObj[item.name] = item.severity;
@@ -288,32 +383,68 @@ const PregnancyComplications = () => {
   return (
     <div className="space-y-6">
       <div className={`text-center relative overflow-hidden ${settings.darkMode ? 'bg-slate-900 text-white' : ''}`}>
-        <div className="absolute inset-0 bg-gradient-to-br from-red-50 via-white to-pink-50 dark:hidden"></div>
+        <div className="absolute inset-0  from-red-50 via-white to-pink-50 dark:hidden"></div>
         <div className="absolute inset-0 hidden dark:block bg-slate-900"></div>
 
         <div className="relative z-10">
           <h1 className={`text-3xl font-bold mb-2 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
-            Pregnancy Complications & Loss Support
+            {getLocalizedText('pregnancy.complications.title')}
           </h1>
           <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Track complications and find support during difficult times
+            {getLocalizedText('pregnancy.complications.subtitle')}
           </p>
         </div>
       </div>
 
       <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as any)} className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="input">Track Complications</TabsTrigger>
-          <TabsTrigger value="chart">View History</TabsTrigger>
-          <TabsTrigger value="loss">Loss Support</TabsTrigger>
-        </TabsList>
+
+        {/* <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="input" className='data-[state=active]:bg-lavender-600 data-[state=active]:text-white text-wrap'> {getLocalizedText('pregnancy.track')} </TabsTrigger>
+          <TabsTrigger value="chart" className='data-[state=active]:bg-lavender-600 data-[state=active]:text-white'> {getLocalizedText('pregnancy.history')} </TabsTrigger>
+          <TabsTrigger value="loss" className='data-[state=active]:bg-lavender-600 data-[state=active]:text-white text-wrap'> {getLocalizedText('pregnancy.loss')} </TabsTrigger>
+        </TabsList> */}
+
+        <TabsList 
+  className={`grid w-full grid-cols-3 
+    ${settings.darkMode 
+      ? 'border border-slate-700 ' 
+      : ' border border-gray-200'}`}
+>
+  <TabsTrigger 
+    value="input" 
+    className={` 
+      data-[state=active]:bg-lavender-600 data-[state=active]:text-white text-wrap
+      ${settings.darkMode ? 'text-gray-300 hover:bg-slate-700' : 'text-gray-700 hover:bg-lavender-200'}`}
+  >
+    {getLocalizedText('pregnancy.track')}
+  </TabsTrigger>
+
+  <TabsTrigger 
+    value="chart" 
+    className={`data-[state=active]:bg-lavender-600 data-[state=active]:text-white 
+      ${settings.darkMode ? 'text-gray-300 hover:bg-slate-700' : 'text-gray-700 hover:bg-lavender-200'}`}
+  >
+    {getLocalizedText('pregnancy.history')}
+  </TabsTrigger>
+
+  <TabsTrigger 
+    value="loss" 
+    className={`text-wrap 
+      data-[state=active]:bg-lavender-600 data-[state=active]:text-white 
+      ${settings.darkMode ? 'text-gray-300 hover:bg-slate-700' : 'text-gray-700 hover:bg-lavender-200'}`}
+  >
+    {getLocalizedText('pregnancy.loss')}
+  </TabsTrigger>
+</TabsList>
+
 
         <TabsContent value="input" className="space-y-6">
-          <Card className={`${settings.darkMode ? 'bg-slate-900 border-slate-700' : ''}`}>
+
+          {/* <Card className={`${settings.darkMode ? 'bg-slate-900 border-slate-700' : ''}`}>
             <CardHeader>
               <CardTitle className={`flex items-center gap-2 ${settings.darkMode ? 'text-white' : ''}`}>
                 <Calendar className="w-5 h-5" />
-                Track Complications for {selectedDate}
+                {getLocalizedText('pregnancy.track.for')}{selectedDate}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -326,53 +457,118 @@ const PregnancyComplications = () => {
                 />
               </div>
               <ComplicationGrid complications={pregnancyComplications} />
-              
+
               <div className="mt-6">
                 <Button onClick={handleSaveComplications} className="w-full bg-red-500 hover:bg-red-600">
-                  Save Complications for {selectedDate}
+                  {getLocalizedText('pregnancy.save')} {selectedDate}
+                </Button>
+              </div>
+            </CardContent>
+          </Card> */}
+
+          <Card className="relative overflow-hidden card-3d">
+            {/* Background Layer */}
+            <div className={`absolute inset-0 ${settings.darkMode
+              ? 'bg-slate-900 border border-slate-700'
+              : 'bg-white border border-gray-200'}`}></div>
+
+            <CardHeader className="relative z-10">
+              <CardTitle
+                className={`flex items-center gap-2 
+        ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}
+              >
+                <Calendar className="w-5 h-5" />
+                {getLocalizedText('pregnancy.track.for')} {selectedDate}
+              </CardTitle>
+            </CardHeader>
+
+            <CardContent className="relative z-10">
+              <div className="mb-4">
+                <Input
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  className={`${settings.darkMode
+                    ? 'bg-slate-800 border border-slate-600 text-white placeholder-gray-400'
+                    : 'bg-white border border-gray-300 text-gray-800 placeholder-gray-500'}`}
+                />
+              </div>
+
+              <ComplicationGrid complications={pregnancyComplications} />
+
+              <div className="mt-6">
+                <Button
+                  onClick={handleSaveComplications}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white"
+                >
+                  {getLocalizedText('pregnancy.save')} {selectedDate}
                 </Button>
               </div>
             </CardContent>
           </Card>
+
+
         </TabsContent>
 
-        <TabsContent value="chart" className="space-y-6">
-          <Card className={`${settings.darkMode ? 'bg-slate-900 border-slate-700' : ''}`}>
+        <TabsContent value="chart" className="space-y-6 mt-5">
+
+          {/* <Card className={`${settings.darkMode ? 'bg-slate-900 border-slate-700' : ''}`}>
             <CardHeader>
-              <CardTitle className={`${settings.darkMode ? 'text-white' : ''}`}>Complications History</CardTitle>
+              <CardTitle className={`${settings.darkMode ? 'text-white' : ''}`}>{getLocalizedText('pregnancy.history.title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className={`text-center ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Complications history chart will be displayed here based on your tracked data.
+                {getLocalizedText('pregnancy.history.chart')}
               </p>
             </CardContent>
-          </Card>
+          </Card> */}
+
+          <Card className="relative overflow-hidden card-3d">
+  {/* Background Layer */}
+  <div className={`absolute inset-0 ${settings.darkMode 
+      ? 'bg-slate-900 border border-slate-700' 
+      : 'bg-white border border-gray-200'}`}></div>
+
+  <CardHeader className="relative z-10">
+    <CardTitle className={`${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
+      {getLocalizedText('pregnancy.history.title')}
+    </CardTitle>
+  </CardHeader>
+
+  <CardContent className="relative z-10">
+    <p className={`text-center ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+      {getLocalizedText('pregnancy.history.chart')}
+    </p>
+  </CardContent>
+</Card>
+
         </TabsContent>
 
         <TabsContent value="loss" className="space-y-6">
+{/* 
           <Card className={`${settings.darkMode ? 'bg-slate-900 border-slate-700' : 'bg-gradient-to-br from-pink-50 to-purple-50'} border-pink-200`}>
             <CardHeader>
               <CardTitle className={`flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-purple-800'}`}>
                 <Flower className="w-5 h-5" />
-                Pregnancy Loss Support
+                {getLocalizedText('pregnancy.loss.support')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className={`p-4 rounded-lg ${settings.darkMode ? 'bg-slate-800' : 'bg-white'} border ${settings.darkMode ? 'border-slate-600' : 'border-purple-200'}`}>
                 <h3 className={`text-lg font-semibold mb-3 ${settings.darkMode ? 'text-white' : 'text-purple-800'}`}>
-                  Record a Loss
+                  {getLocalizedText('pregnancy.loss.record')}
                 </h3>
                 <div className="space-y-4">
                   <div>
                     <label className={`block text-sm font-medium mb-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                      Type of Loss *
+                      {getLocalizedText('pregnancy.loss.type')} *
                     </label>
                     <select
                       value={lossData.type}
-                      onChange={(e) => setLossData({...lossData, type: e.target.value})}
+                      onChange={(e) => setLossData({ ...lossData, type: e.target.value })}
                       className={`w-full p-2 border rounded-md ${settings.darkMode ? 'bg-slate-700 border-slate-600 text-white' : 'border-gray-300'}`}
                     >
-                      <option value="">Select type of loss</option>
+                      <option value="">{getLocalizedText('pregnancy.loss.select')}</option>
                       {lossTypes.map(lossType => (
                         <option key={lossType.type} value={lossType.type}>{lossType.type}</option>
                       ))}
@@ -383,60 +579,59 @@ const PregnancyComplications = () => {
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className={`block text-sm font-medium mb-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                        Date *
+                        {getLocalizedText('pregnancy.loss.date')} *
                       </label>
                       <Input
                         type="date"
                         value={lossData.date}
-                        onChange={(e) => setLossData({...lossData, date: e.target.value})}
+                        onChange={(e) => setLossData({ ...lossData, date: e.target.value })}
                         className={`${settings.darkMode ? 'bg-slate-700 border-slate-600 text-white' : ''}`}
                       />
                     </div>
-                    
+
                     <div>
                       <label className={`block text-sm font-medium mb-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                        Weeks of Pregnancy
+                        {getLocalizedText('pregnancy.loss.weeks')}
                       </label>
                       <Input
                         type="text"
-                        placeholder="e.g., 8 weeks, 12w3d"
+                        placeholder={`e.g., 8 ${getLocalizedText('weeks')}, 12w3d`}
                         value={lossData.weeks}
-                        onChange={(e) => setLossData({...lossData, weeks: e.target.value})}
+                        onChange={(e) => setLossData({ ...lossData, weeks: e.target.value })}
                         className={`${settings.darkMode ? 'bg-slate-700 border-slate-600 text-white' : ''}`}
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label className={`block text-sm font-medium mb-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                      Notes (Optional)
+                      {getLocalizedText('pregnancy.loss.notes')}
                     </label>
                     <Textarea
-                      placeholder="Any additional notes or feelings you'd like to record..."
+                      placeholder={getLocalizedText('pregnancy.loss.notes.placeholder')}
                       value={lossData.notes}
-                      onChange={(e) => setLossData({...lossData, notes: e.target.value})}
+                      onChange={(e) => setLossData({ ...lossData, notes: e.target.value })}
                       className={`${settings.darkMode ? 'bg-slate-700 border-slate-600 text-white' : ''}`}
                     />
                   </div>
-                  
-                  <Button 
+
+                  <Button
                     onClick={handleSaveLoss}
                     className={`w-full ${settings.darkMode ? 'bg-purple-600 hover:bg-purple-700' : 'bg-purple-500 hover:bg-purple-600'}`}
                   >
-                    Save Loss Information
+                    {getLocalizedText('pregnancy.loss.save')}
                   </Button>
                 </div>
               </div>
 
-              {/* Islamic Comfort Section */}
               <div className={`p-4 rounded-lg ${settings.darkMode ? 'bg-slate-800' : 'bg-amber-50'} border ${settings.darkMode ? 'border-slate-600' : 'border-amber-200'}`}>
                 <h3 className={`text-lg font-semibold mb-3 flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-amber-800'}`}>
                   <Moon className="w-5 h-5" />
-                  Islamic Comfort & Guidance
+                  {getLocalizedText('pregnancy.loss.islamic.title')}
                 </h3>
                 <div className="space-y-4">
                   <div className={`p-3 rounded ${settings.darkMode ? 'bg-slate-700' : 'bg-white'} border ${settings.darkMode ? 'border-slate-600' : 'border-amber-200'}`}>
@@ -444,25 +639,24 @@ const PregnancyComplications = () => {
                       إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ
                     </p>
                     <p className={`text-sm italic ${settings.darkMode ? 'text-gray-300' : 'text-amber-700'}`}>
-                      "Indeed we belong to Allah, and indeed to Him we will return."
+                      {getLocalizedText('pregnancy.loss.quran')}
                     </p>
                     <p className={`text-xs ${settings.darkMode ? 'text-gray-400' : 'text-amber-600'}`}>- Quran 2:156</p>
                   </div>
-                  
+
                   <div className={`${settings.darkMode ? 'text-gray-300' : 'text-amber-700'} text-sm space-y-2`}>
-                    <p>• Your baby is considered a blessing and will be reunited with you in Jannah</p>
-                    <p>• The baby will intercede for the parents on the Day of Judgment</p>
-                    <p>• This is a test from Allah, and patience brings great reward</p>
-                    <p>• Seek comfort in prayer, dhikr, and support from your community</p>
+                    <p>• {getLocalizedText('pregnancy.loss.jannah')}</p>
+                    <p>• {getLocalizedText('pregnancy.loss.intercede')}</p>
+                    <p>• {getLocalizedText('pregnancy.loss.test')}</p>
+                    <p>• {getLocalizedText('pregnancy.loss.comfort')}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Saved Losses */}
               {savedLosses.length > 0 && (
                 <div className={`p-4 rounded-lg ${settings.darkMode ? 'bg-slate-800' : 'bg-gray-50'} border ${settings.darkMode ? 'border-slate-600' : 'border-gray-200'}`}>
                   <h3 className={`text-lg font-semibold mb-3 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
-                    Remembered Angels
+                    {getLocalizedText('pregnancy.loss.remembered')}
                   </h3>
                   <div className="space-y-3">
                     {savedLosses.map((loss, index) => (
@@ -487,7 +681,161 @@ const PregnancyComplications = () => {
                 </div>
               )}
             </CardContent>
-          </Card>
+          </Card> */}
+
+          <Card className="relative overflow-hidden card-3d">
+  {/* Background Layer */}
+  <div className={`absolute inset-0 ${settings.darkMode
+      ? 'bg-slate-900 border border-slate-700'
+      : ' from-pink-50 to-purple-50 border border-pink-200'}`}></div>
+
+  <CardHeader className="relative z-10">
+    <CardTitle className={`flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-purple-800'}`}>
+      <Flower className="w-5 h-5" />
+      {getLocalizedText('pregnancy.loss.support')}
+    </CardTitle>
+  </CardHeader>
+
+  <CardContent className="space-y-6 relative z-10">
+    {/* Loss Record Section */}
+    <div className={`p-4 rounded-lg ${settings.darkMode ? 'bg-slate-800 border-slate-600' : 'bg-white border border-purple-200'}`}>
+      <h3 className={`text-lg font-semibold mb-3 ${settings.darkMode ? 'text-white' : 'text-purple-800'}`}>
+        {getLocalizedText('pregnancy.loss.record')}
+      </h3>
+
+      <div className="space-y-4">
+        {/* Loss Type */}
+        <div>
+          <label className={`block text-sm font-medium mb-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            {getLocalizedText('pregnancy.loss.type')} *
+          </label>
+          <select
+            value={lossData.type}
+            onChange={(e) => setLossData({ ...lossData, type: e.target.value })}
+            className={`w-full p-2 border rounded-md ${settings.darkMode ? 'bg-slate-700 border-slate-600 text-white' : 'border-gray-300'}`}
+          >
+            <option value="">{getLocalizedText('pregnancy.loss.select')}</option>
+            {lossTypes.map(lossType => (
+              <option key={lossType.type} value={lossType.type}>{lossType.type}</option>
+            ))}
+          </select>
+          {lossData.type && (
+            <div className={`mt-2 p-2 text-xs rounded ${settings.darkMode ? 'bg-slate-600 text-gray-300' : 'bg-gray-100 text-gray-600'}`}>
+              {lossTypes.find(lt => lt.type === lossData.type)?.description}
+            </div>
+          )}
+        </div>
+
+        {/* Date & Weeks */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className={`block text-sm font-medium mb-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              {getLocalizedText('pregnancy.loss.date')} *
+            </label>
+            <Input
+              type="date"
+              value={lossData.date}
+              onChange={(e) => setLossData({ ...lossData, date: e.target.value })}
+              className={`${settings.darkMode ? 'bg-slate-700 border-slate-600 text-white' : ''}`}
+            />
+          </div>
+
+          <div>
+            <label className={`block text-sm font-medium mb-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              {getLocalizedText('pregnancy.loss.weeks')}
+            </label>
+            <Input
+              type="text"
+              placeholder={`e.g., 8 ${getLocalizedText('weeks')}, 12w3d`}
+              value={lossData.weeks}
+              onChange={(e) => setLossData({ ...lossData, weeks: e.target.value })}
+              className={`${settings.darkMode ? 'bg-slate-700 border-slate-600 text-white' : ''}`}
+            />
+          </div>
+        </div>
+
+        {/* Notes */}
+        <div>
+          <label className={`block text-sm font-medium mb-1 ${settings.darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            {getLocalizedText('pregnancy.loss.notes')}
+          </label>
+          <Textarea
+            placeholder={getLocalizedText('pregnancy.loss.notes.placeholder')}
+            value={lossData.notes}
+            onChange={(e) => setLossData({ ...lossData, notes: e.target.value })}
+            className={`${settings.darkMode ? 'bg-slate-700 border-slate-600 text-white' : ''}`}
+          />
+        </div>
+
+        {/* Save Button */}
+        <Button
+          onClick={handleSaveLoss}
+          className={`w-full ${settings.darkMode ? 'bg-purple-600 hover:bg-purple-700 text-white' : 'bg-purple-500 hover:bg-purple-600 text-white'}`}
+        >
+          {getLocalizedText('pregnancy.loss.save')}
+        </Button>
+      </div>
+    </div>
+
+    {/* Islamic Comfort Section */}
+    <div className={`p-4 rounded-lg ${settings.darkMode ? 'bg-slate-800 border-slate-600' : 'bg-amber-50 border border-amber-200'}`}>
+      <h3 className={`text-lg font-semibold mb-3 flex items-center gap-2 ${settings.darkMode ? 'text-white' : 'text-amber-800'}`}>
+        <Moon className="w-5 h-5" />
+        {getLocalizedText('pregnancy.loss.islamic.title')}
+      </h3>
+
+      <div className="space-y-4">
+        <div className={`${settings.darkMode ? 'bg-slate-700 border-slate-600' : 'bg-white border border-amber-200'} p-3 rounded`}>
+          <p className={`text-lg font-arabic mb-2 ${settings.darkMode ? 'text-white' : 'text-amber-900'}`}>
+            إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ
+          </p>
+          <p className={`text-sm italic ${settings.darkMode ? 'text-gray-300' : 'text-amber-700'}`}>
+            {getLocalizedText('pregnancy.loss.quran')}
+          </p>
+          <p className={`text-xs ${settings.darkMode ? 'text-gray-400' : 'text-amber-600'}`}>- Quran 2:156</p>
+        </div>
+
+        <div className={`${settings.darkMode ? 'text-gray-300' : 'text-amber-700'} text-sm space-y-2`}>
+          <p>• {getLocalizedText('pregnancy.loss.jannah')}</p>
+          <p>• {getLocalizedText('pregnancy.loss.intercede')}</p>
+          <p>• {getLocalizedText('pregnancy.loss.test')}</p>
+          <p>• {getLocalizedText('pregnancy.loss.comfort')}</p>
+        </div>
+      </div>
+    </div>
+
+    {/* Saved Losses */}
+    {savedLosses.length > 0 && (
+      <div className={`p-4 rounded-lg ${settings.darkMode ? 'bg-slate-800 border-slate-600' : 'bg-gray-50 border border-gray-200'}`}>
+        <h3 className={`text-lg font-semibold mb-3 ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
+          {getLocalizedText('pregnancy.loss.remembered')}
+        </h3>
+        <div className="space-y-3">
+          {savedLosses.map((loss, index) => (
+            <div key={index} className={`p-3 rounded border ${settings.darkMode ? 'bg-slate-700 border-slate-600' : 'bg-white border-gray-200'}`}>
+              <div className="flex items-center gap-2 mb-2">
+                <Star className={`w-4 h-4 ${settings.darkMode ? 'text-yellow-400' : 'text-yellow-500'}`} />
+                <span className={`font-medium ${settings.darkMode ? 'text-white' : 'text-gray-800'}`}>
+                  {loss.type}
+                </span>
+              </div>
+              <p className={`text-sm ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                {loss.date} {loss.weeks && `• ${loss.weeks}`}
+              </p>
+              {loss.notes && (
+                <p className={`text-sm mt-2 ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  {loss.notes}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </CardContent>
+</Card>
+
+          
         </TabsContent>
       </Tabs>
     </div>

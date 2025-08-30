@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Home } from 'lucide-react';
-
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';

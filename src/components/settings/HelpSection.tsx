@@ -2,8 +2,9 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, MessageCircle, Book, Mail, Users, Heart } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/contexts/LanguageContext';
+import ContactForm from '@/components/ContactForm';
+import { Button } from "@/components/ui/button";
 import { useToast } from '@/hooks/use-toast';
 
 interface HelpSectionProps {
@@ -14,6 +15,10 @@ const HelpSection = ({ onBack }: HelpSectionProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { getLocalizedText } = useLanguage();
   const { toast } = useToast();
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [showFAQ, setShowFAQ] = useState(false);
+
+
 
   const helpCategories = [
     {
@@ -117,6 +122,9 @@ const HelpSection = ({ onBack }: HelpSectionProps) => {
       description: getLocalizedText('email.support.content'),
       availability: getLocalizedText('response.within.24.hours'),
       action: () => {
+
+        setShowContactForm(true);
+
         toast({
           title: getLocalizedText('email.support'),
           description: getLocalizedText('opening.email.client'),
@@ -352,7 +360,7 @@ const HelpSection = ({ onBack }: HelpSectionProps) => {
 
               <Card
                 key={option.id}
-                className="relative overflow-hidden card-3d"
+                className="relative overflow-hidden card-3d cursor-pointer"
                 onClick={option.action}
               >
                 <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-green-500 to-green-700'}`}></div>
@@ -382,7 +390,9 @@ const HelpSection = ({ onBack }: HelpSectionProps) => {
 
         {/* FAQ Notice */}
 
-        <Card className="relative overflow-hidden card-3d bg-blue-50">
+        <Card className="relative overflow-hidden card-3d bg-blue-50 cursor-pointer"
+          onClick={() => setShowFAQ(!showFAQ)}
+        >
           <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-blue-500 to-blue-700'}`}></div>
           <CardContent className="relative z-10 p-4">
             <div className="flex items-center space-x-3">
@@ -399,7 +409,25 @@ const HelpSection = ({ onBack }: HelpSectionProps) => {
           </CardContent>
         </Card>
 
+        {/* Coming Soon Box */}
+        {showFAQ && (
+          <Card className="relative overflow-hidden card-3d">
+            <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : 'bg-gradient-to-r from-muted to-muted/50'}`}></div>
+            <CardContent className="relative z-10 p-4 text-center">
+              <p className={`font-medium ${settings.darkMode ? 'text-white' : 'text-muted-foreground'}`}>
+               {getLocalizedText('coming_soon')}
+              </p>
+            </CardContent>
+          </Card>
+        )}
+
+
       </div>
+
+      {/* Contact Form Modal */}
+      {showContactForm && (
+        <ContactForm onClose={() => setShowContactForm(false)} />
+      )}
     </div>
   );
 };

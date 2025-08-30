@@ -229,7 +229,7 @@ const PrivateMessages = ({
   return <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Conversations List */}
       <div className="lg:col-span-1">
-        <Card className={`${settings.darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white'}`}>
+        {/* <Card className={`${settings.darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white'}`}>
           
           <CardContent className="bg-transparent">
             <ScrollArea className="h-96">
@@ -275,51 +275,235 @@ const PrivateMessages = ({
                 </div>}
             </ScrollArea>
           </CardContent>
-        </Card>
+        </Card> */}
+
+        <Card className="relative overflow-hidden card-3d">
+  {/* Background Layer */}
+  <div className={`absolute inset-0 ${settings.darkMode 
+      ? 'bg-slate-800 border border-slate-700' 
+      : 'bg-white border border-gray-200'}`}></div>
+
+  <CardContent className="bg-transparent relative z-10">
+    <ScrollArea className="h-96">
+      {selectedConversation ? (
+        <div className="space-y-2">
+          <Button 
+            variant="ghost" 
+            onClick={() => setSelectedConversation(null)} 
+            className={`w-full justify-start ${settings.darkMode ? 'text-gray-300 hover:bg-slate-700' : 'text-gray-700 hover:bg-gray-100'}`}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            {getLocalizedText('chat.back')}
+          </Button>
+
+          {conversations.map(conversation => (
+            <div 
+              key={conversation.id} 
+              onClick={() => setSelectedConversation(conversation.id)}
+              className={`p-3 rounded-lg cursor-pointer transition-colors 
+                ${selectedConversation === conversation.id 
+                  ? settings.darkMode 
+                    ? 'bg-slate-700' 
+                    : 'bg-purple-100' 
+                  : settings.darkMode 
+                    ? 'hover:bg-slate-700' 
+                    : 'hover:bg-gray-100'}`}
+            >
+              <div className="flex items-center space-x-3">
+                <Avatar className="w-10 h-10">
+                  <AvatarImage src={conversation.other_participant?.avatar_url || undefined} />
+                  <AvatarFallback>
+                    {conversation.other_participant?.full_name?.charAt(0) || conversation.other_participant?.username?.charAt(0) || 'U'}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className={`font-semibold truncate ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    {conversation.other_participant?.full_name || conversation.other_participant?.username}
+                  </p>
+                  {conversation.last_message && (
+                    <p className={`text-sm truncate ${settings.darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+                      {conversation.last_message.content}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {filteredProfiles.map(profile => (
+            <div 
+              key={profile.id} 
+              onClick={() => startConversation(profile.id)} 
+              className={`p-3 rounded-lg cursor-pointer transition-colors 
+                ${settings.darkMode 
+                  ? 'hover:bg-slate-700' 
+                  : 'hover:bg-gray-100'}`}
+            >
+              <div className="flex items-center space-x-3">
+                <Avatar className="w-10 h-10">
+                  <AvatarImage src={profile.avatar_url || undefined} />
+                  <AvatarFallback>
+                    {profile.full_name?.charAt(0) || profile.username?.charAt(0) || 'U'}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className={`font-semibold truncate ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    {profile.full_name || profile.username}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </ScrollArea>
+  </CardContent>
+</Card>
+
+
       </div>
 
       {/* Messages Area */}
       <div className="lg:col-span-2">
-        {selectedConversation ? <Card className={`${settings.darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white'}`}>
-            <CardHeader>
-              <CardTitle className={`${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-                {conversations.find(c => c.id === selectedConversation)?.other_participant?.full_name || conversations.find(c => c.id === selectedConversation)?.other_participant?.username}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <ScrollArea className="h-96">
-                  <div className="space-y-4 p-4">
-                    {messages.map(message => <div key={message.id} className={`flex ${message.sender_id === user.id ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${message.sender_id === user.id ? 'bg-purple-600 text-white' : settings.darkMode ? 'bg-slate-700 text-white' : 'bg-gray-200 text-gray-900'}`}>
-                          <p>{message.content}</p>
-                          <p className={`text-xs mt-1 ${message.sender_id === user.id ? 'text-purple-200' : settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                            {formatDistanceToNow(new Date(message.created_at), {
-                        addSuffix: true
-                      })}
-                          </p>
-                        </div>
-                      </div>)}
-                  </div>
-                </ScrollArea>
+        {selectedConversation ? 
+        
+        // <Card className={`${settings.darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white'}`}>
+        //     <CardHeader>
+        //       <CardTitle className={`${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+        //         {conversations.find(c => c.id === selectedConversation)?.other_participant?.full_name || conversations.find(c => c.id === selectedConversation)?.other_participant?.username}
+        //       </CardTitle>
+        //     </CardHeader>
+        //     <CardContent>
+        //       <div className="space-y-4">
+        //         <ScrollArea className="h-96">
+        //           <div className="space-y-4 p-4">
+        //             {messages.map(message => <div key={message.id} className={`flex ${message.sender_id === user.id ? 'justify-end' : 'justify-start'}`}>
+        //                 <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${message.sender_id === user.id ? 'bg-purple-600 text-white' : settings.darkMode ? 'bg-slate-700 text-white' : 'bg-gray-200 text-gray-900'}`}>
+        //                   <p>{message.content}</p>
+        //                   <p className={`text-xs mt-1 ${message.sender_id === user.id ? 'text-purple-200' : settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+        //                     {formatDistanceToNow(new Date(message.created_at), {
+        //                 addSuffix: true
+        //               })}
+        //                   </p>
+        //                 </div>
+        //               </div>)}
+        //           </div>
+        //         </ScrollArea>
 
-                <div className="flex space-x-2">
-                  <Input placeholder={getLocalizedText('chat.input.placeholder')} value={newMessage} onChange={e => setNewMessage(e.target.value)} onKeyPress={e => e.key === 'Enter' && sendMessage()} disabled={sendingMessage} />
-                  <Button onClick={sendMessage} disabled={sendingMessage || !newMessage.trim()}>
-                    <Send className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card> : <Card className={`${settings.darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white'}`}>
-            <CardContent className="flex items-center justify-center h-96">
-              <div className="text-center">
-                <p className={`text-lg ${settings.darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
-                  {getLocalizedText('chat.select.user')}
+        //         <div className="flex space-x-2">
+        //           <Input placeholder={getLocalizedText('chat.input.placeholder')} value={newMessage} onChange={e => setNewMessage(e.target.value)} onKeyPress={e => e.key === 'Enter' && sendMessage()} disabled={sendingMessage} />
+        //           <Button onClick={sendMessage} disabled={sendingMessage || !newMessage.trim()}>
+        //             <Send className="w-4 h-4" />
+        //           </Button>
+        //         </div>
+        //       </div>
+        //     </CardContent>
+        //   </Card> 
+
+        <Card className="relative overflow-hidden card-3d">
+  {/* Background Layer */}
+  <div className={`absolute inset-0 ${settings.darkMode 
+      ? 'bg-slate-800 border border-slate-700' 
+      : 'bg-white border border-gray-200'}`}></div>
+
+  <CardHeader className="relative z-10">
+    <CardTitle className={`${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+      {conversations.find(c => c.id === selectedConversation)?.other_participant?.full_name 
+        || conversations.find(c => c.id === selectedConversation)?.other_participant?.username}
+    </CardTitle>
+  </CardHeader>
+
+  <CardContent className="relative z-10">
+    <div className="space-y-4">
+      {/* Messages Scroll Area */}
+      <ScrollArea className="h-96">
+        <div className="space-y-4 p-4">
+          {messages.map(message => (
+            <div 
+              key={message.id} 
+              className={`flex ${message.sender_id === user.id ? 'justify-end' : 'justify-start'}`}
+            >
+              <div 
+                className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg 
+                  ${message.sender_id === user.id 
+                    ? 'bg-purple-600 text-white' 
+                    : settings.darkMode 
+                      ? 'bg-slate-700 text-white' 
+                      : 'bg-gray-200 text-gray-900'}`}
+              >
+                <p>{message.content}</p>
+                <p 
+                  className={`text-xs mt-1 
+                    ${message.sender_id === user.id 
+                      ? 'text-purple-200' 
+                      : settings.darkMode 
+                        ? 'text-gray-400' 
+                        : 'text-gray-500'}`}
+                >
+                  {formatDistanceToNow(new Date(message.created_at), {
+                    addSuffix: true
+                  })}
                 </p>
               </div>
-            </CardContent>
-          </Card>}
+            </div>
+          ))}
+        </div>
+      </ScrollArea>
+
+      {/* Input + Send */}
+      <div className="flex space-x-2">
+        <Input 
+          placeholder={getLocalizedText('chat.input.placeholder')} 
+          value={newMessage} 
+          onChange={e => setNewMessage(e.target.value)} 
+          onKeyPress={e => e.key === 'Enter' && sendMessage()} 
+          disabled={sendingMessage}
+          className={`${settings.darkMode 
+            ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400' 
+            : ''}`}
+        />
+        <Button 
+          onClick={sendMessage} 
+          disabled={sendingMessage || !newMessage.trim()}
+          className="flex items-center justify-center"
+        >
+          <Send className="w-4 h-4" />
+        </Button>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+          
+          :
+       
+          // <Card className={`${settings.darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white'}`}>
+          //   <CardContent className="flex items-center justify-center h-96">
+          //     <div className="text-center">
+          //       <p className={`text-lg ${settings.darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+          //         {getLocalizedText('chat.select.user')}
+          //       </p>
+          //     </div>
+          //   </CardContent>
+          // </Card>
+
+          <Card className="relative overflow-hidden card-3d">
+  {/* Background Layer */}
+  <div className={`absolute inset-0 ${settings.darkMode 
+      ? 'bg-slate-800 border border-slate-700' 
+      : 'bg-white border border-gray-200'}`}></div>
+
+  <CardContent className="flex items-center justify-center h-96 relative z-10">
+    <div className="text-center">
+      <p className={`text-lg ${settings.darkMode ? 'text-gray-100' : 'text-gray-500'}`}>
+        {getLocalizedText('chat.select.user')}
+      </p>
+    </div>
+  </CardContent>
+</Card>
+          
+          }
       </div>
     </div>;
 };

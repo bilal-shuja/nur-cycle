@@ -14,6 +14,7 @@ export default function StripeCheckout({isSubscribered,checkSubDate ,showExpiryW
   
   const [amount, setAmount] = useState(599); // Default 1200 cents = $12.00
   const [currency, setCurrency] = useState('gbp'); // Change if you want
+  
   const [isLoading, setIsLoading] = useState(false);
 
   const [subscriptionTime , setSubscriptionTime] = useState(null);
@@ -307,7 +308,7 @@ export default function StripeCheckout({isSubscribered,checkSubDate ,showExpiryW
     {
       showExpiryWarning === true ?
         <Button 
-         className={`flex-1 ${settings.darkMode ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800'}`}
+         className={`flex-1 ${settings.darkMode ? 'bg-purple-600 hover:bg-purple-700 text-white' : 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white'}`}
         onClick={handleUpdateSubscription}
          disabled={isLoading}
         >
@@ -316,7 +317,7 @@ export default function StripeCheckout({isSubscribered,checkSubDate ,showExpiryW
 
       :
            <Button
-        className={`flex-1 ${settings.darkMode ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800'}`}
+        className={`flex-1 ${settings.darkMode ? 'bg-purple-600 hover:bg-purple-700 text-white' : 'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white'}`}
         onClick={handleCheckout}
         disabled={isLoading || isSubscribered === true } 
       >

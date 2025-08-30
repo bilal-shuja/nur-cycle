@@ -15,9 +15,10 @@ import OnboardingFlow, { OnboardingData } from '@/components/onboarding/Onboardi
 import ProfileSettings from '@/components/ProfileSettings';
 import PrePeriodPreparation from '@/components/PrePeriodPreparation';
 import PeriodTracker from '@/components/PeriodTracker';
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 
-import { TriangleAlert, Lock, CalendarDays } from 'lucide-react'
+import { TriangleAlert, Lock, CalendarDays } from 'lucide-react';
+import StripeCheckout from '@/components/StripeCheckout';
 
 import { createClient } from '@supabase/supabase-js';
 
@@ -36,8 +37,6 @@ const Index = () => {
   const [showExpiryWarning, setShowExpiryWarning] = useState(false);
 
   const [checkSubDate, setCheckSubDate] = useState(null);
-  const { getLocalizedText } = useLanguage();
-
 
   const [subscribers, setSubscribers] = useState([]);
 
@@ -96,10 +95,10 @@ const Index = () => {
   const userRegisterDateTime = userProfile && userProfile?.created_at;
 
   const isSubscribered: boolean | null = Array.isArray(subscribers)
-  ? (subscribers.length === 0
+    ? (subscribers.length === 0
       ? null
       : subscribers.some(sub => sub.subscribed))
-  : null;
+    : null;
 
 
   const getSubscriptionDate = subscribers && subscribers?.map((sub) => sub.subscription_end)
@@ -113,9 +112,6 @@ const Index = () => {
   const getSubscriptionDateAndTime = getSubscriptionDate[0];
   const getServerDateAndTime = serverTime;
 
-
-  // console.log('userRegisterDateTime', userRegisterDateTime)
-  // console.log('getServerDateAndTime', getServerDateAndTime)
 
 
   useEffect(() => {
@@ -336,6 +332,21 @@ const Index = () => {
     localStorage.setItem('nurcycle-onboarding-completed', 'true');
   };
 
+  const [splashEnded, setSplashEnded] = useState(false);
+
+ if (!userMetadata && showOnboarding && !splashEnded) {
+  return (
+
+  <video
+    src="/lovable-uploads/splash.mp4"
+    autoPlay
+    muted
+    playsInline
+    className="w-screen h-screen object-contain bg-[#ddcce7]"
+    onEnded={() => setSplashEnded(true)}
+  />
+  );
+}
 
   if (!userMetadata && showOnboarding) {
     return (
@@ -343,6 +354,7 @@ const Index = () => {
         onComplete={handleOnboardingComplete}
         onSkip={handleSkipOnboarding}
       />
+    
     );
   }
 
@@ -356,9 +368,9 @@ const Index = () => {
       case 'tracker':
         return <Tracker setActiveSection={setActiveSection} isSubscribered={isSubscribered} checkSubDate={checkSubDate} freeDayTrial={freeDayTrial} />;
       case 'insights':
-        return <HealthInsights setActiveSection={setActiveSection} isSubscribered={isSubscribered} checkSubDate={checkSubDate} freeDayTrial = {freeDayTrial} />;
+        return <HealthInsights setActiveSection={setActiveSection} isSubscribered={isSubscribered} checkSubDate={checkSubDate} freeDayTrial={freeDayTrial} />;
       case 'ask-the-deen':
-        return <IslamicGuidance setActiveSection={setActiveSection} isSubscribered={isSubscribered} checkSubDate={checkSubDate} freeDayTrial ={freeDayTrial} />;
+        return <IslamicGuidance setActiveSection={setActiveSection} isSubscribered={isSubscribered} checkSubDate={checkSubDate} freeDayTrial={freeDayTrial} />;
       case 'profile':
         return <ProfileSettings userPreferences={userPreferences} onUpdatePreferences={setUserPreferences} isSubscribered={isSubscribered} checkSubDate={checkSubDate} activeSection={activeSection} showExpiryWarning={showExpiryWarning} />;
       case 'calendar':
@@ -517,7 +529,7 @@ const Dashboard = ({ setActiveSection, userPreferences, userMetadata, isSubscrib
       <CalendarWidget onNavigateToTracker={() => setActiveSection('tracker')} onNavigateToCalendar={() => setActiveSection('calendar')} />
 
       {
-        freeDayTrial === true && (isSubscribered === false || isSubscribered === null)?
+        freeDayTrial === true && (isSubscribered === false || isSubscribered === null) ?
           <Card className="relative overflow-hidden card-3d">
             {/* Light mode bg */}
             <div className="absolute inset-0 bg-lavender-100 dark:hidden"></div>
@@ -537,14 +549,19 @@ const Dashboard = ({ setActiveSection, userPreferences, userMetadata, isSubscrib
               <h2 className={`text-xs font-bold text-deep-lavender ${settings.darkMode ? 'text-white' : 'text-slate-700'}`}>
                 {getLocalizedText('your.3.days.trial.ended.subscribe.now')}
               </h2>
+{/* 
               <Button
                 onClick={() => {
                   setActiveSection('profile')
                 }}
                 className="bg-gradient-to-r from-purple-500 to-purple-600 text-white"
               >
-               {getLocalizedText('subscribe.now')}
-              </Button>
+                {getLocalizedText('subscribe.now')}
+              </Button> */}
+
+              <StripeCheckout isSubscribered={isSubscribered} checkSubDate={checkSubDate} showExpiryWarning={showExpiryWarning} />
+              
+              
             </CardContent>
 
           </Card>
@@ -575,14 +592,16 @@ const Dashboard = ({ setActiveSection, userPreferences, userMetadata, isSubscrib
               <h2 className={`text-xs font-bold text-deep-lavender ${settings.darkMode ? 'text-white' : 'text-slate-700'}`}>
                 {getLocalizedText(`youre.on.3.days.free.trial.subscribe.before.end`)}
               </h2>
-              <Button
+              {/* <Button
                 onClick={() => {
                   setActiveSection('profile')
                 }}
                 className="bg-gradient-to-r from-purple-500 to-purple-600 text-white"
               >
                 {getLocalizedText('subscribe.now')}
-              </Button>
+              </Button> */}
+              <StripeCheckout isSubscribered={isSubscribered} checkSubDate={checkSubDate} showExpiryWarning={showExpiryWarning} />
+
             </CardContent>
 
           </Card>
@@ -614,14 +633,17 @@ const Dashboard = ({ setActiveSection, userPreferences, userMetadata, isSubscrib
               <h2 className={`text-xs font-bold text-deep-lavender ${settings.darkMode ? 'text-white' : 'text-slate-700'}`}>
                 {getLocalizedText('your.subscription.will.expire.soon.renew.now')}
               </h2>
-              <Button
+              {/* <Button
                 onClick={() => {
                   setActiveSection('profile')
                 }}
                 className="bg-gradient-to-r from-purple-500 to-purple-600 "
               >
                 {getLocalizedText('renew')}
-              </Button>
+              </Button> */}
+
+              <StripeCheckout isSubscribered={isSubscribered} checkSubDate={checkSubDate} showExpiryWarning={showExpiryWarning} />
+
             </CardContent>
 
           </Card>
@@ -653,14 +675,16 @@ const Dashboard = ({ setActiveSection, userPreferences, userMetadata, isSubscrib
                 <h2 className={`text-xs font-bold text-deep-lavender ${settings.darkMode ? 'text-white' : 'text-slate-700'}`}>
                   {getLocalizedText('your.subscription.expired.please.renew')}
                 </h2>
-                <Button
+                {/* <Button
                   onClick={() => {
                     setActiveSection('profile')
                   }}
                   className="bg-gradient-to-r from-purple-500 to-purple-600 "
                 >
                   {getLocalizedText('renew')}
-                </Button>
+                </Button> */}
+              <StripeCheckout isSubscribered={isSubscribered} checkSubDate={checkSubDate} showExpiryWarning={showExpiryWarning} />
+
               </CardContent>
 
             </Card>

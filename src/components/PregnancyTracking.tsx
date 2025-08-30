@@ -235,20 +235,46 @@ const PregnancyTracking = () => {
     <div className="space-y-6">
       {/* Pregnancy Tracking Tabs */}
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="overview" className="flex items-center gap-2">
-            <Baby className="w-4 h-4" />
-            {getLocalizedText('overview')}
-          </TabsTrigger>
-          <TabsTrigger value="symptoms" className="flex items-center gap-2">
-            <Activity className="w-4 h-4" />
-            {getLocalizedText('symptoms')}
-          </TabsTrigger>
-          <TabsTrigger value="complications" className="flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4" />
-            {getLocalizedText('complications')}
-          </TabsTrigger>
-        </TabsList>
+
+        <TabsList 
+  className={`grid w-full grid-cols-3 
+    ${settings.darkMode 
+      ? 'bg-slate-800 border border-slate-700' 
+      : 'bg-lavender-100 border border-gray-200'}`}
+>
+  <TabsTrigger 
+    value="overview" 
+    className={`flex items-center gap-2 
+      data-[state=active]:bg-lavender-600 
+      data-[state=active]:text-white 
+      ${settings.darkMode ? 'text-gray-300 hover:bg-slate-700' : 'text-gray-700 hover:bg-lavender-300'}`}
+  >
+    <Baby className="w-4 h-4" />
+    {getLocalizedText('overview')}
+  </TabsTrigger>
+
+  <TabsTrigger 
+    value="symptoms" 
+    className={`flex items-center gap-2 
+      data-[state=active]:bg-lavender-600 
+      data-[state=active]:text-white 
+      ${settings.darkMode ? 'text-gray-300 hover:bg-slate-700' : 'text-gray-700 hover:bg-lavender-300'}`}
+  >
+    <Activity className="w-4 h-4" />
+    {getLocalizedText('symptoms')}
+  </TabsTrigger>
+
+  <TabsTrigger 
+    value="complications" 
+    className={`flex items-center gap-2 
+      data-[state=active]:bg-lavender-600 
+      data-[state=active]:text-white 
+      ${settings.darkMode ? 'text-gray-300 hover:bg-slate-700' : 'text-gray-700 hover:bg-lavender-300'}`}
+  >
+    <AlertTriangle className="w-4 h-4" />
+    {getLocalizedText('complications')}
+  </TabsTrigger>
+</TabsList>
 
         <TabsContent value="overview" className="space-y-6">
           {/* Pregnancy Progress */}

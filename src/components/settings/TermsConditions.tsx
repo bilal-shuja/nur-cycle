@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, Download, Globe, FileText, Calendar, Shield, Heart, ShieldEllipsis } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -83,11 +83,61 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
 
   }, []);
 
+
+  const htmlToText = (html) => {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  };
+
+
+  // const handleDownloadPDF = () => {
+  //   toast({
+  //     title: "Download Started",
+  //     description: "Terms and Conditions PDF is being prepared for download",
+  //   });
+  //   toast({
+  //     title: "Download Started",
+  //     description: "Terms and Conditions PDF is being prepared for download",
+  //   });
+
+  //   const doc = new jsPDF();
+  //   const margin = 10;
+  //   let y = margin;
+
+  //   doc.setFontSize(14);
+  //   doc.text("Terms and Conditions", margin, y);
+  //   y += 10;
+
+  //   doc.setFontSize(10);
+  //   doc.text(`Effective Date: ${termsData.effectiveDate}`, margin, y);
+  //   y += 6;
+  //   doc.text(`Last Updated: ${termsData.lastUpdated}`, margin, y);
+  //   y += 6;
+  //   doc.text(`Version: ${termsData.version}`, margin, y);
+  //   y += 10;
+
+  //   termsData.sections.forEach((section, index) => {
+  //     doc.setFontSize(12);
+  //     doc.setFont(undefined, "bold");
+  //     doc.text(`${index + 1}. ${section.title}`, margin, y);
+  //     y += 6;
+
+  //     doc.setFontSize(10);
+  //     doc.setFont(undefined, "normal");
+
+  //     const splitText = doc.splitTextToSize(section.content, 180); 
+  //     if (y + splitText.length * 6 > 280) {
+  //       doc.addPage();
+  //       y = margin;
+  //     }
+  //     doc.text(splitText, margin, y);
+  //     y += splitText.length * 6 + 4;
+  //   });
+
+  //   doc.save("terms-and-conditions.pdf");
+  // };
   const handleDownloadPDF = () => {
-    toast({
-      title: "Download Started",
-      description: "Terms and Conditions PDF is being prepared for download",
-    });
     toast({
       title: "Download Started",
       description: "Terms and Conditions PDF is being prepared for download",
@@ -97,6 +147,7 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
     const margin = 10;
     let y = margin;
 
+    // Header
     doc.setFontSize(14);
     doc.text("Terms and Conditions", margin, y);
     y += 10;
@@ -109,18 +160,25 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
     doc.text(`Version: ${termsData.version}`, margin, y);
     y += 10;
 
+    // Sections
     termsData.sections.forEach((section, index) => {
-      // Add section title
       doc.setFontSize(12);
       doc.setFont(undefined, "bold");
       doc.text(`${index + 1}. ${section.title}`, margin, y);
       y += 6;
 
-      // Add section content (with text wrapping)
       doc.setFontSize(10);
       doc.setFont(undefined, "normal");
 
-      const splitText = doc.splitTextToSize(section.content, 180); // 180 width for content area
+      // Extract raw text safely
+      let rawContent = "";
+      if (typeof section.content === "string") {
+        rawContent = section.content;
+      } else if (section.content?.props?.dangerouslySetInnerHTML?.__html) {
+        rawContent = htmlToText(section.content.props.dangerouslySetInnerHTML.__html);
+      }
+
+      const splitText = doc.splitTextToSize(rawContent, 180);
       if (y + splitText.length * 6 > 280) {
         doc.addPage();
         y = margin;
@@ -131,12 +189,46 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
 
     doc.save("terms-and-conditions.pdf");
   };
-
   const termsData = {
-    effectiveDate: "January 1, 2024",
+    effectiveDate: "August 30, 2025",
     lastUpdated: "December 27, 2024",
     version: "1.2",
     sections: [
+      {
+        id: 'eligibility',
+        title: getLocalizedText('Eligibility & Access'),
+        icon: FileText,
+        content: (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+          <ul>
+            <li>
+              <strong>Minimum Age Requirement:</strong>
+              To use the NurCycle App, you must be at least 16 years of age. By creating
+              an account or using the App, you confirm that you meet this age requirement.
+            </li>
+            <li>
+              <strong>Female-Only Space:</strong>
+              NurCycle is designed as a female-only digital space, in line with our
+              commitment to creating a safe and supportive environment based on Islamic
+              principles. Users must identify as female to access and participate in
+              community features. Any attempt to bypass this requirement may result in
+              suspension or termination of your account.
+            </li>
+            <li>
+              <strong>Account Responsibility:</strong>
+              <ul>
+                <li>Users are responsible for providing accurate and complete information during account registration.</li>
+                <li>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.</li>
+              </ul>
+            </li>
+          </ul>
+        `
+            }}
+          />
+        )
+      },
       {
         id: 'acceptance',
         title: getLocalizedText('acceptance.of.terms'),
@@ -153,7 +245,97 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
         id: 'accounts',
         title: getLocalizedText('user.accounts'),
         icon: Shield,
-        content: getLocalizedText('user.accounts.content')
+        // content: getLocalizedText('user.accounts.content')
+        content: (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+          <ul class="list-none  space-y-3">
+            <li>
+              <strong>Account Security:</strong><br/>
+              You are responsible for keeping your login details (such as your email and
+              password) safe and confidential.<br/>
+              NurCycle Ltd cannot be held liable for any loss or damage resulting from
+              unauthorized access caused by your failure to protect your account
+              credentials.
+            </li>
+
+            <li>
+              <strong>Accuracy of Information:</strong><br/>
+              You agree to provide accurate, complete, and up-to-date information when
+              creating and maintaining your account.<br/>
+              Providing false, misleading, or incomplete information may lead to account
+              suspension or termination.
+            </li>
+
+            <li>
+              <strong>Account Misuse:</strong><br/>
+              You agree not to share your account with others or allow unauthorized
+              access.<br/>
+              NurCycle Ltd reserves the right to suspend or terminate any account where
+              misuse, breach of these Terms, or suspicious activity is detected.
+            </li>
+
+            <li>
+              <strong>Termination by User:</strong><br/>
+              You may delete your account at any time through the App settings. Upon deletion, your data will be handled according to our Privacy Policy.
+            </li>
+          </ul>
+        `
+            }}
+          />
+        )
+      },
+      {
+        id: 'permittedUses',
+        title: getLocalizedText('Permitted & Prohibited Uses'),
+        icon: Shield,
+        // content: getLocalizedText('user.accounts.content')
+        content: (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+        <ul class="list-none  space-y-3">
+          <li>
+            <strong >Permitted Uses:</strong><br/>
+            When using NurCycle, you agree to:
+            <ul class="list-disc ml-6 mt-2 space-y-2">
+              <li>Engage in respectful and modest communication within the community features.</li>
+              <li>Share experiences, advice, and support in a manner consistent with Islamic values and community respect.</li>
+              <li>Use the health-tracking and community features responsibly and only for their intended purpose.</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>Prohibited Uses:</strong><br/>
+            You must not, under any circumstances:
+            <ul class="list-disc ml-6 mt-2 space-y-2">
+              <li>Harass, bully, threaten, or abuse other users.</li>
+              <li>
+                Post content that is offensive, inappropriate, or contrary to Islamic principles, including but not limited to:
+                <ul class="list-disc ml-6 mt-2 space-y-1">
+                  <li>Obscene, vulgar, or sexually explicit material.</li>
+                  <li>Hate speech, discriminatory remarks, or inflammatory comments.</li>
+                  <li>Content promoting alcohol, drugs, or other un-Islamic practices.</li>
+                </ul>
+              </li>
+              <li>Misuse health features (e.g., inputting false or misleading health data).</li>
+              <li>Impersonate another person, misrepresent your identity, or create multiple accounts to deceive others.</li>
+              <li>Attempt to hack, disrupt, or interfere with the operation of the App.</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>Enforcement:</strong><br/>
+            NurCycle Ltd reserves the right to remove any content that violates these rules.<br/>
+            Accounts that repeatedly or severely breach these standards may be suspended or permanently terminated without notice.
+          </li>
+        </ul>
+      `
+            }}
+          />
+        )
+
       },
       {
         id: 'privacy',
@@ -177,7 +359,151 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
         id: 'Intellectual',
         title: getLocalizedText('intellectual.property'),
         icon: Globe,
-        content: getLocalizedText('intellectual.property.content')
+        // content: getLocalizedText('intellectual.property.content')
+        content: (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+        <ul class="list-none  space-y-3">
+
+          <li>
+            <strong>Ownership of the App:</strong><br/>
+            The NurCycle App, including its design, features, software, branding, logos, and all related intellectual property, is owned and operated by NurCycle Ltd.<br/>
+            You may not copy, reproduce, distribute, or create derivative works from any part of the App without prior written consent from NurCycle Ltd.
+          </li>
+
+          <li>
+            <strong>User-Generated Content:</strong><br/>
+            Users retain ownership of the content they create and share on NurCycle (such as posts, comments, and messages).<br/>
+            By posting or submitting content within the App, you grant NurCycle Ltd a non-exclusive, royalty-free, worldwide license to display, reproduce, and distribute your content within the App for the purposes of operating the community.<br/>
+            This license ends when you delete your content or account, except where your content has already been shared, quoted, or interacted with by other users.
+          </li>
+
+          <li>
+            <strong>Respecting Others’ Content:</strong><br/>
+            You may not copy, download, or redistribute other users’ posts, comments, or shared content without their explicit consent.
+          </li>
+
+          <li>
+            <strong>Trademarks:</strong><br/>
+            All trademarks, service marks, and trade names associated with NurCycle are the property of NurCycle Ltd and may not be used without authorization.
+          </li>
+        </ul>
+      `
+            }}
+          />
+        )
+      },
+      {
+        id: 'Payments',
+        title: getLocalizedText('Payments & Subscriptions'),
+        icon: Globe,
+        // content: getLocalizedText('intellectual.property.content')
+        content: (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+        <ul class="list-none space-y-3">
+
+          <li>
+            <strong>Payment Processing:</strong><br/>
+            Certain features of the NurCycle App may be offered on a paid basis, such as premium pregnancy tools, AI content, and community features.<br/>
+            All payments are securely processed through Stripe, a third-party payment provider. By making a payment, you also agree to Stripe’s own terms and privacy policy.<br/>
+            NurCycle Ltd does not store or have access to your full payment details.
+          </li>
+
+          <li>
+            <strong>Subscription Plans:</strong><br/>
+            If the App offers subscription-based services, you will be informed of the applicable fees, billing cycles, and renewal terms before purchase.<br/>
+            Subscriptions will automatically renew unless you cancel before the next billing cycle.
+          </li>
+
+          <li>
+            <strong>Refund Policy:</strong><br/>
+            Except where required by law, payments are non-refundable once a subscription period has begun.<br/>
+            If you experience technical issues or believe you have been wrongly charged, you may contact us at <span class="underline">support@nurcycle.com</span>.
+          </li>
+
+        </ul>
+      `
+            }}
+          />
+        )
+
+      },
+      {
+        id: 'Medical',
+        title: getLocalizedText('Medical Disclaimer'),
+        icon: Globe,
+        // content: getLocalizedText('intellectual.property.content')
+        content: (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+        <ul class="list-none space-y-3">
+
+          <li>
+            <strong>Informational Purposes Only:</strong><br/>
+            The NurCycle App provides tools, resources, and educational content to help users track their menstrual cycles, fertility, pregnancy, and related health information.<br/>
+            All information provided through the App is for informational and educational purposes only.
+          </li>
+
+          <li>
+            <strong>No Substitute for Professional Advice:</strong><br/>
+            The App is not a substitute for professional medical advice, diagnosis, or treatment.<br/>
+            You should always seek the advice of a qualified healthcare provider regarding any questions or concerns about your health, medical conditions, or treatments.
+          </li>
+
+          <li>
+            <strong>No Medical Liability:</strong><br/>
+            NurCycle Ltd does not guarantee the accuracy, completeness, or usefulness of health information provided through the App.<br/>
+            Reliance on any information within the App is at your own risk.<br/>
+            If you experience any medical emergency, you should immediately contact your doctor or emergency services.
+          </li>
+
+        </ul>
+      `
+            }}
+          />
+        )
+
+
+      },
+      {
+        id: 'Islamic Disclaimer',
+        title: getLocalizedText('Islamic Disclaimer'),
+        icon: Globe,
+        // content: getLocalizedText('intellectual.property.content')
+        content: (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+        <ul class="list-none space-y-3">
+
+          <li>
+            <strong>Source of Guidance:</strong><br/>
+            The Islamic reminders, rulings, and educational content provided within the NurCycle App are based on references from the Qur’an and Sunnah, as understood from reliable scholarly sources. The book <em>Natural Blood of Women</em> by Shayekh Muhammad bin Salih Al-Utheimeen is a core reference used in this app.<br/>
+            The purpose of this content is to offer general guidance and reminders to support Muslim women in matters related to menstruation, purity, and women’s health.
+          </li>
+
+          <li>
+            <strong>No Replacement for a Fatwa:</strong><br/>
+            The guidance offered in the App does not replace the role of a qualified scholar (alim/alimah) or an official fatwa.<br/>
+            For personal or complex religious matters, you are strongly encouraged to consult a qualified Islamic scholar or your local religious authority.
+          </li>
+
+          <li>
+            <strong>Limitation of Responsibility:</strong><br/>
+            While NurCycle strives to ensure accuracy in presenting Islamic content, NurCycle Ltd is not responsible for individual outcomes or decisions made solely on the basis of the information provided in the App.
+          </li>
+
+        </ul>
+      `
+            }}
+          />
+        )
+
+
       },
       {
         id: 'Changes',
@@ -189,13 +515,159 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
         id: 'Termination',
         title: getLocalizedText('termination'),
         icon: Globe,
-        content: getLocalizedText('termination.content')
+        // content: getLocalizedText('termination.content')
+        content: (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+        <ul class="list-none space-y-3">
+
+          <li>
+            <strong>Right to Suspend or Terminate:</strong><br/>
+            NurCycle Ltd reserves the right to suspend, restrict, or permanently terminate a user’s account at any time if:
+            <ul class="list-disc ml-6 mt-2 space-y-1">
+              <li>There is a breach of these Terms & Conditions.</li>
+              <li>The account is used in a way that violates the female-only space requirement or Islamic principles of modesty and respect.</li>
+              <li>Misuse, fraud, harassment, or harmful behavior is detected.</li>
+              <li>The account is used in a manner that could harm the App, its community, or other users.</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>Notice of Termination:</strong><br/>
+            Where possible, we will provide notice and an explanation before suspending or terminating an account. However, in cases of severe or repeated violations, termination may be immediate and without prior notice.
+          </li>
+
+          <li>
+            <strong>Effect of Termination:</strong><br/>
+            Upon termination, your right to access and use the App will cease immediately.<br/>
+            Any remaining data associated with your account will be handled in accordance with our Privacy Policy.
+          </li>
+
+          <li>
+            <strong>Voluntary Account Deletion:</strong><br/>
+            You may choose to delete your account at any time via the App settings. Once deleted, your data will be removed or anonymized as outlined in our Privacy Policy.
+          </li>
+
+        </ul>
+      `
+            }}
+          />
+        )
+
       },
       {
         id: 'Limitation',
         title: getLocalizedText('limitation.of.liability'),
         icon: Globe,
-        content: getLocalizedText('limitation.of.liability.content')
+        // content: getLocalizedText('limitation.of.liability.content')
+        content: (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+        <ul class="list-none space-y-3">
+
+          <li>
+            <strong>No Medical Liability:</strong><br/>
+            NurCycle Ltd is not responsible for any medical outcomes, decisions, or health conditions that may arise from the use of the App.<br/>
+            The App is for informational and educational purposes only and must not be relied upon as a substitute for professional medical advice or treatment.
+          </li>
+
+          <li>
+            <strong>Third-Party Services:</strong><br/>
+            NurCycle Ltd is not liable for issues caused by third-party providers such as Stripe (payments), Supabase (data storage), or any external links or integrations used in the App.<br/>
+            Any disputes, errors, or misuse arising from third-party services should be addressed directly with the respective provider.
+          </li>
+
+          <li>
+            <strong>Community Content:</strong><br/>
+            NurCycle Ltd is not responsible for the accuracy, safety, or reliability of content shared by users within the community features.<br/>
+            You are solely responsible for the interactions you choose to engage in.
+          </li>
+
+          <li>
+            <strong>General Limitation:</strong><br/>
+            To the fullest extent permitted by law, NurCycle Ltd shall not be liable for:
+            <ul class="list-disc ml-6 mt-2 space-y-1">
+              <li>Any indirect, incidental, or consequential damages (including loss of data, profits, or goodwill).</li>
+              <li>Any harm caused by unauthorized access, misuse, or disclosure of user data beyond NurCycle’s reasonable control.</li>
+            </ul>
+          </li>
+
+        </ul>
+      `
+            }}
+          />
+        )
+
+
+      },
+      {
+        id: 'Governing',
+        title: getLocalizedText('Governing Law'),
+        icon: Globe,
+        // content: getLocalizedText('limitation.of.liability.content')
+        content: (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+        <p>
+          These Terms & Conditions and your use of the NurCycle App shall be governed by and
+          interpreted in accordance with the laws of:
+        </p>
+        <ul class="list-disc ml-6 space-y-2">
+          <li><strong>England and Wales</strong> (for users in the United Kingdom),</li>
+          <li><strong>European Union law</strong> (for users within the EU), and</li>
+          <li><strong>The laws of the United States</strong> (for users in the U.S., excluding the State of California).</li>
+        </ul>
+        <p class="mt-3 leading-relaxed">
+          By using the App, you agree to submit to the exclusive jurisdiction of the courts
+          relevant to your place of residence as outlined above.
+        </p>
+      `
+            }}
+          />
+        )
+      },
+      {
+        id: 'FinalProvisions',
+        title: getLocalizedText('Final Provisions & Acceptance'),
+        icon: Globe,
+        // content: getLocalizedText('limitation.of.liability.content')
+        content: (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `
+        <p class="leading-relaxed mb-3">
+          At NurCycle Ltd, our mission is to provide a safe, supportive, and faith-conscious
+          space where women can track their health with confidence and benefit from both
+          scientific insights and Islamic guidance. By using the NurCycle App, you are joining
+          a community built on respect, modesty, and sisterhood.
+        </p>
+
+        <p class="leading-relaxed mb-3">
+          We regularly update our app to help you improve your data protection compliance.
+          Setting regular reminders to check our news and guidance pages will help keep you
+          on track.
+        </p>
+
+        <p class="leading-relaxed mb-3">
+          By continuing to use the App, you confirm that you have read, understood, and agreed
+          to these Terms & Conditions. We encourage you to use NurCycle with trust and peace of
+          mind, knowing that your wellbeing, privacy, and faith values are at the heart of what
+          we do.
+        </p>
+
+        <p class="leading-relaxed">
+          If you have any questions, concerns, or suggestions, we are always here to listen.
+          Please contact us anytime at
+          <span class="underline font-medium"> 📧 support@nurcycle.com</span>.
+        </p>
+      `
+            }}
+          />
+        )
+
       },
       {
         id: 'Contact',
@@ -270,10 +742,6 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
   if (currentView === 'full-terms') {
     return (
       <div className={`min-h-screen ${settings.darkMode ? 'bg-slate-800' : ' from-lavender-50 to-lavender-100'}`}>
-
-        {/* Header */}
-
-
         <div className="bg-white shadow-sm sticky top-0 z-10 card-3d">
           <div className={`flex items-center justify-between p-4 ${settings.darkMode ? 'bg-slate-900' : 'bg-white'}`}>
             <Button
@@ -301,7 +769,7 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
 
         {/* Full Terms Content */}
         <ScrollArea className="h-[calc(100vh-80px)]">
-          <div className=" py-6 space-y-6">
+          <div className="px-3 py-6 space-y-6">
 
 
             <div className={`relative overflow-hidden ${settings.darkMode ? 'bg-slate-900 text-white' : ' from-lavender-500 to-lavender-700'}`}>
@@ -311,7 +779,8 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
                   📜 {getLocalizedText('terms.of.use')}
                 </h2>
                 <p className={`text-sm opacity-90 ${settings.darkMode ? 'text-gray-300' : 'text-gray-800'}`}>
-                  {getLocalizedText('effective')}: {termsData.effectiveDate}
+                  {getLocalizedText('effective')}: August 30, 2025
+                  {/* {termsData.effectiveDate} */}
                 </p>
                 <p className={`text-sm opacity-90 ${settings.darkMode ? 'text-gray-300' : 'text-gray-800'}`}>
                   {getLocalizedText('version')}: {termsData.version}
@@ -323,71 +792,401 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
             <Card className="relative overflow-hidden card-3d">
               <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'}`}></div>
               <CardContent className="relative z-10 p-6">
-                <p className={`text-gray-700 leading-relaxed mb-4 ${settings.darkMode ? 'text-gray-100' : 'text-gray-700'}`}>
+                <p className={`leading-relaxed mb-4 ${settings.darkMode ? 'text-gray-100' : 'text-gray-700'}`}>
                   Welcome to <strong>NurCycle</strong> — your faith-conscious companion for period, fertility, and wellness tracking.
                   By using the NurCycle app, you agree to the following Terms and Conditions. Please read them carefully.
                 </p>
               </CardContent>
             </Card>
 
-
-            {/* Detailed Sections */}
             {
-
-
               [
                 {
                   number: '1',
+                  title: getLocalizedText('Eligibility & Access'),
+                  content: (
+                    <div>
+
+                      <ul>
+                        <li>
+                          <strong>Minimum Age Requirement:</strong>
+                          To use the NurCycle App, you must be at least 16 years of age. By creating
+                          an account or using the App, you confirm that you meet this age requirement.
+                        </li>
+                        <li>
+                          <strong>Female-Only Space:</strong>
+                          NurCycle is designed as a female-only digital space, in line with our
+                          commitment to creating a safe and supportive environment based on Islamic
+                          principles. Users must identify as female to access and participate in
+                          community features. Any attempt to bypass this requirement may result in
+                          suspension or termination of your account.
+                        </li>
+                        <li>
+                          <strong>Account Responsibility:</strong>
+                          <ul>
+                            <li>Users are responsible for providing accurate and complete information during account registration.</li>
+                            <li>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.</li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  )
+                },
+                {
+                  number: '2',
                   title: getLocalizedText('acceptance.of.terms'),
                   content: getLocalizedText('terms.content')
                 },
                 {
-                  number: '2',
+                  number: '3',
                   title: getLocalizedText('what.nurcycle.offers'),
                   content: getLocalizedText('nurcycle.offers.content')
                 },
                 {
-                  number: '3',
+                  number: '4',
                   title: getLocalizedText('user.accounts'),
-                  content: getLocalizedText('user.accounts.content')
+                  // content: getLocalizedText('user.accounts.content')
+                  content: (
+                    <ul>
+                      <li>
+                        <strong>Account Security:</strong><br />
+                        You are responsible for keeping your login details (such as your email and
+                        password) safe and confidential.<br />
+                        NurCycle Ltd cannot be held liable for any loss or damage resulting from
+                        unauthorized access caused by your failure to protect your account
+                        credentials.
+                      </li>
+
+                      <li>
+                        <strong>Accuracy of Information:</strong><br />
+                        You agree to provide accurate, complete, and up-to-date information when
+                        creating and maintaining your account.<br />
+                        Providing false, misleading, or incomplete information may lead to account
+                        suspension or termination.
+                      </li>
+
+                      <li>
+                        <strong>Account Misuse:</strong><br />
+                        You agree not to share your account with others or allow unauthorized
+                        access.<br />
+                        NurCycle Ltd reserves the right to suspend or terminate any account where
+                        misuse, breach of these Terms, or suspicious activity is detected.
+                      </li>
+
+                      <li>
+                        <strong>Termination by User:</strong><br />
+                        You may delete your account at any time through the App settings. Upon deletion, your data will be handled according to our Privacy Policy.
+                      </li>
+                    </ul>)
                 },
                 {
-                  number: '4',
+                  number: '5',
+                  title: getLocalizedText('Permitted & Prohibited Uses'),
+                  content: (
+                    <ul>
+                      <li>
+                        <strong >Permitted Uses:</strong><br />
+                        When using NurCycle, you agree to:
+                        <ul >
+                          <li>Engage in respectful and modest communication within the community features.</li>
+                          <li>Share experiences, advice, and support in a manner consistent with Islamic values and community respect.</li>
+                          <li>Use the health-tracking and community features responsibly and only for their intended purpose.</li>
+                        </ul>
+                      </li>
+
+                      <li>
+                        <strong>Prohibited Uses:</strong><br />
+                        You must not, under any circumstances:
+                        <ul >
+                          <li>Harass, bully, threaten, or abuse other users.</li>
+                          <li>
+                            Post content that is offensive, inappropriate, or contrary to Islamic principles, including but not limited to:
+                            <ul>
+                              <li>Obscene, vulgar, or sexually explicit material.</li>
+                              <li>Hate speech, discriminatory remarks, or inflammatory comments.</li>
+                              <li>Content promoting alcohol, drugs, or other un-Islamic practices.</li>
+                            </ul>
+                          </li>
+                          <li>Misuse health features (e.g., inputting false or misleading health data).</li>
+                          <li>Impersonate another person, misrepresent your identity, or create multiple accounts to deceive others.</li>
+                          <li>Attempt to hack, disrupt, or interfere with the operation of the App.</li>
+                        </ul>
+                      </li>
+
+                      <li>
+                        <strong>Enforcement:</strong><br />
+                        NurCycle Ltd reserves the right to remove any content that violates these rules.<br />
+                        Accounts that repeatedly or severely breach these standards may be suspended or permanently terminated without notice.
+                      </li>
+                    </ul>
+                  )
+                },
+                {
+                  number: '6',
                   title: getLocalizedText('user.data.and.privacy'),
                   content: getLocalizedText('user.data.and.privacy.content')
                 },
                 {
-                  number: '5',
+                  number: '7',
                   title: getLocalizedText('health.disclaimer'),
                   content: getLocalizedText('health.disclaimer.content')
                 },
                 {
-                  number: '6',
+                  number: '8',
                   title: getLocalizedText('community.conduct'),
                   content: getLocalizedText('community.conduct.content')
                 },
                 {
-                  number: '7',
+                  number: '9',
                   title: getLocalizedText('intellectual.property'),
-                  content: getLocalizedText('intellectual.property.content')
+                  // content: getLocalizedText('intellectual.property.content')
+                  content: (
+                    <ul>
+
+                      <li>
+                        <strong>Ownership of the App:</strong><br />
+                        The NurCycle App, including its design, features, software, branding, logos, and all related intellectual property, is owned and operated by NurCycle Ltd.<br />
+                        You may not copy, reproduce, distribute, or create derivative works from any part of the App without prior written consent from NurCycle Ltd.
+                      </li>
+
+                      <li>
+                        <strong>User-Generated Content:</strong><br />
+                        Users retain ownership of the content they create and share on NurCycle (such as posts, comments, and messages).<br />
+                        By posting or submitting content within the App, you grant NurCycle Ltd a non-exclusive, royalty-free, worldwide license to display, reproduce, and distribute your content within the App for the purposes of operating the community.<br />
+                        This license ends when you delete your content or account, except where your content has already been shared, quoted, or interacted with by other users.
+                      </li>
+
+                      <li>
+                        <strong>Respecting Others’ Content:</strong><br />
+                        You may not copy, download, or redistribute other users’ posts, comments, or shared content without their explicit consent.
+                      </li>
+
+                      <li>
+                        <strong>Trademarks:</strong><br />
+                        All trademarks, service marks, and trade names associated with NurCycle are the property of NurCycle Ltd and may not be used without authorization.
+                      </li>
+                    </ul>
+                  )
                 },
                 {
-                  number: '8',
+                  number: '10',
+                  title: getLocalizedText('Payments & Subscriptions'),
+                  content: (
+                    <ul>
+
+                      <li>
+                        <strong>Payment Processing:</strong><br />
+                        Certain features of the NurCycle App may be offered on a paid basis, such as premium pregnancy tools, AI content, and community features.<br />
+                        All payments are securely processed through Stripe, a third-party payment provider. By making a payment, you also agree to Stripe’s own terms and privacy policy.<br />
+                        NurCycle Ltd does not store or have access to your full payment details.
+                      </li>
+
+                      <li>
+                        <strong>Subscription Plans:</strong><br />
+                        If the App offers subscription-based services, you will be informed of the applicable fees, billing cycles, and renewal terms before purchase.<br />
+                        Subscriptions will automatically renew unless you cancel before the next billing cycle.
+                      </li>
+
+                      <li>
+                        <strong>Refund Policy:</strong><br />
+                        Except where required by law, payments are non-refundable once a subscription period has begun.<br />
+                        If you experience technical issues or believe you have been wrongly charged, you may contact us at <span>support@nurcycle.com</span>.
+                      </li>
+
+                    </ul>
+                  )
+                },
+                {
+                  number: '11',
+                  title: getLocalizedText('Medical Disclaimer'),
+                  content: (
+                    <ul>
+
+                      <li>
+                        <strong>Informational Purposes Only:</strong><br />
+                        The NurCycle App provides tools, resources, and educational content to help users track their menstrual cycles, fertility, pregnancy, and related health information.<br />
+                        All information provided through the App is for informational and educational purposes only.
+                      </li>
+
+                      <li>
+                        <strong>No Substitute for Professional Advice:</strong><br />
+                        The App is not a substitute for professional medical advice, diagnosis, or treatment.<br />
+                        You should always seek the advice of a qualified healthcare provider regarding any questions or concerns about your health, medical conditions, or treatments.
+                      </li>
+
+                      <li>
+                        <strong>No Medical Liability:</strong><br />
+                        NurCycle Ltd does not guarantee the accuracy, completeness, or usefulness of health information provided through the App.<br />
+                        Reliance on any information within the App is at your own risk.<br />
+                        If you experience any medical emergency, you should immediately contact your doctor or emergency services.
+                      </li>
+
+                    </ul>
+                  )
+                },
+                {
+                  number: '12',
+                  title: getLocalizedText('Islamic Disclaimer'),
+                  content: (
+                    <ul>
+
+                      <li>
+                        <strong>Source of Guidance:</strong><br />
+                        The Islamic reminders, rulings, and educational content provided within the NurCycle App are based on references from the Qur’an and Sunnah, as understood from reliable scholarly sources. The book <em>Natural Blood of Women</em> by Shayekh Muhammad bin Salih Al-Utheimeen is a core reference used in this app.<br />
+                        The purpose of this content is to offer general guidance and reminders to support Muslim women in matters related to menstruation, purity, and women’s health.
+                      </li>
+
+                      <li>
+                        <strong>No Replacement for a Fatwa:</strong><br />
+                        The guidance offered in the App does not replace the role of a qualified scholar (alim/alimah) or an official fatwa.<br />
+                        For personal or complex religious matters, you are strongly encouraged to consult a qualified Islamic scholar or your local religious authority.
+                      </li>
+
+                      <li>
+                        <strong>Limitation of Responsibility:</strong><br />
+                        While NurCycle strives to ensure accuracy in presenting Islamic content, NurCycle Ltd is not responsible for individual outcomes or decisions made solely on the basis of the information provided in the App.
+                      </li>
+
+                    </ul>
+                  )
+                },
+                {
+                  number: '13',
                   title: getLocalizedText('changes.to.app.or.terms'),
                   content: getLocalizedText('changes.to.app.or.terms.content')
                 },
                 {
-                  number: '9',
+                  number: '14',
                   title: getLocalizedText('termination'),
-                  content: getLocalizedText('termination.content')
+                  // content: getLocalizedText('termination.content')
+                  content: (
+                    <ul>
+
+                      <li>
+                        <strong>Right to Suspend or Terminate:</strong><br />
+                        NurCycle Ltd reserves the right to suspend, restrict, or permanently terminate a user’s account at any time if:
+                        <ul>
+                          <li>There is a breach of these Terms & Conditions.</li>
+                          <li>The account is used in a way that violates the female-only space requirement or Islamic principles of modesty and respect.</li>
+                          <li>Misuse, fraud, harassment, or harmful behavior is detected.</li>
+                          <li>The account is used in a manner that could harm the App, its community, or other users.</li>
+                        </ul>
+                      </li>
+
+                      <li>
+                        <strong>Notice of Termination:</strong><br />
+                        Where possible, we will provide notice and an explanation before suspending or terminating an account. However, in cases of severe or repeated violations, termination may be immediate and without prior notice.
+                      </li>
+
+                      <li>
+                        <strong>Effect of Termination:</strong><br />
+                        Upon termination, your right to access and use the App will cease immediately.<br />
+                        Any remaining data associated with your account will be handled in accordance with our Privacy Policy.
+                      </li>
+
+                      <li>
+                        <strong>Voluntary Account Deletion:</strong><br />
+                        You may choose to delete your account at any time via the App settings. Once deleted, your data will be removed or anonymized as outlined in our Privacy Policy.
+                      </li>
+
+                    </ul>
+                  )
                 },
                 {
-                  number: '10',
+                  number: '15',
                   title: getLocalizedText('limitation.of.liability'),
-                  content: getLocalizedText('limitation.of.liability.content')
+                  // content: getLocalizedText('limitation.of.liability.content')
+                  content: (
+                    <ul>
+
+                      <li>
+                        <strong>No Medical Liability:</strong><br />
+                        NurCycle Ltd is not responsible for any medical outcomes, decisions, or health conditions that may arise from the use of the App.<br />
+                        The App is for informational and educational purposes only and must not be relied upon as a substitute for professional medical advice or treatment.
+                      </li>
+
+                      <li>
+                        <strong>Third-Party Services:</strong><br />
+                        NurCycle Ltd is not liable for issues caused by third-party providers such as Stripe (payments), Supabase (data storage), or any external links or integrations used in the App.<br />
+                        Any disputes, errors, or misuse arising from third-party services should be addressed directly with the respective provider.
+                      </li>
+
+                      <li>
+                        <strong>Community Content:</strong><br />
+                        NurCycle Ltd is not responsible for the accuracy, safety, or reliability of content shared by users within the community features.<br />
+                        You are solely responsible for the interactions you choose to engage in.
+                      </li>
+
+                      <li>
+                        <strong>General Limitation:</strong><br />
+                        To the fullest extent permitted by law, NurCycle Ltd shall not be liable for:
+                        <ul >
+                          <li>Any indirect, incidental, or consequential damages (including loss of data, profits, or goodwill).</li>
+                          <li>Any harm caused by unauthorized access, misuse, or disclosure of user data beyond NurCycle’s reasonable control.</li>
+                        </ul>
+                      </li>
+
+                    </ul>
+                  )
                 },
                 {
-                  number: '12',
+                  number: '16',
+                  title: getLocalizedText('Governing Law'),
+                  content: (
+                    <>
+                      <p>
+                        These Terms & Conditions and your use of the NurCycle App shall be governed by and
+                        interpreted in accordance with the laws of:
+                      </p>
+                      <ul>
+                        <li><strong>England and Wales</strong> (for users in the United Kingdom),</li>
+                        <li><strong>European Union law</strong> (for users within the EU), and</li>
+                        <li><strong>The laws of the United States</strong> (for users in the U.S., excluding the State of California).</li>
+                      </ul>
+                      <p>
+                        By using the App, you agree to submit to the exclusive jurisdiction of the courts
+                        relevant to your place of residence as outlined above.
+                      </p>
+                    </>
+
+                  )
+                },
+                {
+                  number: '17',
+                  title: getLocalizedText('Final Provisions & Acceptance'),
+                  content: (
+                    <>
+                      <p>
+                        At NurCycle Ltd, our mission is to provide a safe, supportive, and faith-conscious
+                        space where women can track their health with confidence and benefit from both
+                        scientific insights and Islamic guidance. By using the NurCycle App, you are joining
+                        a community built on respect, modesty, and sisterhood.
+                      </p>
+
+                      <p>
+                        We regularly update our app to help you improve your data protection compliance.
+                        Setting regular reminders to check our news and guidance pages will help keep you
+                        on track.
+                      </p>
+
+                      <p>
+                        By continuing to use the App, you confirm that you have read, understood, and agreed
+                        to these Terms & Conditions. We encourage you to use NurCycle with trust and peace of
+                        mind, knowing that your wellbeing, privacy, and faith values are at the heart of what
+                        we do.
+                      </p>
+
+                      <p>
+                        If you have any questions, concerns, or suggestions, we are always here to listen.
+                        Please contact us anytime at
+                        <span> 📧 support@nurcycle.com</span>.
+                      </p>
+                    </>
+
+                  )
+                },
+                {
+                  number: '18',
                   title: getLocalizedText('contact.us'),
                   content: getLocalizedText('contact.us.content')
                 }
@@ -405,7 +1204,7 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className={`text-gray-700 leading-relaxed whitespace-pre-line ${settings.darkMode ? 'text-gray-100' : 'text-gray-700'}`}>
+                      <p className={` leading-relaxed whitespace-pre-line ${settings.darkMode ? 'text-gray-100' : 'text-gray-700'}`}>
                         {section.content}
                       </p>
                     </CardContent>
@@ -469,13 +1268,23 @@ const TermsConditions = ({ onBack }: TermsConditionsProps) => {
           <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900' : ' from-lavender-500 to-lavender-700'} `}></div>
           <CardContent className="relative z-10 p-6">
             <div className="flex items-start space-x-4">
-              <FileText className="w-8 h-8 flex-shrink-0 mt-1 text-lavender-800" />
+              {/* <FileText className="w-8 h-8 flex-shrink-0 mt-1 text-lavender-800" /> */}
               <div>
                 <h3 className={`${settings.darkMode ? 'text-white' : 'text-gray-900'} font-semibold text-lg mb-2`}>
-                  {getLocalizedText('terms.and.conditions')}
+                  {/* {getLocalizedText('terms.and.conditions')} */}
+                  ✨ Introduction
                 </h3>
                 <p className={`${settings.darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm opacity-90 mb-3`}>
-                  {getLocalizedText('professional.terms')}
+                  {/* {getLocalizedText('professional.terms')} */}
+                  Welcome to NurCycle, operated by NurCycle Ltd, a company registered in the United Kingdom.
+                  <br />
+                  <br />
+                  By accessing or using the NurCycle mobile application and its services (collectively, the <b>“App”</b>), you agree to be bound by these Terms & Conditions. This agreement forms a legally binding contract between you (the <b>“User”</b>) and NurCycle Ltd (the “Company”).
+
+                  <br />
+                  <br />
+                  If you do not agree with any part of these Terms & Conditions, you must not use the App. By continuing to use the App, you confirm that you have read, understood, and accepted these Terms.
+
                 </p>
                 <div className="flex flex-wrap gap-2 text-xs">
                   <span className={`bg-white/20 px-2 py-1 rounded-full ${settings.darkMode ? 'text-gray-200' : 'text-gray-500'}`}>

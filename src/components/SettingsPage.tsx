@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useRef } from 'react';
-import { ChevronRight, X, BarChart3, RefreshCw, Settings, Shield, Bell, HelpCircle, Info, FileText, Clock, Ban, ShieldX } from 'lucide-react';
+import { ChevronRight, X, BarChart3, RefreshCw, Settings, Shield, Bell, HelpCircle, Info, FileText, Clock, Ban, ShieldX, Share2, LogOut } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -11,11 +11,12 @@ import PrivacySettings from './settings/PrivacySettings';
 import GraphsReports from './settings/GraphsReports';
 import TermsConditions from './settings/TermsConditions';
 import HelpSection from './settings/HelpSection';
-
+import { useNavigate } from 'react-router-dom';
 import { toast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import StripeCheckout from './StripeCheckout';
 import { createClient } from "@supabase/supabase-js";
+
 const supabase = createClient('https://ezlwhepcpodvegoqppro.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6bHdoZXBjcG9kdmVnb3FwcHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NDQwMDAsImV4cCI6MjA2NjEyMDAwMH0.31nqkGx5JNUaNKS9CfBnzO8-8stK94rome3oLMja8uM');
 interface SettingsPageProps {
   onClose?: () => void;
@@ -27,9 +28,8 @@ interface SettingsPageProps {
 
 const SettingsPage = ({ onClose, isSubscribered, checkSubDate, activeSection, showExpiryWarning }: SettingsPageProps) => {
   const [currentView, setCurrentView] = useState<'main' | 'cycle-ovulation' | 'app-settings' | 'about' | 'privacy-settings' | 'graphs-reports' | 'terms-conditions' | 'help'>('main');
+  const navigate = useNavigate();
   const { getLocalizedText } = useLanguage();
-  // const [showAlert, setShowAlert] = useState<boolean | null>(false);
-
   const [isPaymentMethodOpen, setIsPaymentMethodOpen] = useState(false);
 
   const [isCancelSub, setIsCancelSub] = useState(false);
@@ -37,12 +37,6 @@ const SettingsPage = ({ onClose, isSubscribered, checkSubDate, activeSection, sh
 
   const triggerRef = useRef(null);
   const cancelRef = useRef(null);
-
-
-
-  // console.log('isSubscribered', isSubscribered)
-
-  // console.log("checkSubDate", checkSubDate)
 
   const [settings, setSettings] = useState({
     // Notifications
@@ -213,51 +207,66 @@ const SettingsPage = ({ onClose, isSubscribered, checkSubDate, activeSection, sh
 
   }
 
-const handleCancel = async () => {
-  try {
-    setLoading(true);
+  const handleCancel = async () => {
+    try {
+      setLoading(true);
 
-    const { data: { user }, error: userErr } = await supabase.auth.getUser();
-    if (userErr || !user) throw new Error("Not authenticated");
+      const { data: { user }, error: userErr } = await supabase.auth.getUser();
+      if (userErr || !user) throw new Error("Not authenticated");
 
-    const { error } = await supabase
-      .from("subscribers")
-      .delete()
-      .eq("user_id", user.id);
+      const { error } = await supabase
+        .from("subscribers")
+        .delete()
+        .eq("user_id", user.id);
 
-    if (error) throw error;
-    toast({
-      title: "Heads up!",
-      description: "Your subscription has been cancelled.",
-      variant: "destructive",
-      className: "bg-green-600 text-white border border-green-700",
-    });
+      if (error) throw error;
+      toast({
+        title: getLocalizedText('alert.heads_up'),
+        description: getLocalizedText('subscription.cancelled'),
+        variant: "destructive",
+        className: "bg-green-600 text-white border border-green-700",
+      });
 
-    setTimeout(() => {
-      window.location.reload();
-    }, 3000);
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    console.error(e);
-    // show error toast
-    toast({
-      title: "Error",
-      description: e.message || "Something went wrong.",
-      variant: "destructive",
-      className: "bg-red-600 text-white border border-red-700",
-    });
-  } finally {
-    setLoading(false);
-  }
-};
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (e: any) {
+      console.error(e);
+      // show error toast
+      toast({
+        title: "Error",
+        description: e.message || getLocalizedText('error.general'),
+        variant: "destructive",
+        className: "bg-red-600 text-white border border-red-700",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // const UpgradeFeature = () => {
-  //   toast({
-  //     title: "Heads up!",
-  //     description: "This feature requires premium access.",
-  //   });
-  // };
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate('/auth', { state: { showSignin: true } });
+  };
+
+  const handleCopyUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      // Optionally show a toast/alert
+      // toast.success("Link copied!");
+      toast({
+        title: getLocalizedText('alert.heads_up'),
+        description: getLocalizedText('info.link_copied'),
+        variant: "destructive",
+        className: "bg-green-600 text-white border border-green-700",
+      });
+    } catch (err) {
+      console.error('Failed to copy URL:', err);
+    }
+  };
+
   return (
     <div className="min-h-screen dark:bg-slate-800">
 
@@ -282,10 +291,29 @@ const handleCancel = async () => {
           </h1>
 
           <div>
+            <Button
+              variant="ghost"
+              onClick={handleCopyUrl}
+              size="icon"
+              className="h-10 w-12 text-white me-2"
+            >
+              {/* <LogOut className="w-5 h-5" /> */}
+              <Share2 className="w-5 h-5" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              onClick={handleSignOut}
+              size="icon"
+              className="h-10 w-12 text-white "
+            >
+              <LogOut className="w-5 h-5" />
+            </Button>
+
 
           </div>
 
-          <div className="w-10"></div>
+          {/* <div className="w-10"></div> */}
         </div>
       </div>
 
@@ -296,7 +324,7 @@ const handleCancel = async () => {
         <Card className="relative overflow-hidden card-3d">
           <div className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-900 border border-slate-700' : ' from-lavender-400 to-purple-500 border-lavender-300'} `}></div>
 
-          <CardContent className="relative z-10 p-4">
+          <CardContent className="relative p-4">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className={`font-semibold text-sm ${settings.darkMode ? 'text-white' : 'text-black'}`}>
@@ -306,7 +334,7 @@ const handleCancel = async () => {
                 </h3>
                 <p className={`text-xs mt-1 ${settings.darkMode ? 'text-gray-300' : 'text-black opacity-90'}`}>
                   {
-                    isSubscribered === true  && checkSubDate === false ? "" : getLocalizedText('premium.desc')
+                    isSubscribered === true && checkSubDate === false ? "" : getLocalizedText('premium.desc')
                   }
 
                 </p>
@@ -382,12 +410,13 @@ const handleCancel = async () => {
         })}
       </div>
 
+
       <Dialog open={isPaymentMethodOpen} onOpenChange={setIsPaymentMethodOpen}>
 
         <DialogContent
           className={`sm:max-w-md p-6 rounded-xl sm:rounded-xl md:rounded-xl ${settings.darkMode ? 'bg-slate-900 text-white' : 'bg-white'
             }`}
-          style={{ marginTop:'-20em' }}
+          style={{ marginTop: '-20em' }}
         >
           <DialogHeader>
             <DialogTitle className={`flex items-center justify-center ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -397,7 +426,6 @@ const handleCancel = async () => {
           </DialogHeader>
 
           <div className="space-y-4 pt-4">
-            {/* Subscription details */}
             <div className="space-y-2">
               <ul className="text-center">
                 <div className={`flex items-center justify-center mb-4  ${settings.darkMode ? 'text-white' : 'text-gray-900'} `}>
@@ -429,7 +457,269 @@ const handleCancel = async () => {
             </div>
           </div>
         </DialogContent>
+
       </Dialog>
+
+  {/* <Dialog open={isPaymentMethodOpen} onOpenChange={setIsPaymentMethodOpen}>
+  <DialogContent
+    className={`sm:max-w-md p-6 rounded-xl sm:rounded-xl md:rounded-xl ${
+      settings.darkMode ? "bg-slate-900 text-white" : "bg-white"
+    }`}
+    style={{ marginTop: "-20em" }}
+  >
+    <DialogHeader>
+      <DialogTitle
+        className={`flex items-center justify-center ${
+          settings.darkMode ? "text-white" : "text-gray-900"
+        }`}
+      >
+        {getLocalizedText("Subscription")}
+        <Bell className="ml-2 text-lavender-800" />
+      </DialogTitle>
+    </DialogHeader>
+
+    <div className="space-y-6 pt-4">
+      {[
+        { price: "£5.99", label: getLocalizedText("per.month") },
+        { price: "£29.99", label: getLocalizedText("per.6months") },
+        { price: "£54.99", label: getLocalizedText("per.year") },
+      ].map((pkg, idx) => (
+        <div key={idx} className="space-y-2 border p-4 rounded-xl text-center">
+          <div
+            className={`flex items-center justify-center mb-2 ${
+              settings.darkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            <h2 className="text-3xl font-bold me-1">{pkg.price}</h2>
+            <span>{pkg.label}</span>
+          </div>
+
+          <p
+            className={`text-xs ${
+              settings.darkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            {getLocalizedText("cancel.subscription.anytime")}
+          </p>
+
+          <div className="flex space-x-2 pt-3">
+            <StripeCheckout
+              isSubscribered={isSubscribered}
+              checkSubDate={checkSubDate}
+              showExpiryWarning={showExpiryWarning}
+              plan={pkg.label} 
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div className="flex space-x-2 pt-6">
+      <Button
+        variant="outline"
+        onClick={() => setIsPaymentMethodOpen(false)}
+        className="flex-1"
+      >
+        {getLocalizedText("cancel")}
+      </Button>
+    </div>
+  </DialogContent>
+</Dialog> */}
+
+{/* <Dialog open={isPaymentMethodOpen} onOpenChange={setIsPaymentMethodOpen}>
+  <DialogContent
+    className={`sm:max-w-md p-6 rounded-xl sm:rounded-xl md:rounded-xl ${
+      settings.darkMode ? "bg-slate-900 text-white" : "bg-white"
+    }`}
+    style={{ marginTop: "-20em" }}
+  >
+    <DialogHeader>
+      <DialogTitle
+        className={`flex items-center justify-center ${
+          settings.darkMode ? "text-white" : "text-gray-900"
+        }`}
+      >
+        {getLocalizedText("Subscription")}
+        <Bell className="ml-2 text-lavender-800" />
+      </DialogTitle>
+    </DialogHeader>
+
+    <div className="space-y-6 pt-4">
+      <div className="grid grid-cols-1 gap-4">
+        <div
+          className={`border rounded-xl p-4 text-center ${
+            settings.darkMode ? "border-slate-700" : "border-gray-200"
+          }`}
+        >
+          <h2 className="text-2xl font-bold">£5.99</h2>
+          <p className="text-sm">{getLocalizedText("per.month")}</p>
+          <p className="text-xs mt-2">
+            {getLocalizedText("cancel.subscription.anytime")}
+          </p>
+          <div className="mt-4">
+            <StripeCheckout
+              plan="monthly"
+              isSubscribered={isSubscribered}
+              checkSubDate={checkSubDate}
+              showExpiryWarning={showExpiryWarning}
+            />
+          </div>
+        </div>
+
+        <div
+          className={`border rounded-xl p-4 text-center ${
+            settings.darkMode ? "border-slate-700" : "border-gray-200"
+          }`}
+        >
+          <h2 className="text-2xl font-bold">£29.99</h2>
+          <p className="text-sm">{getLocalizedText("per.6months")}</p>
+          <p className="text-xs mt-2">
+            {getLocalizedText("cancel.subscription.anytime")}
+          </p>
+          <div className="mt-4">
+            <StripeCheckout
+              plan="6months"
+              isSubscribered={isSubscribered}
+              checkSubDate={checkSubDate}
+              showExpiryWarning={showExpiryWarning}
+            />
+          </div>
+        </div>
+
+        <div
+          className={`border rounded-xl p-4 text-center ${
+            settings.darkMode ? "border-slate-700" : "border-gray-200"
+          }`}
+        >
+          <h2 className="text-2xl font-bold">£49.99</h2>
+          <p className="text-sm">{getLocalizedText("per.year")}</p>
+          <p className="text-xs mt-2">
+            {getLocalizedText("cancel.subscription.anytime")}
+          </p>
+          <div className="mt-4">
+            <StripeCheckout
+              plan="yearly"
+              isSubscribered={isSubscribered}
+              checkSubDate={checkSubDate}
+              showExpiryWarning={showExpiryWarning}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex pt-2">
+        <Button
+          variant="outline"
+          onClick={() => setIsPaymentMethodOpen(false)}
+          className="flex-1"
+        >
+          {getLocalizedText("cancel")}
+        </Button>
+      </div>
+    </div>
+  </DialogContent>
+</Dialog> */}
+
+{/* <Dialog open={isPaymentMethodOpen} onOpenChange={setIsPaymentMethodOpen}>
+  <DialogContent
+    className={`sm:max-w-4xl p-6 rounded-xl sm:rounded-xl md:rounded-xl ${
+      settings.darkMode ? "bg-slate-900 text-white" : "bg-white"
+    }`}
+    style={{ marginTop: "-20em" }}
+  >
+    <DialogHeader>
+      <DialogTitle
+        className={`flex items-center justify-center ${
+          settings.darkMode ? "text-white" : "text-gray-900"
+        }`}
+      >
+        {getLocalizedText("Subscription")}
+        <Bell className="ml-2 text-lavender-800" />
+      </DialogTitle>
+    </DialogHeader>
+
+    <div className="space-y-6 pt-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div
+          className={`border rounded-xl p-4 flex flex-col items-center justify-between text-center ${
+            settings.darkMode ? "border-slate-700" : "border-gray-200"
+          }`}
+        >
+          <div>
+            <h2 className="text-2xl font-bold">£5.99</h2>
+            <p className="text-sm">{getLocalizedText("per.month")}</p>
+            <p className="text-xs mt-2">
+              {getLocalizedText("cancel.subscription.anytime")}
+            </p>
+          </div>
+          <div className="mt-4 w-full">
+            <StripeCheckout
+              plan="monthly"
+              isSubscribered={isSubscribered}
+              checkSubDate={checkSubDate}
+              showExpiryWarning={showExpiryWarning}
+            />
+          </div>
+        </div>
+
+        <div
+          className={`border rounded-xl p-4 flex flex-col items-center justify-between text-center ${
+            settings.darkMode ? "border-slate-700" : "border-gray-200"
+          }`}
+        >
+          <div>
+            <h2 className="text-2xl font-bold">£29.99</h2>
+            <p className="text-sm">{getLocalizedText("per.6months")}</p>
+            <p className="text-xs mt-2">
+              {getLocalizedText("cancel.subscription.anytime")}
+            </p>
+          </div>
+          <div className="mt-4 w-full">
+            <StripeCheckout
+              plan="6months"
+              isSubscribered={isSubscribered}
+              checkSubDate={checkSubDate}
+              showExpiryWarning={showExpiryWarning}
+            />
+          </div>
+        </div>
+
+        <div
+          className={`border rounded-xl p-4 flex flex-col items-center justify-between text-center ${
+            settings.darkMode ? "border-slate-700" : "border-gray-200"
+          }`}
+        >
+          <div>
+            <h2 className="text-2xl font-bold">£49.99</h2>
+            <p className="text-sm">{getLocalizedText("per.year")}</p>
+            <p className="text-xs mt-2">
+              {getLocalizedText("cancel.subscription.anytime")}
+            </p>
+          </div>
+          <div className="mt-4 w-full">
+            <StripeCheckout
+              plan="yearly"
+              isSubscribered={isSubscribered}
+              checkSubDate={checkSubDate}
+              showExpiryWarning={showExpiryWarning}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex pt-2">
+        <Button
+          variant="outline"
+          onClick={() => setIsPaymentMethodOpen(false)}
+          className="flex-1"
+        >
+          {getLocalizedText("cancel")}
+        </Button>
+      </div>
+    </div>
+  </DialogContent>
+</Dialog> */}
+
 
 
       <Dialog open={isCancelSub} onOpenChange={setIsCancelSub}>
